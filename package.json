@@ -1,0 +1,38 @@
+{
+  "dependencies": {
+    "@mirasaki/logger": "^1.0.2",
+    "boxen": "^5.1.2",
+    "common-tags": "^1.8.2",
+    "discord.js": "^14.0.0-dev.1651493371-4ba0f56",
+    "dotenv": "^16.0.0",
+    "figlet": "^1.5.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "nodemon": "^2.0.16"
+  },
+  "name": "discord.js-bot-template",
+  "description": "A discord bot template using discord.js",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mirasaki/discord.js-bot-template.git"
+  },
+  "keywords": [
+    "bot-template",
+    "template",
+    "discord",
+    "discord-bot",
+    "discord-bot-template"
+  ],
+  "author": "Richard Hillebrand (Mirasaki)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Mirasaki/discord.js-bot-template/issues"
+  },
+  "homepage": "https://github.com/Mirasaki/discord.js-bot-template#readme"
+}
