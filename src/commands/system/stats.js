@@ -32,7 +32,7 @@ module.exports = {
       return (emoji ??= '🔴');
     };
 
-    return interaction.editReply({
+    interaction.editReply({
       content: '\u200b',
       embeds: [
         {

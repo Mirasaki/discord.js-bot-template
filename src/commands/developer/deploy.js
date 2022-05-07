@@ -8,10 +8,10 @@ module.exports = {
   },
 
   config: {
-
+    permLevel: 'Developer'
   },
 
-  run: ({ client, interaction }) => {
+  run: async ({ client, interaction }) => {
     const { member } = interaction;
     const { emojis } = client.container;
 

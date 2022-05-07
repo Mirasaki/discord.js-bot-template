@@ -10,6 +10,7 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const pkg = require('../package');
 const config = require('../config/config');
 const emojis = require('../config/emojis');
+const colors = require('../config/colors');
 const { clearSlashCommandData, refreshSlashCommandData, bindCommandsToClient } = require('./handlers/commands');
 const { titleCase, getFiles } = require('./util');
 const path = require('path');
@@ -38,7 +39,8 @@ const {
   client.container = {
     commands: new Collection(),
     config,
-    emojis
+    emojis,
+    colors
   };
 
   // Calling required functions

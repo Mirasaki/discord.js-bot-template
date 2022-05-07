@@ -1,4 +1,4 @@
-const { PermissionFlagsBits } = require('discord.js');
+const { PermissionsBitField } = require('discord.js');
 const config = require('../../config/config.json');
 
 // Our ordered permission level configuration
@@ -13,14 +13,14 @@ const permConfig = [
     name: 'Moderator',
     level: 1,
     hasLevel: (member, channel) => hasChannelPerms(
-      member.id, channel, ['KICK_MEMBERS', 'BAN_MEMBERS', 'DELETE_MESSAGES']
+      member.id, channel, ['KickMembers', 'BanMembers']
     ) === true
   },
 
   {
     name: 'Administrator',
     level: 2,
-    hasLevel: (member, channel) => hasChannelPerms(member.id, channel, ['ADMINISTRATOR']) === true
+    hasLevel: (member, channel) => hasChannelPerms(member.id, channel, ['Administrator']) === true
   },
 
   {
@@ -62,8 +62,9 @@ const getPermissionLevel = (member, channel) => {
   }
 };
 
+// Utility function for checking if provided permissions are actually valid
 const getInvalidPerms = (permArr) =>
-  permArr.map((perm) => typeof PermissionFlagsBits[perm] === 'undefined');
+  permArr.filter((perm) => typeof PermissionsBitField.Flags[perm] === 'undefined');
 
 const hasChannelPerms = (userId, channel, permArr) => {
   // Making sure all our perms are valid
@@ -76,7 +77,7 @@ const hasChannelPerms = (userId, channel, permArr) => {
   if (!channel.permissionsFor(userId)) return permArr;
 
   // Filter missing permissions
-  const missingPerms = permArr.filter((perm) => !channel.permissionsFor(userId).has(PermissionFlagsBits[perm]));
+  const missingPerms = permArr.filter((perm) => !channel.permissionsFor(userId).has(PermissionsBitField.Flags[perm]));
   return missingPerms.length >= 1 ? missingPerms : true;
 };
 

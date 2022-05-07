@@ -1,6 +1,42 @@
 const { readdirSync, statSync } = require('fs');
 const moment = require('moment');
 const path = require('path');
+const colors = require('../config/colors.json');
+
+// Return integer color code
+module.exports.colorResolver = (input) => {
+  // Main color
+  if (!input) return parseInt(colors.main.slice(1), 16);
+
+  // Hex values
+  if (typeof input === 'string') {
+    input = parseInt(input.slice(1), 16);
+  }
+
+  else if (Array.isArray(input)) {
+    // HSL values
+    if (input[0] === 'hsl') {
+      const h = input[1];
+      const s = input[2];
+      let l = input[3];
+      l /= 100;
+      const a = s * Math.min(l, 1 - l) / 100;
+      const f = (n) => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
+      };
+      return parseInt(`${f(0)}${f(8)}${f(4)}`, 16);
+    }
+
+    // RGB values
+    else {
+      input = (input[0] << 16) + (input[1] << 8) + input[2];
+    }
+  }
+
+  return input;
+};
 
 // getFiles() ignores files that start with "."
 module.exports.getFiles = (requestedPath, allowedExtensions) => {
@@ -42,7 +78,7 @@ module.exports.parseSnakeCaseArray = (arr) => {
   }).join('\n');
 };
 
-// Mary had a little lamb
+// String converter: Mary had a little lamb
 module.exports.capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
 
 module.exports.getApproximateObjectSizeBytes = (obj, bytes = 0) => {
@@ -70,7 +106,7 @@ module.exports.getApproximateObjectSizeBytes = (obj, bytes = 0) => {
     return bytes;
   };
 
-  // Return human readable string for displayed the bytes
+  // Return human readable string for displaying the bytes
   const formatByteSize  = (bytes) => {
     if (bytes < 1024) return `${bytes} bytes`;
     else if (bytes < 1048576) return `${(bytes / 1024).toFixed(3)} KiB`;
