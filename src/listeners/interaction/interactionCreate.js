@@ -5,10 +5,21 @@ const { getPermissionLevel } = require('../../handlers/permissions');
 module.exports = (client, interaction) => {
   // Definitions
   const { emojis } = client.container;
-  const { member, channel } = interaction;
+  const { member, channel, user } = interaction;
+
+  // Check for DM interactions
+  // Planning on adding support later down the road
+  if (!interaction.inGuild()) {
+    if (interaction.isRepliable()) {
+      interaction.reply({
+        content: `${emojis.error} ${member || user}, I don't currently support DM interactions. Please try again in a server.`
+      });
+    }
+    return;
+  }
 
   // Check for outages
-  if ('guild' in interaction && interaction.guild.available !== true) {
+  if (interaction.guild?.available !== true) {
     const { guild } = interaction;
     logger.debug(`Interaction returned, server unavailable.\nServer: ${guild.name} (${guild.id})`);
     return;
@@ -20,19 +31,9 @@ module.exports = (client, interaction) => {
     return;
   }
 
-  // Check for DM interactions
-  // Planning on adding support later down the road
-  if (!interaction.inGuild()) {
-    if (interaction.isRepliable()) {
-      interaction.reply({
-        content: `${emojis.error} ${member}, I don't currently support DM interactions. Please try again in a server.`
-      });
-    }
-    return;
-  }
-
   // Setting the permLevel on the member object
-  member.permLevel = getPermissionLevel(member, channel);
+  const permLevel = getPermissionLevel(member, channel);
+  interaction.member.permLevel = permLevel;
 
   // Switch case for our interaction.type
   switch (interaction.type) {

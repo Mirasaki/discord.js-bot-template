@@ -48,14 +48,14 @@ const permConfig = [
     level: 5,
     hasLevel: (member) => config.permissions.ownerId === member.user.id
   }
-];
+].reverse();
 
 // Creating a permission level map/list
 const permLevelMap = { ...permConfig.map(({ name }) => name) };
 
 // Get someone's permLvl, returns Integer
 const getPermissionLevel = (member, channel) => {
-  for (const currLvl of permConfig.reverse()) {
+  for (const currLvl of permConfig) {
     if (currLvl.hasLevel(member, channel)) {
       return currLvl.level;
     }
@@ -67,6 +67,9 @@ const getInvalidPerms = (permArr) =>
   permArr.filter((perm) => typeof PermissionsBitField.Flags[perm] === 'undefined');
 
 const hasChannelPerms = (userId, channel, permArr) => {
+  // Convert string to array
+  if (typeof permArr === 'string') permArr = [permArr];
+
   // Making sure all our perms are valid
   const invalidPerms = getInvalidPerms(permArr);
   if (invalidPerms.length >= 1) {

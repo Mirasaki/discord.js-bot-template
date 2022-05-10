@@ -4,20 +4,21 @@ module.exports = {
     options: [
       {
         name: 'value',
-        description: 'First test, required',
+        description: 'input',
         type: 3, // STRING
         required: true
       }
-    ]
+    ],
+    default_permission: false
   },
 
   config: {
     permLevel: 'Developer',
-    clientPerms: ['Administrator', 'ManageChannels'],
+    clientPerms: ['Administrator'],
     userPerms: ['ManageChannels', 'ManageGuild']
   },
 
   run: () => {
-    sahdghsad;
+    // ...
   }
 };

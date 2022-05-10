@@ -3,9 +3,18 @@ const moment = require('moment');
 const path = require('path');
 const colors = require('../config/colors.json');
 
+// Split a camel case array at uppercase
+module.exports.splitCamelCaseStr = (str, joinCharacter) => {
+  const arr = str.split(/ |\B(?=[A-Z])/);
+  if (typeof joinCharacter === 'string') {
+    return arr.join(joinCharacter);
+  }
+  return arr;
+};
+
 // Return integer color code
 module.exports.colorResolver = (input) => {
-  // Main color
+  // Return main bot color if no input is provided
   if (!input) return parseInt(colors.main.slice(1), 16);
 
   // Hex values
@@ -82,6 +91,14 @@ module.exports.parseSnakeCaseArray = (arr) => {
 module.exports.capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
 
 module.exports.getApproximateObjectSizeBytes = (obj, bytes = 0) => {
+  // Separate function to avoid code complexity
+  const loopObj = (obj) => {
+    for (const key in obj) {
+      if (typeof obj[key] === 'undefined') continue;
+      sizeOf(obj[key]);
+    }
+  };
+
   // Determine the size of the object
   const sizeOf = (obj) => {
     if (obj !== null && obj !== undefined) {
@@ -92,11 +109,7 @@ module.exports.getApproximateObjectSizeBytes = (obj, bytes = 0) => {
         case 'object': {
           const objClass = Object.prototype.toString.call(obj).slice(8, -1);
           if (objClass === 'Object' || objClass === 'Array') {
-            for (var key in obj) {
-              // eslint-disable-next-line no-prototype-builtins
-              if (!obj.hasOwnProperty(key)) continue;
-              sizeOf(obj[key]);
-            }
+            loopObj(obj);
           } else bytes += obj.toString().length * 2;
           break;
         }

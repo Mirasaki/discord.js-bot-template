@@ -4,7 +4,8 @@ const { refreshSlashCommandData } = require('../../handlers/commands');
 module.exports = {
   data: {
     name: 'deploy',
-    description: 'Re-deploy ApplicationCommand API data'
+    description: 'Re-deploy ApplicationCommand API data',
+    default_permission: false
   },
 
   config: {
@@ -15,6 +16,7 @@ module.exports = {
     const { member } = interaction;
     const { emojis } = client.container;
 
+    // Calling our command handler function and sending user feedback
     refreshSlashCommandData(client);
     interaction.reply({
       content: stripIndents`

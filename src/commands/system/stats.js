@@ -1,5 +1,6 @@
 const { stripIndents } = require('common-tags');
 const { version } = require('discord.js');
+const { colorResolver } = require('../../util');
 
 const discordVersion =	version.indexOf('dev') < 0 ? version : version.slice(0, version.indexOf('dev') + 3);
 const discordVersionDocLink = `https://discord.js.org/#/docs/discord.js/v${discordVersion.split('.')[0]}/general/welcome`;
@@ -11,7 +12,12 @@ module.exports = {
     description: 'Displays bot stats'
   },
 
+  config: {
+    globalCmd: true
+  },
+
   run: async ({ client, interaction }) => {
+    // Calculating our API latency
     const latency = Math.round(client.ws.ping);
     const sent = await interaction.reply({
       content: 'Pinging...',
@@ -19,6 +25,7 @@ module.exports = {
     });
     const fcLatency = sent.createdTimestamp - interaction.createdTimestamp;
 
+    // Utility function for getting appropriate status emojis
     const getMsEmoji = (ms) => {
       let emoji = undefined;
       for (const [key, value] of Object.entries({
@@ -32,11 +39,12 @@ module.exports = {
       return (emoji ??= '🔴');
     };
 
+    // Replying to the interaction with our embed data
     interaction.editReply({
       content: '\u200b',
       embeds: [
         {
-          color: 6618980,
+          color: colorResolver(),
           author: {
             name: `${client.user.tag}`,
             iconURL: client.user.displayAvatarURL()

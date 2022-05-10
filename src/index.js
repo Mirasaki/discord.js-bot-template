@@ -1,9 +1,7 @@
 // Importing from packages
 require('dotenv').config({ path: 'config/.env' });
 const logger = require('@mirasaki/logger');
-const boxen = require('boxen');
 const chalk = require('chalk');
-const figlet = require('figlet');
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 // Local imports
@@ -17,8 +15,8 @@ const path = require('path');
 
 // Clear the console in non-production modes & printing vanity
 process.env.NODE_ENV !== 'production' && console.clear();
-console.log(boxen(figlet.textSync('Mirasaki Development')));
-logger.info(`${chalk.greenBright.underline(`${pkg.name}@${pkg.version}`)} by ${chalk.cyanBright.bold(pkg.author)}`);
+const packageIdentifierStr = `${pkg.name}@${pkg.version}`;
+logger.info(`${chalk.greenBright.underline(packageIdentifierStr)} by ${chalk.cyanBright.bold(pkg.author)}`);
 
 // Initializing/declaring our variables
 const initTimerStart = process.hrtime();
@@ -35,7 +33,7 @@ const {
 } = process.env;
 
 (async () => {
-  // Containering all our client extensions
+  // Containering?=) all our client extensions
   client.container = {
     commands: new Collection(),
     config,

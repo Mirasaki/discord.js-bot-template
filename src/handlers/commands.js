@@ -32,7 +32,7 @@ class Command {
       enabled: true,
       globalCmd: false,
       testServerCmd: true,
-      nsfw: true,
+      nsfw: false,
 
       // Command Cooldown
       cooldown: {
@@ -223,6 +223,9 @@ const registerTestServerCommands = (client) => {
   });
 };
 
+// Disable our eslint rule
+// The function isn't complex, just long
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const validateCmdConfig = (cmd) => {
   // Default values
   cmd = new Command(cmd);
@@ -317,7 +320,7 @@ const throttleCommand = (cmd, id) => {
 
     // Currently on cooldown
     if (nonExpired.length >= cooldown.usages) {
-      return `${emojis.error} {{user}}, you can use **\`${cmdData.name}\`** again in ${
+      return `${emojis.error} {{user}}, you can use **\`/${cmdData.name}\`** again in ${
         Number.parseFloat(((nonExpired[0] + cmdCd) - Date.now()) / 1000).toFixed(2)
       } seconds`;
     }
