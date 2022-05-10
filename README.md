@@ -5,7 +5,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template/badge)](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is a bot template using [discord.js](https://github.com/discordjs/discord.js "discord.js on Github") for quickly and easily creating powerful [Discord](https://discord.com/ "Official Discord Website") bots. You don't need much Javascript experience to get started on a project built on this template. Not sure where to start? Come join my [Discord Server](https://discord.gg/E3xejZRUFB), where I'll try and answer all the questions you have.
+This is a bot template using [discord.js](https://github.com/discordjs/discord.js "discord.js on Github") for quickly and easily creating powerful [Discord](https://discord.com/ "Official Discord Website") bots. You don't need much Javascript experience to get started on a project using this template. Not sure where to start? Come join my [Discord Server](https://discord.gg/E3xejZRUFB), where I'll try and answer all the questions you have.
 
 With [Message Content Access becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") I thought I'd build a template where you're pretty much ready to start working on commands after installing it. This template currently doesn't listen to the `messageCreate` event. Update Slash Commands by using the `/deploy` command or altering the environmental variables.
 </div>
@@ -17,7 +17,7 @@ Complete | Notes
 ✅ Built-in Slash Commands | [Message Content Access is becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") and that's why this template focuses on Discord's [Interaction Commands](https://discord.com/developers/docs/interactions/receiving-and-responding#interactions "Discord Interaction Documentation"). In fact, we don't even activily listen to the `messageCreate` event.
 ✅ Event Listener | This template comes with an event listener that doesn't use the depracated `.bind()` method.
 ✅ Permissions | This template handles user permission level, required command permissions and additional configurable client & user permissions.
-✅ Auto complete | Discord's API auto complete is showcases in the `/help` command and `/src/listeners/interaction/autoCompleteInteraction.js` file.
+✅ Auto complete | Discord's API auto complete is showcased in the `/help` command and `/src/listeners/interaction/autoCompleteInteraction.js` file.
 ✅ Developer Friendly | This template has detailed information available in the files themselves, allowing new developer's to jump right in and get started on commands.
 ✅ Testing Friendly | Configure your command to be *global* or *test server only*. Allowing you to test properly, and finally make it available globally.
 ✅ Throttling | Configure command cooldowns for all your commands. Allow infinite usages for a command that barely does anything, and restrict resource-heavy commands to 1 usage in 120 seconds.
