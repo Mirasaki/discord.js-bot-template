@@ -16,6 +16,7 @@
     "writeLinter": "eslint src --output-file linter-output.txt"
   },
   "dependencies": {
+    "@discordjs/rest": "^0.5.0-dev.1652443443-d522320",
     "@mirasaki/logger": "^1.0.4",
     "common-tags": "^1.8.2",
     "discord.js": "^14.0.0-dev.1651493371-4ba0f56",
