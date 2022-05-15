@@ -16,7 +16,7 @@ Come try the template yourself in our official [support server](https://discord.
 
 ## Showcase / Projects using this template
 - [DayZ Leaderboard bot](https://github.com/Mirasaki/dayz-leaderboard-bot)
-* Want to add your own links to this showcase? Contact me on Discord @ Mirasaki#0001
+* Want to add your own links to this showcase? Contact me on Discord: Mirasaki#0001
 
 ## Features
 Complete | Notes
