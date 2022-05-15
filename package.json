@@ -27,6 +27,9 @@
     "eslint-plugin-sonarjs": "^0.13.0",
     "nodemon": "^2.0.16"
   },
+  "engines": {
+    "node": ">=16.10.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Mirasaki/discord.js-bot-template.git"
