@@ -11,6 +11,9 @@ With [Message Content Access becoming a privileged intent](https://support-dev.d
 </div>
 
 ---
+## Live Demo
+Come try the template yourself in our official [support server](https://discord.gg/E3xejZRUFB)
+
 ## Features
 Complete | Notes
 -------- | ---------
