@@ -189,9 +189,6 @@ const registerGlobalCommands = async (client) => {
 
 // Registering our Test Server commands
 const registerTestServerCommands = (client) => {
-  // Logging
-  logger.info('Registering Test Server Commands');
-
   // Defining our variables
   const { commands } = client.container;
   const testServerCommandData = commands
@@ -201,6 +198,14 @@ const registerTestServerCommands = (client) => {
       && cmd.config.enabled === true
     )
     .map((cmd) => cmd.data);
+
+  // Return if there's no test command data
+  if (testServerCommandData.length === 0) {
+    return true;
+  }
+
+  // Logging
+  logger.info('Registering Test Server Commands');
 
   // Extensive debug logging
   if (DEBUG_SLASH_COMMAND_API_DATA === 'true') {
