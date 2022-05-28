@@ -4,7 +4,8 @@ const { colorResolver } = require('../../util');
 module.exports = {
   data: {
     name: 'support',
-    description: 'Get a link to this bot\'t support server'
+    description: 'Get a link to this bot\'t support server',
+    dm_permission: false
   },
 
   config: {

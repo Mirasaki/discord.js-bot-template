@@ -5,7 +5,10 @@ module.exports = {
   data: {
     name: 'deploy',
     description: 'Re-deploy ApplicationCommand API data',
-    default_permission: false
+
+    // Unavailable in DMs and to non-admins in guilds
+    dm_permission: false,
+    default_member_permissions: 0
   },
 
   config: {
