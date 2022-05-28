@@ -31,7 +31,7 @@ const permConfig = [
       // hasLevel: (member, channel) => (channel.guild?.ownerId === member.user?.id)
       // COULD result in (undefined === undefined)
       if (channel.guild && channel.guild.ownerId) {
-        return (channel.guild.ownerId === member.user?.id);
+        return (channel.guild.ownerId === member.id);
       }
       return false;
     }
@@ -40,13 +40,13 @@ const permConfig = [
   {
     name: 'Developer',
     level: 4,
-    hasLevel: (member) => config.permissions.developers.includes(member.user.id)
+    hasLevel: (member) => config.permissions.developers.includes(member.id)
   },
 
   {
     name: 'Bot Owner',
     level: 5,
-    hasLevel: (member) => config.permissions.ownerId === member.user.id
+    hasLevel: (member) => config.permissions.ownerId === member.id
   }
 ].reverse();
 

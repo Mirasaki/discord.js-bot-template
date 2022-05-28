@@ -9,7 +9,8 @@ const nodeVersionDocLink = `https://nodejs.org/docs/latest-${process.version.spl
 module.exports = {
   data: {
     name: 'stats',
-    description: 'Displays bot stats'
+    description: 'Displays bot stats',
+    dm_permission: false
   },
 
   config: {
