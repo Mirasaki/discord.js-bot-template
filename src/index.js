@@ -52,16 +52,22 @@ const {
 
   // Registering our listeners
   const eventFiles = getFiles('src/listeners', '.js');
+  const eventNames = eventFiles.map((filePath) => filePath.slice(
+    filePath.lastIndexOf(path.sep) + 1,
+    filePath.lastIndexOf('.')
+  ));
+
+  // Debug logging
+  if (DEBUG_ENABLED === 'true') {
+    logger.debug(`Registering ${eventFiles.length} listeners: ${eventNames.map((name) => chalk.whiteBright(name)).join(', ')}`);
+  }
+
+  // Looping over our avent files
   for (const filePath of eventFiles) {
     const eventName = filePath.slice(
       filePath.lastIndexOf(path.sep) + 1,
       filePath.lastIndexOf('.')
     );
-
-    // Debug logging
-    if (DEBUG_ENABLED === 'true') {
-      logger.debug(`Registering ${chalk.whiteBright(eventName)} listener...`);
-    }
 
     // Binding our event to the client
     const eventFile = require(filePath);
