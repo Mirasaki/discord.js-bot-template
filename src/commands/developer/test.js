@@ -1,3 +1,5 @@
+const { ApplicationCommandOptionType } = require('discord.js');
+
 module.exports = {
   data: {
     description: 'Test command for the developers',
@@ -5,7 +7,7 @@ module.exports = {
       {
         name: 'value',
         description: 'input',
-        type: 3, // STRING
+        type: ApplicationCommandOptionType.String,
         required: true
       }
     ],

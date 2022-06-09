@@ -184,7 +184,21 @@ const registerGlobalCommands = async (client) => {
   rest.put(
     Routes.applicationCommands(CLIENT_ID),
     { body: globalCommandData }
-  );
+  ).catch((err) => {
+    // Invalid Form Body error
+    if (err.status === 400) {
+      logger.syserr(`Error encountered while trying to register command API data: ${err.message}`);
+      for (const [ index ] in err.rawError.errors) {
+        // Logging the invalid data to the console
+        console.log(err.requestBody.json[Number(index)]);
+      }
+    }
+
+    else {
+      // Unknown errors
+      logger.syserr(err);
+    }
+  });
 };
 
 // Registering our Test Server commands
@@ -222,9 +236,24 @@ const registerTestServerCommands = (client) => {
     ),
     { body: testServerCommandData }
   ).catch((err) => {
-    // Catching Missing Access error
-    logger.syserr('Error encountered while trying to register GuildCommands in the test server, this probably means your TEST_SERVER_GUILD_ID in the config/.env file is invalid or the client isn\'t currently in that server');
-    logger.syserr(err);
+    // Invalid TEST_SERVER_GUILD_ID
+    if (err.status === 404) {
+      logger.syserr('Error encountered while trying to register GuildCommands in the test server, this probably means your TEST_SERVER_GUILD_ID in the config/.env file is invalid or the client isn\'t currently in that server');
+    }
+
+    // Invalid Form Body error
+    else if (err.status === 400) {
+      logger.syserr(`Error encountered while trying to register GuildCommands in the test server: ${err.message}`);
+      for (const [ index ] in err.rawError.errors) {
+        // Logging the invalid data to the console
+        console.log(err.requestBody.json[Number(index)]);
+      }
+    }
+
+    else {
+      // Catching Missing Access error
+      logger.syserr(err);
+    }
   });
 };
 
