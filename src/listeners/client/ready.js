@@ -1,5 +1,6 @@
 const logger = require('@mirasaki/logger');
 const chalk = require('chalk');
+const { ActivityType } = require('discord.js');
 
 module.exports = (client) => {
   // Logging our process uptime to the developer
@@ -21,4 +22,15 @@ module.exports = (client) => {
 
   // Logging counts to developers
   logger.info(`Ready to serve ${memberCount} members across ${serverCount} servers!`);
+
+  // Setting the client status
+  const { presence } = client.container.config;
+  const activity = presence.activities[0];
+  // Replacing available template tags
+  activity.name = activity.name
+    .replace(/{{memberCount}}/g, memberCount)
+    .replace(/{{serverCount}}/g, serverCount);
+  // https://discord-api-types.dev/api/discord-api-types-v10/enum/ActivityType
+  client.user.setActivity(activity.name, { type: ActivityType[activity.type] });
+  client.user.setStatus(presence.status);
 };

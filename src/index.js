@@ -21,10 +21,7 @@ logger.info(`${chalk.greenBright.underline(packageIdentifierStr)} by ${chalk.cya
 // Initializing/declaring our variables
 const initTimerStart = process.hrtime();
 const intents = config.intents.map((intent) => GatewayIntentBits[titleCase(intent)]);
-const client = new Client({
-  intents: intents,
-  presence: config.presence
-});
+const client = new Client({ intents: intents });
 
 // Destructuring from env
 const {
