@@ -4,8 +4,8 @@
     "status": "online",
     "activities": [
       {
-        "name": "/play",
-        "type": "LISTENING"
+        "name": "{{memberCount}} members across {{serverCount}} servers",
+        "type": "Watching"
       }
     ]
   },
