@@ -1,0 +1,22 @@
+# NPM & dependencies
+node_modules
+npm-debug.log
+
+# Github
+.git
+.github
+.gitattributes
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Etc
+LICENSE
+linter-output.txt
+*.md
+.env.example
+.config.example.js
+.markdownlint.json

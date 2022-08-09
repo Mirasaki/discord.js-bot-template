@@ -6,7 +6,6 @@ module.exports = {
   data: {
     name: 'help',
     description: 'Receive detailed command information',
-    dm_permission: false,
     options: [{
       type: ApplicationCommandOptionType.String,
       name: 'command',

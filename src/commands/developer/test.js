@@ -12,8 +12,7 @@ module.exports = {
       }
     ],
 
-    // Unavailable in DMs and to non-admins in guilds
-    dm_permission: false,
+    // Unavailable to non-admins in guilds
     default_member_permissions: 0
   },
 

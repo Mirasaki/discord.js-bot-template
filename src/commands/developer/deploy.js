@@ -6,8 +6,7 @@ module.exports = {
     name: 'deploy',
     description: 'Re-deploy ApplicationCommand API data',
 
-    // Unavailable in DMs and to non-admins in guilds
-    dm_permission: false,
+    // Unavailable to non-admins in guilds
     default_member_permissions: 0
   },
 
@@ -19,12 +18,14 @@ module.exports = {
     const { member } = interaction;
     const { emojis } = client.container;
 
-    // Calling our command handler function and sending user feedback
+    // Calling our command handler function
     refreshSlashCommandData(client);
+
+    // Sending user feedback
     interaction.reply({
       content: stripIndents`
-        ${emojis.success} ${member}, ApplicationCommand data has been refreshed.
-        ${emojis.wait} - changes to global command can take up to an hour to take effect...
+        ${emojis.success} ${member}, [ApplicationCommandData](https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-structure "ApplicationCommandData on discord.com/developers") has been refreshed.
+        ${emojis.wait} - changes to global commands can take up to an hour to take effect...
       `
     });
   }

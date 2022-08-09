@@ -1,14 +1,14 @@
 // Importing from packages
-require('dotenv').config({ path: 'config/.env' });
+require('dotenv').config();
 const logger = require('@mirasaki/logger');
 const chalk = require('chalk');
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, ActivityType } = require('discord.js');
 
 // Local imports
 const pkg = require('../package');
-const config = require('../config/config');
-const emojis = require('../config/emojis');
-const colors = require('../config/colors');
+const config = require('../config.js');
+const emojis = require('./config/emojis');
+const colors = require('./config/colors');
 const { clearSlashCommandData, refreshSlashCommandData, bindCommandsToClient } = require('./handlers/commands');
 const { titleCase, getFiles } = require('./util');
 const path = require('path');
@@ -21,12 +21,22 @@ logger.info(`${chalk.greenBright.underline(packageIdentifierStr)} by ${chalk.cya
 // Initializing/declaring our variables
 const initTimerStart = process.hrtime();
 const intents = config.intents.map((intent) => GatewayIntentBits[titleCase(intent)]);
-const client = new Client({ intents: intents });
+const presenceActivityMap = config.presence.activities.map(
+  (act) => ({ ...act, type: ActivityType[act.type] })
+);
+const client = new Client({
+  intents: intents,
+  presence: {
+    status: config.presence.status,
+    activities: presenceActivityMap
+  }
+});
 
 // Destructuring from env
 const {
   DISCORD_BOT_TOKEN,
-  DEBUG_ENABLED
+  DEBUG_ENABLED,
+  CLEAR_SLASH_COMMAND_API_DATA
 } = process.env;
 
 (async () => {
@@ -42,7 +52,9 @@ const {
   bindCommandsToClient(client);
 
   // Clear only executes if enabled in .env
-  clearSlashCommandData();
+  if (CLEAR_SLASH_COMMAND_API_DATA === 'true') {
+    clearSlashCommandData();
+  }
 
   // Refresh InteractionCommand data if requested
   refreshSlashCommandData(client);
@@ -59,7 +71,7 @@ const {
     logger.debug(`Registering ${eventFiles.length} listeners: ${eventNames.map((name) => chalk.whiteBright(name)).join(', ')}`);
   }
 
-  // Looping over our avent files
+  // Looping over our event files
   for (const filePath of eventFiles) {
     const eventName = filePath.slice(
       filePath.lastIndexOf(path.sep) + 1,
@@ -77,3 +89,8 @@ const {
   // Logging in to our client
   client.login(DISCORD_BOT_TOKEN);
 })();
+
+process.on('SIGINT', () => {
+  logger.info('\nGracefully shutting down from SIGINT (Ctrl-C)');
+  process.exit(0);
+});

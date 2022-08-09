@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    # Files stored in root directory
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # ignore:
+      # Ignore discord.js and @discord.js/rest until version 14 is released
+      # - dependency-name: "discord.js"
+      # - dependency-name: "@discordjs/rest"
+
+  - package-ecosystem: "github-actions"
+    # default location of `.github/workflows`
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Prefix all commit messages with "Composer"
+    # include a list of updated dependencies
+    commit-message:
+      prefix: "Composer"
+      include: "scope"

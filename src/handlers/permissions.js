@@ -1,5 +1,5 @@
 const { PermissionsBitField } = require('discord.js');
-const config = require('../../config/config.json');
+const config = require('../../config');
 
 // Our ordered permission level configuration
 const permConfig = [
@@ -48,7 +48,7 @@ const permConfig = [
     level: 5,
     hasLevel: (member) => config.permissions.ownerId === member.id
   }
-].reverse();
+].reverse(); // Reverse the array so the highest permission level is checked first
 
 // Creating a permission level map/list
 const permLevelMap = { ...permConfig.map(({ name }) => name) };

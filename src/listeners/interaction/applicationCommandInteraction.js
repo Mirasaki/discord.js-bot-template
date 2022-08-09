@@ -19,8 +19,9 @@ module.exports = (client, interaction) => {
     guild,
     commandName
   } = interaction;
+  const { commands, emojis } = client.container;
 
-  // Initial performace measuring timer
+  // Initial performance measuring timer
   const cmdRunTimeStart = process.hrtime();
 
   // Logging the Command to our console
@@ -29,7 +30,7 @@ module.exports = (client, interaction) => {
     guild.name,
     `#${channel.name}`,
     member.user.username
-  ].join(chalk.magentaBright(' • ')));
+  ].join(chalk.magentaBright(` ${emojis.bulletPoint} `)));
 
   // Conditional Debug logging
   if (DEBUG_INTERACTIONS === 'true') {
@@ -39,7 +40,6 @@ module.exports = (client, interaction) => {
   }
 
   // Get the client.container.commands command
-  const { commands, emojis } = client.container;
   const clientCmd = commands.get(commandName);
 
   // Check for late API changes
@@ -104,12 +104,12 @@ module.exports = (client, interaction) => {
       logger.syserr(`An error has occurred while executing the /${chalk.whiteBright(commandName)} command`);
       logger.printErr(err);
     }
-  })();
 
-  // Log command execution time
-  if (DEBUG_ENABLED === 'true') {
-    logger.debug(`${chalk.white(commandName)} executed in ${logger.getExecutionTime(cmdRunTimeStart)}`);
-  }
+    // Log command execution time
+    if (DEBUG_ENABLED === 'true') {
+      logger.debug(`${chalk.white(commandName)} executed in ${logger.getExecutionTime(cmdRunTimeStart)}`);
+    }
+  })();
 };
 
 // Utility function for running all the checks that have to pass
