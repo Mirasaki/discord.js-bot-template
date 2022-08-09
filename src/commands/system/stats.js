@@ -9,8 +9,7 @@ const nodeVersionDocLink = `https://nodejs.org/docs/latest-${process.version.spl
 module.exports = {
   data: {
     name: 'stats',
-    description: 'Displays bot stats',
-    dm_permission: false
+    description: 'Displays bot stats'
   },
 
   config: {
@@ -18,6 +17,8 @@ module.exports = {
   },
 
   run: async ({ client, interaction }) => {
+    const { emojis } = client.container;
+
     // Calculating our API latency
     const latency = Math.round(client.ws.ping);
     const sent = await interaction.reply({
@@ -90,7 +91,7 @@ module.exports = {
             }
           ],
           footer: {
-            text: 'Made with ❤️ by Mirasaki#0001 • Open to collaborate • me@mirasaki.dev'
+            text: `Made with ❤️ by Mirasaki#0001 ${emojis.bulletPoint} Open to collaborate ${emojis.bulletPoint} me@mirasaki.dev`
           }
         }
       ]

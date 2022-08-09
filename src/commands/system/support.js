@@ -4,8 +4,7 @@ const { colorResolver } = require('../../util');
 module.exports = {
   data: {
     name: 'support',
-    description: 'Get a link to this bot\'t support server',
-    dm_permission: false
+    description: 'Get a link to this bot\'t support server'
   },
 
   config: {
@@ -16,7 +15,7 @@ module.exports = {
     interaction.reply({
       embeds: [{
         // Not passing an parameter to colorResolver
-        // fallsback to client.container.colors.main
+        // will fall-back to client.container.colors.main
         color: colorResolver(),
         author: {
           name: client.user.username,
@@ -33,7 +32,7 @@ module.exports = {
             + Giving feedback
             + Feature requests & suggestions
             + Testing beta features & commands
-            + Keeping up-to-date with updates
+            + Be notified of updates
           \`\`\`
         `
       }]

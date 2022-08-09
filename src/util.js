@@ -1,7 +1,7 @@
 const { readdirSync, statSync } = require('fs');
 const moment = require('moment');
 const path = require('path');
-const colors = require('../config/colors.json');
+const colors = require('./config/colors.json');
 
 // Split a camel case array at uppercase
 module.exports.splitCamelCaseStr = (str, joinCharacter) => {

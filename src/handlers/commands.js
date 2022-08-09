@@ -6,11 +6,10 @@ const chalk = require('chalk');
 const path = require('path');
 const { getFiles, titleCase } = require('../util');
 const { permConfig, getInvalidPerms, permLevelMap } = require('./permissions');
-const emojis = require('../../config/emojis.json');
+const emojis = require('../config/emojis.json');
 
 // Destructure from process.env
 const {
-  CLEAR_SLASH_COMMAND_API_DATA,
   DISCORD_BOT_TOKEN,
   CLIENT_ID,
   TEST_SERVER_GUILD_ID,
@@ -40,6 +39,7 @@ class Command {
         duration: 2
       },
 
+      // Overwrite base-config with user provided config
       ...config
     };
 
@@ -54,6 +54,13 @@ class Command {
         filePath.lastIndexOf(path.sep, filePath.lastIndexOf(path.sep) - 1) + 1,
         filePath.lastIndexOf(path.sep)
       ),
+
+      // Discord API defaults
+      // https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-structure
+      type: 1, // CHAT_INPUT
+      dm_permission: false,
+
+      // Overwrite default data with user provided API data
       ...data
     };
 
@@ -76,21 +83,19 @@ const rest = new REST({ version: '10' })
 
 // Utility function for clearing our Slash Command Data
 const clearSlashCommandData = () => {
-  if (CLEAR_SLASH_COMMAND_API_DATA === 'true') {
-    logger.info('Clearing ApplicationCommand API data');
-    rest.put(Routes.applicationCommands(CLIENT_ID), { body: [] });
-    rest.put(Routes.applicationGuildCommands(CLIENT_ID, TEST_SERVER_GUILD_ID), { body: [] })
-      .catch((err) => {
-        // Catching Missing Access error
-        logger.syserr('Error encountered while trying to clear GuildCommands in the test server, this probably means your TEST_SERVER_GUILD_ID in the config/.env file is invalid or the client isn\'t currently in that server');
-        logger.syserr(err);
-      });
-    logger.success(
-      'Successfully reset all Slash Commands. It may take up to an hour for global changes to take effect.'
-    );
-    logger.syslog(chalk.redBright('Shutting down...'));
-    process.exit(1);
-  }
+  logger.info('Clearing ApplicationCommand API data');
+  rest.put(Routes.applicationCommands(CLIENT_ID), { body: [] });
+  rest.put(Routes.applicationGuildCommands(CLIENT_ID, TEST_SERVER_GUILD_ID), { body: [] })
+    .catch((err) => {
+      // Catching Missing Access error
+      logger.syserr('Error encountered while trying to clear GuildCommands in the test server, this probably means your TEST_SERVER_GUILD_ID in the .env file is invalid or the client isn\'t currently in that server');
+      logger.syserr(err);
+    });
+  logger.success(
+    'Successfully reset all Slash Commands. It may take up to an hour for global changes to take effect.'
+  );
+  logger.syslog(chalk.redBright('Shutting down...'));
+  process.exit(1);
 };
 
 const bindCommandsToClient = (client) => {
@@ -99,7 +104,7 @@ const bindCommandsToClient = (client) => {
   const topLevelCommandFolder = path.join('src', 'commands');
 
   // Looping over every src/commands/ file
-  for (const commandPath of getFiles(topLevelCommandFolder, '.js', '.mjs', '.cjs')) {
+  for (const commandPath of getFiles(topLevelCommandFolder, ['.js', '.mjs', '.cjs'])) {
     // Require our command module
     let cmdModule = require(commandPath);
     // Adding the filepath/origin onto the module
@@ -238,7 +243,7 @@ const registerTestServerCommands = (client) => {
   ).catch((err) => {
     // Invalid TEST_SERVER_GUILD_ID
     if (err.status === 404) {
-      logger.syserr('Error encountered while trying to register GuildCommands in the test server, this probably means your TEST_SERVER_GUILD_ID in the config/.env file is invalid or the client isn\'t currently in that server');
+      logger.syserr('Error encountered while trying to register GuildCommands in the test server, this probably means your TEST_SERVER_GUILD_ID in the .env file is invalid or the client isn\'t currently in that server');
     }
 
     // Invalid Form Body error
