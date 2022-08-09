@@ -46,7 +46,7 @@ const getFiles = (requestedPath, allowedExtensions) => {
   for (let itemInDir of readdirSync(requestedPath)) {
     itemInDir = path.resolve(requestedPath, itemInDir);
     const stat = statSync(itemInDir);
-    if (stat.isDirectory()) res = res.concat(this.getFiles(itemInDir, allowedExtensions));
+    if (stat.isDirectory()) res = res.concat(getFiles(itemInDir, allowedExtensions));
     if (
       stat.isFile()
       && allowedExtensions.find((ext) => itemInDir.endsWith(ext))
