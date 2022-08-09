@@ -1,7 +1,9 @@
+# discord.js-bot-template
+
 <div align="center">
 
-# discord.js-bot-template
 ## Overview
+
 [![CodeFactor](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template/badge)](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -11,13 +13,17 @@ With [Message Content Access becoming a privileged intent](https://support-dev.d
 </div>
 
 ---
+
 ## Live Demo
+
 Come try the template yourself in our official [support server](https://discord.gg/E3xejZRUFB)
 
 ## Showcase / Projects using this template
+
 - [DayZ Leaderboard bot](https://github.com/Mirasaki/dayz-leaderboard-bot)
 
 ## Features
+
 Complete | Notes
 -------- | ---------
 ✅ Built-in Slash Commands | [Message Content Access is becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") and that's why this template focuses on Discord's [Interaction Commands](https://discord.com/developers/docs/interactions/receiving-and-responding#interactions "Discord Interaction Documentation"). In fact, we don't even activily listen to the `messageCreate` event.
@@ -41,7 +47,9 @@ Incomplete | Notes
 ---
 
 ## Installation
+
 ### Requirements
+
 - [Node/NodeJS](https://nodejs.org/en/) - Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard
 
 **1)** Head over to [the download page](https://github.com/Mirasaki/discord.js-bot-template/releases/)
@@ -53,13 +61,13 @@ Incomplete | Notes
 **4)** Open the folder containing your recently extracted files
 
 **5)** Open a console/terminal/shell prompt in this directory
+
 - Run `npm i --include-dev` to install all dependencies
 
-### ALL CONFIGURATION IS DONE IN THE `/config/` FOLDER
+**6)** Copy and paste `.env.example` and rename it to `.env`
 
-**6)** Copy and paste `.env.example` from `config/`, and rename it to `.env` located in `config/.env`
-  - Provide all your configuration values in this file
-    * Get a Bot Token from [the Discord developer portal](https://www.discord.com/developers)
-  - Also provide the values in `config/config.json`
+- Provide all your configuration values in this file
+  - Get a Bot Token from [the Discord developer portal](https://www.discord.com/developers)
+- Also provide the values in `src/config/config.json`
 
 **7)** Use `node .` to start the application or `npm run start:dev` if you have `nodemon` installed for automatic restarts on changes
