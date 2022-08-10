@@ -11,8 +11,5 @@ RUN npm ci
 # Bundle app source
 COPY . ./
 
-# Show current folder structure in logs
-# RUN ls -al -R
-
 # Run the start command
 CMD [ "node", "." ]
