@@ -334,7 +334,7 @@ const validateCmdConfig = (cmd) => {
   return cmd;
 };
 
-// Handling command cooldowns
+// Handling command cooldown
 const ThrottleMap = new Map();
 const throttleCommand = (cmd, id) => {
   const { config, data: cmdData } = cmd;

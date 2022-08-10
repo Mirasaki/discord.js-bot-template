@@ -1,33 +1,30 @@
 {
   "name": "discord.js-bot-template",
   "description": "A discord bot template using discord.js",
-  "version": "0.0.1",
+  "version": "1.0.3.1",
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
     "start:dev": "nodemon run node --trace-warnings .",
     "test": "echo \"Error: no test specified\" && exit 1",
-
     "docker:build": "docker build --tag discord-bot-template .",
-    "docker:start": "docker run -v $(pwd):/app -v /app/node_modules --env-file ./.env -p 27017:27017 -d --name discord-bot-template discord-bot-template",
+    "docker:start": "docker run -d --name discord-bot-template --env-file ./.env -p 27017:27017 discord-bot-template",
     "docker:restart": "docker restart discord-bot-template",
     "docker:stop": "docker stop discord-bot-template",
     "docker:kill": "docker rm -fv discord-bot-template",
     "docker:logs": "docker logs discord-bot-template -f",
     "docker:bash": "docker exec -it discord-bot-template bash",
-
     "pm2:start": "pm2 start src/index.js --name=discord.js-bot-template",
     "pm2:stop": "pm2 stop discord.js-bot-template",
     "pm2:purge": "pm2 stop discord.js-bot-template && pm2 delete discord.js-bot-template && pm2 reset discord.js-bot-template",
     "pm2:logs": "pm2 logs --lines 300 discord.js-bot-template",
     "pm2:logsError": "pm2 logs --err --lines 300 discord.js-bot-template",
-    
     "lint": "eslint src",
     "linter": "eslint src --fix",
     "writeLinter": "eslint src --output-file linter-output.txt"
   },
   "dependencies": {
-    "@discordjs/rest": "^0.6.0",
+    "@discordjs/rest": "^1.0.1",
     "@mirasaki/logger": "^1.0.4",
     "common-tags": "^1.8.2",
     "discord.js": "^14.1.2",

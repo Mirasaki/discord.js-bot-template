@@ -3,17 +3,8 @@ const moment = require('moment');
 const path = require('path');
 const colors = require('./config/colors.json');
 
-// Split a camel case array at uppercase
-module.exports.splitCamelCaseStr = (str, joinCharacter) => {
-  const arr = str.split(/ |\B(?=[A-Z])/);
-  if (typeof joinCharacter === 'string') {
-    return arr.join(joinCharacter);
-  }
-  return arr;
-};
-
 // Return integer color code
-module.exports.colorResolver = (input) => {
+const colorResolver = (input) => {
   // Return main bot color if no input is provided
   if (!input) return parseInt(colors.main.slice(1), 16);
 
@@ -48,14 +39,14 @@ module.exports.colorResolver = (input) => {
 };
 
 // getFiles() ignores files that start with "."
-module.exports.getFiles = (requestedPath, allowedExtensions) => {
+const getFiles = (requestedPath, allowedExtensions) => {
   if (typeof allowedExtensions === 'string') allowedExtensions = [allowedExtensions];
   requestedPath ??= path.resolve(requestedPath);
   let res = [];
   for (let itemInDir of readdirSync(requestedPath)) {
     itemInDir = path.resolve(requestedPath, itemInDir);
     const stat = statSync(itemInDir);
-    if (stat.isDirectory()) res = res.concat(this.getFiles(itemInDir, allowedExtensions));
+    if (stat.isDirectory()) res = res.concat(getFiles(itemInDir, allowedExtensions));
     if (
       stat.isFile()
       && allowedExtensions.find((ext) => itemInDir.endsWith(ext))
@@ -67,19 +58,19 @@ module.exports.getFiles = (requestedPath, allowedExtensions) => {
   return res;
 };
 
+// Utility function for getting the relative time string using moment
+const getRelativeTime = (date) => moment(date).fromNow();
+
 // String converter: Mary Had A Little Lamb
-module.exports.titleCase = (str) => {
+const titleCase = (str) => {
   if (typeof str !== 'string') throw new TypeError('Expected type: String');
   str = str.toLowerCase().split(' ');
   for (let i = 0; i < str.length; i++) str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
   return str.join(' ');
 };
 
-// Utility function for getting the relative time string using moment
-module.exports.getRelativeTime = (date) => moment(date).fromNow();
-
 // Parses a SNAKE_CASE_ARRAY to title-cased strings
-module.exports.parseSnakeCaseArray = (arr) => {
+const parseSnakeCaseArray = (arr) => {
   return arr.map((perm) => {
     perm = perm.toLowerCase().split(/[ _]+/);
     for (let i = 0; i < perm.length; i++) perm[i] = perm[i].charAt(0).toUpperCase() + perm[i].slice(1);
@@ -87,10 +78,19 @@ module.exports.parseSnakeCaseArray = (arr) => {
   }).join('\n');
 };
 
-// String converter: Mary had a little lamb
-module.exports.capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+// Split a camel case array at uppercase
+const splitCamelCaseStr = (str, joinCharacter) => {
+  const arr = str.split(/ |\B(?=[A-Z])/);
+  if (typeof joinCharacter === 'string') {
+    return arr.join(joinCharacter);
+  }
+  return arr;
+};
 
-module.exports.getApproximateObjectSizeBytes = (obj, bytes = 0) => {
+// String converter: Mary had a little lamb
+const capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+
+const getApproximateObjectSizeBytes = (obj, bytes = 0) => {
   // Separate function to avoid code complexity
   const loopObj = (obj) => {
     for (const key in obj) {
@@ -128,4 +128,15 @@ module.exports.getApproximateObjectSizeBytes = (obj, bytes = 0) => {
   };
 
   return formatByteSize(sizeOf(obj));
+};
+
+module.exports = {
+  splitCamelCaseStr,
+  colorResolver,
+  getFiles,
+  getRelativeTime,
+  parseSnakeCaseArray,
+  titleCase,
+  capitalizeString,
+  getApproximateObjectSizeBytes
 };

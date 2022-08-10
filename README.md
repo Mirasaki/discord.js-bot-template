@@ -1,16 +1,11 @@
 # discord.js-bot-template
 
-<div align="center">
-
-## Overview
-
 [![CodeFactor](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template/badge)](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This is a bot template using [discord.js](https://github.com/discordjs/discord.js "discord.js on Github") for quickly and easily creating powerful [Discord](https://discord.com/ "Official Discord Website") bots. You don't need much Javascript experience to get started on a project using this template. Not sure where to start? Come join my [Discord Server](https://discord.gg/E3xejZRUFB), where I'll try and answer all the questions you have.
 
-With [Message Content Access becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") I thought I'd build a template where you're pretty much ready to start working on commands after installing it. This template currently doesn't listen to the `messageCreate` event. Update Slash Commands by using the `/deploy` command or altering the environmental variables.
-</div>
+With [Message Content Access becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") I thought I'd build a template where you're pretty much ready to start working on commands after installing it. This template currently doesn't listen to the `messageCreate` event. Update Slash Commands by using the `/deploy` command or altering the environmental variables. It also uses the latest Discord features, like auto-complete, Buttons, Modals, and other components.
 
 ---
 
@@ -21,6 +16,7 @@ Come try the template yourself in our official [support server](https://discord.
 ## Showcase / Projects using this template
 
 - [DayZ Leaderboard bot](https://github.com/Mirasaki/dayz-leaderboard-bot)
+- Create a new issues if you want to have your project showcased here
 
 ## Features
 
@@ -46,28 +42,49 @@ Incomplete | Notes
 
 ---
 
-## Installation
+## Installation & Usage
 
-### Requirements
+---
 
-- [Node/NodeJS](https://nodejs.org/en/) - Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard
+## Prerequisites
 
-**1)** Head over to [the download page](https://github.com/Mirasaki/discord.js-bot-template/releases/)
+- [NodeJS](https://nodejs.org/en/download/) (if you're running as a plain NodeJS app)
+    1) Head over to the download page
+    2) Download the current build (latest features) available for your OS
+    3) Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard
+- A [Discord Bot account](https://discord.com/developers/applications)
+    1) Head over to the page linked above
+    2) Click "New Application" in the top right
+    3) Give it a cool name and click "Create"
+    4) Click "Bot" in the left hand panel
+    5) Click "Add Bot" -> "Yes, do it!"
+    6) Click "Reset Token" and copy it to your clipboard, you will need it later
 
-**2)** Download either the `zip` or `zip.gz` source code
+### Run as a [Docker](https://docs.docker.com/engine/install/) container (preferred)
 
-**3)** Extract it using [your favorite zip tool](https://www.rarlab.com/download.htm)
+The quickest, and easiest, way to host/use this bot is by deploying it inside of a Docker container.
 
-**4)** Open the folder containing your recently extracted files
+1. Clone this repository: `git clone git@github.com:Mirasaki/discord.js-bot-template.git`
+2. Navigate inside the new folder: `cd discord-bot-template`
+3. Rename `.env.example` to `.env` and provide your environmental variables
+4. Rename `config.example.js` to `config.js` and provide your configuration
+5. Build the project: `docker build --tag discord-bot-template .`
+6. Start the bot: `docker run -d --name discord-bot-template --env-file ./.env -p 27017:27017 discord-bot-template`
 
-**5)** Open a console/terminal/shell prompt in this directory
+### Run as a plain NodeJS app
 
-- Run `npm i --include-dev` to install all dependencies
+You can also clone this repository or download a release, and host the project directly. You will need [Node/NodeJS](https://nodejs.org/en/) (Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard)
 
-**6)** Copy and paste `.env.example` and rename it to `.env`
+1. Head over to [the download page](https://github.com/Mirasaki/discord.js-bot-template/releases/) (or clone by using: `git clone git@github.com:Mirasaki/discord.js-bot-template.git`)
+2. Download either the `zip` or `zip.gz` source code
+3. Extract it using [your favorite zip tool](https://www.rarlab.com/download.htm)
+4. Open the folder containing your recently extracted files
+5. Open a console/terminal/shell prompt in this directory
+6. Run `npm i --include-dev` to install all dependencies
+7. Rename `.env.example` to `.env` and configure your environmental variables
+8. Rename `config.js.example` to `config.js` and go through your bot configuration
+9. Use the command `node .` to start the application, `npm run start` to keep the process alive with [PM2](https://pm2.io/) (if you have this installed), or `npm run start:dev` if you have `nodemon` installed for automatic restarts on changes (active development)
 
-- Provide all your configuration values in this file
-  - Get a Bot Token from [the Discord developer portal](https://www.discord.com/developers)
-- Also provide the values in `src/config/config.json`
+### Notes
 
-**7)** Use `node .` to start the application or `npm run start:dev` if you have `nodemon` installed for automatic restarts on changes
+- Get a Bot Token from [the Discord developer portal](https://www.discord.com/developers) (you will need this in your `.env` file)

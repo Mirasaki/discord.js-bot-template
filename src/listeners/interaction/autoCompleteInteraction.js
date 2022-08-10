@@ -52,7 +52,6 @@ module.exports = (client, interaction) => {
   // Get our command name query
   const query = interaction.options.getFocused()?.toLowerCase() || '';
 
-
   // Start our timer for performance logging
   const autoResponseQueryStart = process.hrtime();
 
