@@ -30,5 +30,7 @@ module.exports = {
 
     // Showing the modal to the user
     await interaction.showModal(codeModal);
+
+    // ModalSubmitInteraction.js handler in /src/listeners/interactions/modalSubmitInteraction.js
   }
 };
