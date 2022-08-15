@@ -1,14 +1,14 @@
 {
   "name": "discord.js-bot-template",
   "description": "A discord bot template using discord.js",
-  "version": "1.0.3.1",
+  "version": "1.0.5",
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
     "start:dev": "nodemon run node --trace-warnings .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker build --tag discord-bot-template .",
-    "docker:start": "docker run -d --name discord-bot-template --env-file ./.env -p 27017:27017 discord-bot-template",
+    "docker:start": "docker run -v $(pwd):/app -v /app/node_modules --env-file ./.env -d --name discord-bot-template discord-bot-template",
     "docker:restart": "docker restart discord-bot-template",
     "docker:stop": "docker stop discord-bot-template",
     "docker:kill": "docker rm -fv discord-bot-template",
