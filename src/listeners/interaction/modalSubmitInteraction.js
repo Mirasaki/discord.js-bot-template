@@ -118,10 +118,17 @@ module.exports = async (client, interaction) => {
             evaled = eval(codeInput);
             if (evaled instanceof Promise) evaled = await evaled;
 
+            // Get execution time
+            const timeSinceHrMs = (
+              process.hrtime(startEvalTime)[0] * 1000
+              + startEvalTime[1] / 1000000
+            ).toFixed(2);
+            const timeSinceStr = `${(timeSinceHrMs / 1000).toFixed(2)} seconds (${timeSinceHrMs} ms)`;
+
             // String response
             const response = [
               `\`\`\`js\n${clean(require('util').inspect(evaled, { depth: 0 }))}\`\`\``,
-              `\`\`\`fix\n${logger.getExecutionTime(startEvalTime)}\`\`\``
+              `\`\`\`fix\n${timeSinceStr}\`\`\``
             ];
 
             // Building the embed
@@ -189,6 +196,36 @@ module.exports = async (client, interaction) => {
           } catch (err) {
             logger.syserr('Encountered error while executing /eval code');
             logger.printErr(err);
+            // Update button interaction
+            i.editReply({
+              content: `${emojis.error} ${member}, code execution error, check original embed for output.`
+            });
+            // Update original embed interaction
+            const timeSinceHrMs = (
+              process.hrtime(startEvalTime)[0] * 1000
+              + startEvalTime[1] / 1000000
+            ).toFixed(2);
+            const timeSinceStr = `${(timeSinceHrMs / 1000).toFixed(2)} seconds (${timeSinceHrMs} ms)`;
+            interaction.editReply({
+              embeds: [
+                {
+                  color: colorResolver(),
+                  description: `:inbox_tray: **Input:**\n\`\`\`js\n${codeInput}\n\`\`\``,
+                  fields: [
+                    {
+                      name: ':outbox_tray: Output:',
+                      value: `\`\`\`js\n${err.stack || err}\n\`\`\``,
+                      inline: false
+                    },
+                    {
+                      name: 'Time taken',
+                      value: `\`\`\`fix\n${timeSinceStr}\n\`\`\``,
+                      inline: false
+                    }
+                  ]
+                }
+              ]
+            });
           }
 
 
