@@ -24,6 +24,8 @@ const intents = config.intents.map((intent) => GatewayIntentBits[titleCase(inten
 const presenceActivityMap = config.presence.activities.map(
   (act) => ({ ...act, type: ActivityType[act.type] })
 );
+
+// Building our discord.js client
 const client = new Client({
   intents: intents,
   presence: {
@@ -90,6 +92,7 @@ const {
   client.login(DISCORD_BOT_TOKEN);
 })();
 
+// Listen for user requested shutdown
 process.on('SIGINT', () => {
   logger.info('\nGracefully shutting down from SIGINT (Ctrl-C)');
   process.exit(0);
