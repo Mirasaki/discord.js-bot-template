@@ -1,0 +1,3 @@
+- add aliases
+- add reload() to ContextMenuCommands
+- add support for ctxMenuCmds to /help and /reload

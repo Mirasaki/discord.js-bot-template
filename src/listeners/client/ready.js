@@ -1,6 +1,10 @@
 const logger = require('@mirasaki/logger');
 const chalk = require('chalk');
 
+/**
+ * @type {import('../../../typings').ClientEventCallback}
+ */
+
 module.exports = (client) => {
   // Logging our process uptime to the developer
   const upTimeStr = chalk.yellow(`${Math.floor(process.uptime()) || 1} second(s)`);

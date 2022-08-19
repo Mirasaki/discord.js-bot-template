@@ -1,13 +1,13 @@
 const { stripIndents } = require('common-tags');
 const { refreshSlashCommandData } = require('../../handlers/commands');
 
+/**
+ * @type {import('../../../typings').ChatInputCommand}
+ */
+
 module.exports = {
   data: {
-    name: 'deploy',
-    description: 'Re-deploy ApplicationCommand API data',
-
-    // Unavailable to non-admins in guilds
-    default_member_permissions: 0
+    description: 'Re-deploy ApplicationCommand API data'
   },
 
   config: {

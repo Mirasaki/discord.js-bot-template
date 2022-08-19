@@ -1,7 +1,17 @@
+const { OAuth2Scopes, PermissionFlagsBits } = require('discord.js');
 const { readdirSync, statSync } = require('fs');
 const moment = require('moment');
 const path = require('path');
 const colors = require('./config/colors.json');
+
+// Import our constants
+const {
+  NS_IN_ONE_MS,
+  NS_IN_ONE_SECOND,
+  BYTES_IN_KIB,
+  BYTES_IN_MIB,
+  BYTES_IN_GIB
+} = require('./constants');
 
 // Return integer color code
 const colorResolver = (input) => {
@@ -121,13 +131,43 @@ const getApproximateObjectSizeBytes = (obj, bytes = 0) => {
 
   // Return human readable string for displaying the bytes
   const formatByteSize  = (bytes) => {
-    if (bytes < 1024) return `${bytes} bytes`;
-    else if (bytes < 1048576) return `${(bytes / 1024).toFixed(3)} KiB`;
-    else if (bytes < 1073741824) return `${(bytes / 1048576).toFixed(3)} MiB`;
-    else return `${(bytes / 1073741824).toFixed(3)} GiB`;
+    if (bytes < BYTES_IN_KIB) return `${bytes} bytes`;
+    else if (bytes < BYTES_IN_MIB) return `${(bytes / BYTES_IN_KIB).toFixed(3)} KiB`;
+    else if (bytes < BYTES_IN_GIB) return `${(bytes / BYTES_IN_MIB).toFixed(3)} MiB`;
+    else return `${(bytes / BYTES_IN_GIB).toFixed(3)} GiB`;
   };
 
   return formatByteSize(sizeOf(obj));
+};
+
+// Get bot invite link, takes permissions into consideration
+const getBotInviteLink = (client) => {
+  const { commands } = client.container;
+  const uniqueCombinedPermissions = [ ...new Set([].concat(...commands.map((cmd => cmd.config.clientPerms)))) ];
+  return client.generateInvite({
+    scopes: [ OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot ],
+    permissions: uniqueCombinedPermissions.map((rawPerm) => PermissionFlagsBits[rawPerm])
+  });
+};
+
+// Utility wait function
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Get runtime since process.hrtime.bigint() - NOT process.hrtime()
+const DEFAULT_DECIMAL_PRECISION = 2;
+const getRuntime = (hrtime, decimalPrecision = DEFAULT_DECIMAL_PRECISION) => {
+  // Converting
+  const inNS = process.hrtime.bigint() - hrtime;
+  const nsNumber = Number(inNS);
+  const inMS = (nsNumber / NS_IN_ONE_MS).toFixed(decimalPrecision);
+  const InSeconds = (nsNumber / NS_IN_ONE_SECOND).toFixed(decimalPrecision);
+
+  // Return the conversions
+  return {
+    seconds: InSeconds,
+    ms: inMS,
+    ns: inNS
+  };
 };
 
 module.exports = {
@@ -138,5 +178,9 @@ module.exports = {
   parseSnakeCaseArray,
   titleCase,
   capitalizeString,
-  getApproximateObjectSizeBytes
+  getApproximateObjectSizeBytes,
+  getBotInviteLink,
+  wait: sleep,
+  sleep,
+  getRuntime
 };

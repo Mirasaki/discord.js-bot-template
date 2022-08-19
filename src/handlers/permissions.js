@@ -48,14 +48,19 @@ const permConfig = [
     level: 5,
     hasLevel: (member) => config.permissions.ownerId === member.id
   }
-].reverse(); // Reverse the array so the highest permission level is checked first
+];
 
 // Creating a permission level map/list
 const permLevelMap = { ...permConfig.map(({ name }) => name) };
 
+// Reverse the array to check the highest level first
+const sortedPermConfig = permConfig.sort((a, b) => {
+  return b.level - a.level;
+});
+
 // Get someone's permLvl, returns Integer
 const getPermissionLevel = (member, channel) => {
-  for (const currLvl of permConfig) {
+  for (const currLvl of sortedPermConfig) {
     if (currLvl.hasLevel(member, channel)) {
       return currLvl.level;
     }
@@ -86,6 +91,7 @@ const hasChannelPerms = (userId, channel, permArr) => {
 
 module.exports = {
   permConfig,
+  sortedPermConfig,
   permLevelMap,
   getPermissionLevel,
   getInvalidPerms,

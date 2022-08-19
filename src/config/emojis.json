@@ -3,5 +3,5 @@
   "error": "❌",
   "wait": "⏳",
   "info": "ℹ",
-  "bulletPoint": "•"
+  "separator": "•"
 }

@@ -1,19 +1,30 @@
 const { stripIndents } = require('common-tags');
 const { version } = require('discord.js');
+const { BYTES_IN_KIB, MS_IN_ONE_SECOND, MS_IN_ONE_DAY, MS_IN_ONE_HOUR, MS_IN_ONE_MINUTE, SECONDS_IN_ONE_MINUTE, MINUTES_IN_ONE_HOUR, HOURS_IN_ONE_DAY } = require('../../constants');
 const { colorResolver } = require('../../util');
+const moment = require('moment');
 
 const discordVersion =	version.indexOf('dev') < 0 ? version : version.slice(0, version.indexOf('dev') + 3);
 const discordVersionDocLink = `https://discord.js.org/#/docs/discord.js/v${discordVersion.split('.')[0]}/general/welcome`;
 const nodeVersionDocLink = `https://nodejs.org/docs/latest-${process.version.split('.')[0]}.x/api/#`;
 
+/**
+ * @type {import('../../../typings').ChatInputCommand}
+ */
+
 module.exports = {
   data: {
-    name: 'stats',
     description: 'Displays bot stats'
   },
 
   config: {
-    globalCmd: true
+    globalCmd: true,
+    cooldown: {
+      type: 'channel', // Use channel cooldown type instead of default member
+      usages: 1,
+      duration: 30
+    },
+    clientPerms: ['EmbedLinks']
   },
 
   run: async ({ client, interaction }) => {
@@ -41,6 +52,19 @@ module.exports = {
       return (emoji ??= '🔴');
     };
 
+    // Memory Variables
+    const memoryUsage = process.memoryUsage();
+    const memoryUsedInMB = memoryUsage.heapUsed / BYTES_IN_KIB / BYTES_IN_KIB;
+    const memoryAvailableInMB = memoryUsage.heapTotal / BYTES_IN_KIB / BYTES_IN_KIB;
+    const objCacheSizeInMB = memoryUsage.external / BYTES_IN_KIB / BYTES_IN_KIB;
+
+    // Time variables
+    const daysOnline = Math.floor(client.uptime / MS_IN_ONE_DAY);
+    const hoursOnline = parseInt((client.uptime / MS_IN_ONE_HOUR) % HOURS_IN_ONE_DAY, 10);
+    const minutesOnline = parseInt((client.uptime / MS_IN_ONE_MINUTE) % MINUTES_IN_ONE_HOUR, 10);
+    const secondsOnline = parseInt((client.uptime / MS_IN_ONE_SECOND) % SECONDS_IN_ONE_MINUTE, 10);
+    const msOnline = parseInt((client.uptime % MS_IN_ONE_SECOND), 10);
+
     // Replying to the interaction with our embed data
     interaction.editReply({
       content: '\u200b',
@@ -63,14 +87,14 @@ module.exports = {
             {
               name: 'Memory',
               value: stripIndents`
-                💾 **Memory Usage:** ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB
-                ♻️ **Cache Size:** ${(process.memoryUsage().external / 1024 / 1024).toFixed(2)} MB
+                💾 **Memory Usage:** ${memoryUsedInMB.toFixed(2)}/${memoryAvailableInMB.toFixed(2)} MB 
+                ♻️ **Cache Size:** ${objCacheSizeInMB.toFixed(2)} MB
               `,
               inline: true
             },
             {
               name: 'Uptime',
-              value: stripIndents`**📊 I've been online for ${parseInt((client.uptime / (1000 * 60 * 60 * 24)) % 60, 10)} days, ${parseInt((client.uptime / (1000 * 60 * 60)) % 24, 10)} hours, ${parseInt((client.uptime / (1000 * 60)) % 60, 10)} minutes and ${parseInt((client.uptime / 1000) % 60, 10)}.${parseInt((client.uptime % 1000) / 100, 10)} seconds!**`,
+              value: stripIndents`**📊 I've been online for ${daysOnline} days, ${hoursOnline} hours, ${minutesOnline} minutes and ${secondsOnline}.${String(msOnline).charAt(1)} seconds!**`,
               inline: false
             },
             {
@@ -91,7 +115,7 @@ module.exports = {
             }
           ],
           footer: {
-            text: `Made with ❤️ by Mirasaki#0001 ${emojis.bulletPoint} Open to collaborate ${emojis.bulletPoint} me@mirasaki.dev`
+            text: `Made with ❤️ by Mirasaki#0001 ${emojis.separator} Open to collaborate ${emojis.separator} me@mirasaki.dev`
           }
         }
       ]

@@ -1,6 +1,10 @@
 const { stripIndents } = require('common-tags');
 const { colorResolver } = require('../../util');
 
+/**
+ * @type {import('../../../typings').ChatInputCommand}
+ */
+
 module.exports = {
   data: {
     name: 'support',
@@ -8,7 +12,13 @@ module.exports = {
   },
 
   config: {
-    globalCmd: true
+    globalCmd: true,
+    cooldown: {
+      type: 'channel', // Use channel cooldown type instead of default member,
+      usages: 1,
+      duration: 15
+    },
+    clientPerms: ['EmbedLinks']
   },
 
   run: ({ client, interaction }) => {
