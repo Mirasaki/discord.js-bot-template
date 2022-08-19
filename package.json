@@ -43,11 +43,24 @@
     "url": "git+https://github.com/Mirasaki/discord.js-bot-template.git"
   },
   "keywords": [
+    "nodejs",
     "bot-template",
     "template",
+    "boilerplate",
+    "discord-api",
+    "typings",
     "discord",
+    "discordjs",
+    "v14",
     "discord-bot",
-    "discord-bot-template"
+    "discord-bot-template",
+    "slash-commands",
+    "buttons",
+    "modals",
+    "autocomplete",
+    "context-menus",
+    "select-menus",
+    "documented"
   ],
   "author": "Richard Hillebrand (Mirasaki)",
   "license": "MIT",
