@@ -2,7 +2,6 @@ const { stripIndents } = require('common-tags');
 const { version } = require('discord.js');
 const { BYTES_IN_KIB, MS_IN_ONE_SECOND, MS_IN_ONE_DAY, MS_IN_ONE_HOUR, MS_IN_ONE_MINUTE, SECONDS_IN_ONE_MINUTE, MINUTES_IN_ONE_HOUR, HOURS_IN_ONE_DAY } = require('../../constants');
 const { colorResolver } = require('../../util');
-const moment = require('moment');
 
 const discordVersion =	version.indexOf('dev') < 0 ? version : version.slice(0, version.indexOf('dev') + 3);
 const discordVersionDocLink = `https://discord.js.org/#/docs/discord.js/v${discordVersion.split('.')[0]}/general/welcome`;
