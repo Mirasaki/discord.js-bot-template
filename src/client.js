@@ -64,6 +64,11 @@ const SelectMenus = new Collection();
  */
 
 /**
+ * @typedef {Object} Client
+ * @property {ClientContainer} container Our containerized client extensions
+ */
+
+/**
  * @type {ClientContainer}
  */
 module.exports = {
