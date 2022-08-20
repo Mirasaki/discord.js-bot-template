@@ -8,7 +8,7 @@ const { Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus } = requir
 const pkg = require('../package');
 const config = require('../config.js');
 const { clearSlashCommandData, refreshSlashCommandData } = require('./handlers/commands');
-const { getFiles, titleCase, getRuntime } = require('./util');
+const { getFiles, titleCase, getRuntime, bindDirToCollection } = require('./util');
 const path = require('path');
 const clientExtensions = require('./client');
 
@@ -46,126 +46,27 @@ const {
   CLEAR_SLASH_COMMAND_API_DATA
 } = process.env;
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
-(async () => {
-  // Containerizing? =) all our client extensions
-  client.container = clientExtensions;
-  const {
-    commands,
-    contextMenus,
-    buttons,
-    modals,
-    autoCompletes,
-    selectMenus
-  } = client.container;
+// Listen for user requested shutdown
+process.on('SIGINT', () => {
+  logger.info('\nGracefully shutting down from SIGINT (Ctrl-C)');
+  process.exit(0);
+});
 
-  /**
-   * ChatInput, UserContextMenu and MessageContextMenu commands
-   */
+// Error handling / keep alive - ONLY in production as you shouldn't have any
+// unhandledRejection or uncaughtException errors in production
+// these should be addressed in development
+if (process.env.NODE_ENV !== 'production') {
+  process.on('unhandledRejection', (reason, promise) => {
+    logger.syserr('Encountered unhandledRejection error (catch):');
+    logger.printErr(reason, promise);
+  });
+  process.on('uncaughtException', (err, origin) => {
+    logger.syserr('Encountered uncaughtException error:');
+    logger.printErr(err, origin);
+  });
+}
 
-  // Binding our Chat Input/Slash commands
-  for (const filePath of getFiles(
-    path.join('src', 'commands'),
-    ['.js', '.mjs', '.cjs'])
-  ) {
-    // Require as module
-    const module = require(filePath);
-    // Calling the class constructor
-    const command = new ChatInputCommand({ ...module, filePath });
-
-    // Debug Logging
-    if (DEBUG_ENABLED === 'true') {
-      logger.debug(`${chalk.black('[Chat Input Command]')} Loading <${chalk.cyanBright(command.data.name)}>`);
-    }
-
-    // Set the command in our command collection
-    commands.set(command.data.name, command);
-  }
-
-  // Binding our User Context Menu commands
-  for (const filePath of getFiles(
-    path.join('src', 'context-menus', 'user'),
-    ['.js', '.mjs', '.cjs'])
-  ) {
-    const module = require(filePath);
-    const command = new UserContextCommand({ ...module, filePath });
-    if (DEBUG_ENABLED === 'true') logger.debug(`${chalk.black('[User Context Menu]')} Loading <${chalk.cyanBright(command.data.name)}>`);
-    contextMenus.set(command.data.name, command);
-  }
-
-  // Binding our Message Context Menu commands
-  for (const filePath of getFiles(
-    path.join('src', 'context-menus', 'message'),
-    ['.js', '.mjs', '.cjs'])
-  ) {
-    const module = require(filePath);
-    const command = new MessageContextCommand({ ...module, filePath });
-    if (DEBUG_ENABLED === 'true') logger.debug(`${chalk.black('[Message Context Menu]')} Loading <${chalk.cyanBright(command.data.name)}>`);
-    contextMenus.set(command.data.name, command);
-  }
-
-  // Clear only executes if enabled in .env
-  if (CLEAR_SLASH_COMMAND_API_DATA === 'true') {
-    clearSlashCommandData();
-  }
-
-  // Refresh InteractionCommand data if requested
-  refreshSlashCommandData(client);
-
-  /**
-   * Components
-   * Buttons, Modals, Autocomplete, etc etc
-   */
-
-  // Binding our Button interactions
-  for (const filePath of getFiles(
-    path.join('src', 'interactions', 'buttons'),
-    ['.js', '.mjs', '.cjs'])
-  ) {
-    const module = require(filePath);
-    const command = new ComponentCommand({ ...module, filePath });
-    if (DEBUG_ENABLED === 'true') logger.debug(`${chalk.black('[Button Command]')} Loading <${chalk.cyanBright(command.data.name)}>`);
-    buttons.set(command.data.name, command);
-  }
-
-  // Binding our Modal interactions
-  for (const filePath of getFiles(
-    path.join('src', 'interactions', 'modals'),
-    ['.js', '.mjs', '.cjs'])
-  ) {
-    const module = require(filePath);
-    const command = new ComponentCommand({ ...module, filePath });
-    if (DEBUG_ENABLED === 'true') logger.debug(`${chalk.black('[Modal Command]')} Loading <${chalk.cyanBright(command.data.name)}>`);
-    modals.set(command.data.name, command);
-  }
-
-  // Binding our Autocomplete interactions
-  for (const filePath of getFiles(
-    path.join('src', 'interactions', 'autocomplete'),
-    ['.js', '.mjs', '.cjs'])
-  ) {
-    const module = require(filePath);
-    const command = new ComponentCommand({ ...module, filePath });
-    if (DEBUG_ENABLED === 'true') logger.debug(`${chalk.black('[AutoComplete Query]')} Loading <${chalk.cyanBright(command.data.name)}>`);
-    autoCompletes.set(command.data.name, command);
-  }
-
-  // Binding our Select Menu interactions
-  for (const filePath of getFiles(
-    path.join('src', 'interactions', 'select-menus'),
-    ['.js', '.mjs', '.cjs'])
-  ) {
-    const module = require(filePath);
-    const command = new ComponentCommand({ ...module, filePath });
-    if (DEBUG_ENABLED === 'true') logger.debug(`${chalk.black('[Select Menu]')} Loading <${chalk.cyanBright(command.data.name)}>`);
-    selectMenus.set(command.data.name, command);
-  }
-
-  /**
-   * Events / Listeners
-   */
-
-  // Registering our listeners
+const registerListeners = () => {
   const eventFiles = getFiles('src/listeners', '.js');
   const eventNames = eventFiles.map((filePath) => filePath.slice(
     filePath.lastIndexOf(path.sep) + 1,
@@ -188,6 +89,57 @@ const {
     const eventFile = require(filePath);
     client.on(eventName, (...received) => eventFile(client, ...received));
   }
+};
+
+const bindCommandsToClient = () => {
+  const {
+    commands,
+    contextMenus,
+    buttons,
+    modals,
+    autoCompletes,
+    selectMenus
+  } = client.container;
+
+  // Binding our Chat Input/Slash commands
+  bindDirToCollection('src/commands', ChatInputCommand, commands, 'Chat Input Command');
+
+  // Binding our User Context Menu commands
+  bindDirToCollection('src/context-menus/user', UserContextCommand, contextMenus, 'User Context Menu');
+
+  // Binding our Message Context Menu commands
+  bindDirToCollection('src/context-menus/message', MessageContextCommand, contextMenus, 'Message Context Menu');
+
+  // Binding our Button interactions
+  bindDirToCollection('src/interactions/buttons', ComponentCommand, buttons, 'Button Interaction');
+
+  // Binding our Modal interactions
+  bindDirToCollection('src/interactions/modals', ComponentCommand, modals, 'Modal Interaction');
+
+  // Binding our Autocomplete interactions
+  bindDirToCollection('src/interactions/autocomplete', ComponentCommand, autoCompletes, 'Auto Complete');
+
+  // Binding our Select Menu interactions
+  bindDirToCollection('src/interactions/select-menus', ComponentCommand, selectMenus, 'Select Menu');
+};
+
+(async () => {
+  // Containerizing? =) all our client extensions
+  client.container = clientExtensions;
+
+  // Clear only executes if enabled in .env
+  if (CLEAR_SLASH_COMMAND_API_DATA === 'true') {
+    clearSlashCommandData();
+  }
+
+  // Binding all our components and commands to our client
+  bindCommandsToClient();
+
+  // Refresh InteractionCommand data if requested
+  refreshSlashCommandData(client);
+
+  // Registering our listeners
+  registerListeners();
 
 
   /**
@@ -201,23 +153,3 @@ const {
   // Logging in to our client
   client.login(DISCORD_BOT_TOKEN);
 })();
-
-// Listen for user requested shutdown
-process.on('SIGINT', () => {
-  logger.info('\nGracefully shutting down from SIGINT (Ctrl-C)');
-  process.exit(0);
-});
-
-// Error handling / keep alive - ONLY in production as you shouldn't have any
-// unhandledRejection or uncaughtException errors in production
-// these should be addressed in development
-if (process.env.NODE_ENV !== 'production') {
-  process.on('unhandledRejection', (reason, promise) => {
-    logger.syserr('Encountered unhandledRejection error (catch):');
-    logger.printErr(reason, promise);
-  });
-  process.on('uncaughtException', (err, origin) => {
-    logger.syserr('Encountered uncaughtException error:');
-    logger.printErr(err, origin);
-  });
-}
