@@ -271,7 +271,7 @@ export interface ClientEmojiConfiguration {
   /**
    * Emoji prefix used as a separator
    */
-   separator: string;
+  separator: string;
   /**
    * Extend to your heart's content: /src/config/emojis.json
    */
