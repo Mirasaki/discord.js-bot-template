@@ -7,10 +7,6 @@ const path = require('path');
 const chalk = require('chalk');
 
 /**
- * @typedef {import('discord.js')} Discord
- */
-
-/**
  * Valid permission levels
  * @typedef {'User' | 'Moderator' | 'Administrator' | 'Server Owner' | 'Developer' | 'Bot Owner'} PermLevel
  */

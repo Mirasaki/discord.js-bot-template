@@ -14,10 +14,6 @@ const AutoCompletes = new Collection();
 const SelectMenus = new Collection();
 
 /**
- * @typedef {import('discord.js')} Discord
- */
-
-/**
  * @typedef {Object} ClientConfigPresence
  * @property {Discord.PresenceUpdateStatus} status The client's status (online, busy, dnd, offline)
  * @property {Array<ClientConfigPresenceActivity>} activities Array of client activities
@@ -67,6 +63,9 @@ const SelectMenus = new Collection();
  * @property {Collection<string, ComponentCommand>} selectMenus Select Menu commands
  */
 
+/**
+ * @type {ClientContainer}
+ */
 module.exports = {
   // Config
   config,
