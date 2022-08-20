@@ -1,5 +1,8 @@
 const APICommand = require('./APICommand');
 
+/**
+ * @augments APICommand
+ */
 class UserContextCommand extends APICommand {
   constructor (cmd) {
     super(cmd);
