@@ -21,7 +21,9 @@
     "pm2:logsError": "pm2 logs --err --lines 300 discord.js-bot-template",
     "lint": "eslint src",
     "linter": "eslint src --fix",
-    "writeLinter": "eslint src --output-file linter-output.txt"
+    "writeLinter": "eslint src --output-file linter-output.txt",
+    "doc": "jsdoc -u ./tutorials --readme README.md -c jsdoc.json",
+    "types": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
     "@discordjs/rest": "^1.0.1",
@@ -31,8 +33,10 @@
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
+    "better-docs": "^2.7.2",
     "eslint": "^8.15.0",
     "eslint-plugin-sonarjs": "^0.13.0",
+    "jsdoc": "^3.6.11",
     "nodemon": "^2.0.16"
   },
   "engines": {
