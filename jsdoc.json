@@ -1,6 +1,11 @@
 {
   "source": {
-    "include": ["src"],
+    "include": [
+      "src/classes",
+      "src/handlers",
+      "src/client.js",
+      "src/util.js"
+    ],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },
