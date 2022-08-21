@@ -19,6 +19,12 @@ const AutoCompletes = new Collection();
 const SelectMenus = new Collection();
 
 /**
+ * The `discord.js` Client class/object
+ * @external DiscordClient
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/class/Client}
+ */
+
+/**
  * The status of this presence, online, idle or dnd
  * @external DiscordClientPresenceStatus
  * @see {@link https://discord.js.org/#/docs/discord.js/main/typedef/ClientPresenceStatus}
@@ -81,7 +87,8 @@ const SelectMenus = new Collection();
  */
 
 /**
- * @typedef {Object} Client
+ * @interface Client
+ * @extends {external:DiscordClient}
  * @property {module:Client~ClientContainer} container Our containerized client extensions
  */
 
