@@ -10,6 +10,13 @@ const {
  */
 
 module.exports = {
+  global: true,
+  cooldown: {
+    type: 'user', // Use user cooldown type instead of default member
+    usages: 2,
+    duration: 10
+  },
+  clientPerms: ['EmbedLinks'],
   data: {
     description: 'Receive detailed command information',
     options: [{
@@ -21,18 +28,8 @@ module.exports = {
     }]
   },
 
-  config: {
-    globalCmd: true,
-    cooldown: {
-      type: 'user', // Use user cooldown type instead of default member
-      usages: 2,
-      duration: 10
-    },
-    clientPerms: ['EmbedLinks']
-  },
-
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  run: ({ client, interaction }) => {
+  run: (client, interaction) => {
     // Destructuring
     const { member } = interaction;
     const { commands, emojis } = client.container;

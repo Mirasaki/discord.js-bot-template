@@ -8,7 +8,7 @@
  */
 
 module.exports = {
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
 
   }
 }

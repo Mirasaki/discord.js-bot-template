@@ -8,21 +8,18 @@ const { getBotInviteLink, colorResolver } = require('../../util');
  */
 
 module.exports = {
+  global: true,
+  cooldown: {
+    type: 'guild', // Use guild/server cooldown instead of default member
+    usages: 3,
+    duration: 10
+  },
+  clientPerms: ['EmbedLinks'],
   data: {
     description: 'Add the bot to your server!'
   },
 
-  config: {
-    globalCmd: true,
-    cooldown: {
-      type: 'guild', // Use guild/server cooldown instead of default member
-      usages: 3,
-      duration: 10
-    },
-    clientPerms: ['EmbedLinks']
-  },
-
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Replying to the interaction with the bot-invite link
     // Not a top-level static variable to take /reload
     // changes into consideration

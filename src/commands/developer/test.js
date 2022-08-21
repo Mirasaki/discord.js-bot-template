@@ -5,6 +5,7 @@ const { ApplicationCommandOptionType } = require('discord.js');
  */
 
 module.exports = {
+  permLevel: 'Developer',
   data: {
     description: 'Test command for the developers',
     options: [
@@ -18,11 +19,7 @@ module.exports = {
     default_member_permissions: 0 // Unavailable to non-admins in guilds
   },
 
-  config: {
-    permLevel: 'Developer'
-  },
-
-  run: ({ client, interaction }) => {
+  run: (client, interaction) => {
     // ...
   }
 };

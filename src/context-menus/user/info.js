@@ -11,16 +11,14 @@ const MAX_ROLE_DISPLAY_LENGTH = 25;
  */
 
 module.exports = {
-  config: {
-    clientPerms: ['EmbedLinks'],
-    globalCmd: true,
-    cooldown: {
-      usages: 1,
-      duration: 5
-    }
+  clientPerms: ['EmbedLinks'],
+  global: true,
+  cooldown: {
+    usages: 1,
+    duration: 5
   },
 
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Destructure from interaction and client container
     const { member, targetId, guild } = interaction;
     const { emojis, colors } = client.container;

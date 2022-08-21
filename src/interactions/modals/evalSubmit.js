@@ -13,7 +13,7 @@ module.exports = {
     // our owm custom component id
     name: EVAL_CODE_MODAL
   },
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     const { member } = interaction;
     const { emojis } = client.container;
 

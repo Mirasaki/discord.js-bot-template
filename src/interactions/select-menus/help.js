@@ -11,7 +11,7 @@ module.exports = {
     name: HELP_COMMAND_SELECT_MENU
   },
 
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     const { commands, emojis } = client.container;
     const selectTargetValue = interaction.values[0];
     const { member } = interaction;

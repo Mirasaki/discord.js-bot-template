@@ -12,21 +12,18 @@ const nodeVersionDocLink = `https://nodejs.org/docs/latest-${process.version.spl
  */
 
 module.exports = {
+  global: true,
+  cooldown: {
+    type: 'channel', // Use channel cooldown type instead of default member
+    usages: 1,
+    duration: 30
+  },
+  clientPerms: ['EmbedLinks'],
   data: {
     description: 'Displays bot stats'
   },
 
-  config: {
-    globalCmd: true,
-    cooldown: {
-      type: 'channel', // Use channel cooldown type instead of default member
-      usages: 1,
-      duration: 30
-    },
-    clientPerms: ['EmbedLinks']
-  },
-
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     const { emojis } = client.container;
 
     // Calculating our API latency

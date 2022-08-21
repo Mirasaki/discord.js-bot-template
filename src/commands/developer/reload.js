@@ -12,6 +12,7 @@ const { colorResolver } = require('../../util');
  */
 
 module.exports = {
+  permLevel: 'Developer',
   data: {
     description: 'Reload an active, existing command',
     options: [{
@@ -23,11 +24,7 @@ module.exports = {
     }]
   },
 
-  config: {
-    permLevel: 'Developer'
-  },
-
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Destructure
     const { member, options } = interaction;
     const { emojis, colors, commands } = client.container;

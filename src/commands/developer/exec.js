@@ -7,6 +7,8 @@ const { colorResolver, getRuntime } = require('../../util');
  */
 
 module.exports = {
+  permLevel: 'Developer',
+  clientPerms: ['EmbedLinks', 'AttachFiles'],
   data: {
     description: 'Execute console commands',
     options: [
@@ -21,12 +23,7 @@ module.exports = {
     ]
   },
 
-  config: {
-    permLevel: 'Developer',
-    clientPerms: ['EmbedLinks', 'AttachFiles']
-  },
-
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Destructuring
     const { member, options } = interaction;
     const { emojis, colors } = client.container;

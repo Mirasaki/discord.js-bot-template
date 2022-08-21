@@ -32,7 +32,7 @@ module.exports = async (client, interaction) => {
   }
 
   // Getting the result
-  const result = await autoCompleteQueryHandler.run({ client, interaction, query });
+  const result = await autoCompleteQueryHandler.run(client, interaction, query);
 
   // Returning our query result
   interaction.respond(

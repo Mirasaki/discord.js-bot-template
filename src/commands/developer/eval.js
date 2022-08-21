@@ -8,16 +8,12 @@ const { EVAL_CODE_MODAL, EVAL_CODE_INPUT } = require('../../constants');
  */
 
 module.exports = {
+  permLevel: 'Developer',
+  clientPerms: ['EmbedLinks','AttachFiles'],
   data: {
     description: 'Evaluate arbitrary JavaScript code'
   },
-
-  config: {
-    permLevel: 'Developer',
-    clientPerms: ['EmbedLinks','AttachFiles']
-  },
-
-  run: async ({ interaction }) => {
+  run: async (client, interaction) => {
     // Code Modal
     const codeModal = new ModalBuilder()
       .setCustomId(EVAL_CODE_MODAL)

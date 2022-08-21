@@ -9,17 +9,16 @@ const logger = require('@mirasaki/logger');
  */
 
 module.exports = {
+  // Additional layer of protection
+  permLevel: 'Developer',
+  // Discord API data
   data: {
     // Overwriting the default file name without
     // our owm custom component id
     name: ACCEPT_EVAL_CODE_EXECUTION
   },
-  config: {
-    // Additional layer of protection
-    permLevel: 'Developer'
-  },
 
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Destructure from interaction and client
     const { member, message } = interaction;
     const { emojis, colors } = client.container;

@@ -2,7 +2,31 @@
  * Our command handler, holds utility functions and everything to do with
  * handling commands in this template. Exported from `/src/handlers/commands.js`.
  * See {@tutorial adding-commands} for an overview.
- * @module CommandHandler
+ * @module Handler/Commands
+ */
+
+/**
+ * Discord API command data
+ * @external DiscordAPIApplicationCommand
+ * @see {@link https://discord-api-types.dev/api/discord-api-types-v10/interface/APIApplicationCommand}
+ */
+
+/**
+ * The command interaction received
+ * @external DiscordCommandInteraction
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/class/CommandInteraction}
+ */
+
+/**
+ * The `discord.js` ActionRowBuilder
+ * @external DiscordActionRowBuilder
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/class/ActionRowBuilder}
+ */
+
+/**
+ * The `discord.js` EmbedBuilder
+ * @external DiscordEmbedBuilder
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/class/EmbedBuilder}
  */
 
 // Require dependencies
@@ -74,7 +98,7 @@ const sortCommandsByCategory = (commands) => {
   let currentCategory = '';
   const sorted = [];
   commands.forEach(cmd => {
-    const workingCategory = titleCase(cmd.data.category);
+    const workingCategory = titleCase(cmd.category);
     if (currentCategory !== workingCategory) {
       sorted.push({
         category: workingCategory,
@@ -118,14 +142,17 @@ const refreshSlashCommandData = (client) => {
  * @enum {string}
  */
 const apiCommandTypeList = {
+  /** Slash Command */
   1: 'Slash Command',
+  /** User Context Menu */
   2: 'User Context Menu',
+  /** Message Context Menu */
   3: 'Message Context Menu'
 };
 
 /**
  * (debug) Logs the Discord API InteractionCommand data to the console using `console.table`
- * @param {Discord.APIApplicationCommand} apiData The data returned from the
+ * @param {external:DiscordAPIApplicationCommand} apiData The data returned from the
  * Discord api after making a command request
  * @returns {void} Nothing
  */
@@ -135,7 +162,6 @@ const logCommandApiData = (cmdData) => {
     (data) => ({
       name: data.name,
       description: data.description || 'n/a',
-      category: data.category,
       options: data.options?.length || 0,
       type: apiCommandTypeList[data.type]
     })
@@ -146,7 +172,7 @@ const logCommandApiData = (cmdData) => {
 /**
  * Concatenates all our API command data, and refreshes/registers global command data to the Discord API
  * @param {Client} client Our extended discord.js client
- * @returns {Promise<Array<Discord.APIApplicationCommand>>} Discord API command data
+ * @returns {Promise<Array<external:DiscordAPIApplicationCommand>>} Discord API command data
  */
 const registerGlobalCommands = async (client) => {
   // Logging
@@ -157,8 +183,8 @@ const registerGlobalCommands = async (client) => {
   const combinedData = commands.concat(contextMenus);
   const globalCommandData = combinedData
     .filter((cmd) =>
-      cmd.config.globalCmd === true
-      && cmd.config.enabled === true
+      cmd.global === true
+      && cmd.enabled === true
     )
     .map((cmd) => cmd.data);
 
@@ -193,7 +219,7 @@ const registerGlobalCommands = async (client) => {
 /**
  * Concatenates all our API command data, and refreshes/registers server command data to the Discord API
  * @param {Client} client Our extended discord.js client
- * @returns {Promise<Array<Discord.APIApplicationCommand>>} Discord API command data
+ * @returns {Promise<Array<external:DiscordAPIApplicationCommand>>} Discord API command data
  */
 const registerTestServerCommands = async (client) => {
   // Defining our variables
@@ -201,8 +227,8 @@ const registerTestServerCommands = async (client) => {
   const combinedData = commands.concat(contextMenus);
   const testServerCommandData = combinedData
     .filter((cmd) =>
-      cmd.config.globalCmd === false // Filter out global commands
-      && cmd.config.enabled === true
+      cmd.global === false // Filter out global commands
+      && cmd.enabled === true
     )
     .map((cmd) => cmd.data);
 
@@ -254,8 +280,8 @@ const registerTestServerCommands = async (client) => {
 /**
  * Assigns a unique id depending on cooldown type and data id's
  * @param {CommandBaseCooldown} cooldown The cooldown configuration
- * @param {Discord.APIApplicationCommand} data The Discord API command data
- * @param {Discord.CommandInteraction} interaction The interaction received where this cooldown will apply to
+ * @param {external:DiscordAPIApplicationCommand} data The Discord API command data
+ * @param {external:DiscordCommandInteraction} interaction The interaction received where this cooldown will apply to
  * @returns {string} The unique identifier for the cooldown that will be applied
  */
 const getThrottleId = (cooldown, data, interaction) => {
@@ -290,7 +316,7 @@ const ThrottleMap = new Map();
 /**
  * Throttles the invoked command/applies & manages cooldown for the command
  * @param {Command} clientCmd The command to throttle
- * @param {Discord.CommandInteraction} interaction The received interaction
+ * @param {external:DiscordCommandInteraction} interaction The received interaction
  * @returns {boolean} Indicates if the command is actively being throttled.
  * true: It went through and was executed, false: command is actively being throttled / command denied.
  */
@@ -372,7 +398,7 @@ const throttleCommand = (clientCmd, interaction) => {
  * Checks internal permission level required, additional required Discord permissions,
  * if the command is currently enabled and if the command is NSFW and in a NSFW channel.
  * @param {Client} client Our extended discord.js client
- * @param {Discord.CommandInteraction} interaction The received interaction
+ * @param {external:DiscordCommandInteraction} interaction The received interaction
  * @param {Command} clientCmd The command to check if it can execute
  * @returns {boolean} Indicates if the command can be executed or not.
  */
@@ -380,14 +406,14 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
   // Required destructuring
   const { member, channel } = interaction;
   const { emojis } = client.container;
-  const { config, data } = clientCmd;
+  const { data, permLevel, enabled, clientPerms, userPerms, nsfw } = clientCmd;
 
   // Get permission levels
-  const commandPermLvl = config.permLevel;
+  const commandPermLvl = permLevel;
 
   // Check if the command is currently disabled
   // Needed 'cuz it takes a while for CommandInteractions to sync across server
-  if (config.enabled === false) {
+  if (enabled === false) {
     interaction.reply({
       content: `${emojis} ${member}, this command is currently disabled. Please try again later.`
     });
@@ -413,8 +439,8 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
   }
 
   // Check for missing client Discord App permissions
-  if (config.clientPerms.length !== 0) {
-    const missingPerms = hasChannelPerms(client.user.id, channel, config.clientPerms);
+  if (clientPerms.length !== 0) {
+    const missingPerms = hasChannelPerms(client.user.id, channel, clientPerms);
     if (missingPerms !== true) {
       interaction.reply({
         content: `${emojis.error} ${member}, this command can't be executed because I lack the following permissions in ${channel}\n${emojis.separator} ${missingPerms.join(', ')}`
@@ -424,8 +450,8 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
   }
 
   // Check for missing user Discord App permissions
-  if (config.userPerms.length !== 0) {
-    const missingPerms = hasChannelPerms(member.user.id, channel, config.userPerms);
+  if (userPerms.length !== 0) {
+    const missingPerms = hasChannelPerms(member.user.id, channel, userPerms);
     if (missingPerms !== true) {
       interaction.reply({
         content: `${emojis.error} ${member}, this command can't be executed because you lack the following permissions in ${channel}:\n${emojis.separator} ${missingPerms.join(', ')}`
@@ -435,7 +461,7 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
   }
 
   // Check for NSFW commands and channels
-  if (config.nsfw === true && channel.nsfw !== true) {
+  if (nsfw === true && channel.nsfw !== true) {
     interaction.reply({
       content: `${emojis.error} ${member}, that command is marked as **NSFW**, you can't use it in a **SFW** channel!`,
       ephemeral: true
@@ -449,7 +475,7 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
 
 /**
  * Checks if the member has access to the component command
- * @param {Discord.CommandInteraction} interaction The received interaction
+ * @param {external:DiscordCommandInteraction} interaction The received interaction
  * @returns {boolean} Indicates if the component command is meant for the user that invoked it
  */
 const hasAccessToComponentCommand = (interaction) => {
@@ -461,7 +487,7 @@ const hasAccessToComponentCommand = (interaction) => {
 /**
  * Represents a filter that filters out commands that aren't appropriate for the invoker,
  * checks permission level, server-specific commands, and if the command is enabled
- * @param {Discord.GuildMember} member The Discord API member object, extended by discord.js
+ * @param {external:DiscordGuildMember} member The Discord API member object, extended by discord.js
  * @param {commandBaseConfig} cmdConfig Our client-side command configuration
  * @returns {boolean} Indicates whether or not this command is appropriate for the command invoker
  */
@@ -472,7 +498,7 @@ const isAppropriateCommandFilter = (member, cmdConfig) =>
   && cmdConfig.enabled === true
   // Filtering out test commands
   && (
-    cmdConfig.globalCmd === true
+    cmdConfig.global === true
       ? true
       : member.guild.id === TEST_SERVER_GUILD_ID
   );
@@ -486,12 +512,12 @@ const commandMap = [];
  * @property {string} name The name of the command
  * @property {number} permLevel A number representing the required permission level
  * @property {string} category The category this command belongs too
- * @property {boolean} globalCmd Indicates if the command is enabled globally
+ * @property {boolean} global Indicates if the command is enabled globally
  */
 
 /**
  * Returns an array with minimal command data
- * @returns {Array<module:CommandHandler~CommandMapDataObj>}
+ * @returns {Array<module:Handler/Commands~CommandMapDataObj>}
  */
 const getCommandMap = () => {
   // Defining our function to populate our commandMap
@@ -499,17 +525,17 @@ const getCommandMap = () => {
   // in our top level scope - so it would retrieve the empty collection
   if (commandMap.length === 0) {
     for (const cmd of commands) {
-      const { config, data } = cmd[1];
+      const { data, enabled, permLevel, global, category } = cmd[1];
       // Checking for command availability
-      if (!config.enabled) continue;
+      if (!enabled) continue;
 
       // Pushing the entry to our map if it's available
       commandMap.push({
         name: data.name,
-        permLevel: config.permLevel,
+        permLevel,
         description: data.description,
-        category: data.category,
-        globalCmd: config.globalCmd
+        category,
+        global
       });
     }
   }
@@ -520,8 +546,8 @@ const getCommandMap = () => {
 
 /**
  * Generates a Select Menu data object using command data
- * @param {Discord.GuildMember} member The Discord API member
- * @returns {Discord.ActionRowBuilder} The final select menu data object
+ * @param {external:DiscordGuildMember} member The Discord API member
+ * @returns {external:DiscordActionRowBuilder} The final select menu data object
  */
 const getCommandSelectMenu = (member) => {
   // Filtering out unusable commands
@@ -561,12 +587,12 @@ const getCommandSelectMenu = (member) => {
 /**
  * Generates an embed displaying command information
  * @param {Command} clientCmd The command object to build the embed from
- * @param {Discord.CommandInteraction} interaction The received interaction
- * @returns {Discord.EmbedBuilder} The final embed with the command information
+ * @param {external:DiscordCommandInteraction} interaction The received interaction
+ * @returns {external:DiscordEmbedBuilder} The final embed with the command information
  */
 const generateCommandInfoEmbed = (clientCmd, interaction) => {
   // Destructure from our clientCmd object
-  const { data, config } = clientCmd;
+  const { data, cooldown, clientPerms, userPerms, category } = clientCmd;
   const { channel, member } = interaction;
 
   // Utility function for displaying our permission requirements
@@ -590,25 +616,25 @@ const generateCommandInfoEmbed = (clientCmd, interaction) => {
     fields: [
       {
         name: 'Category',
-        value: titleCase(data.category),
+        value: titleCase(category),
         inline:  true
       },
       {
         name: `${emojis.wait} Cooldown`,
         value: `You can use this command **${
-          config.cooldown.usages === 1 ? 'once' :
-            config.cooldown.usages === 2 ? 'twice' : `${config.cooldown.usages} times`
-        }** every **${config.cooldown.duration}** second${config.cooldown.duration === 1 ? '' : 's'}`,
+          cooldown.usages === 1 ? 'once' :
+            cooldown.usages === 2 ? 'twice' : `${cooldown.usages} times`
+        }** every **${cooldown.duration}** second${cooldown.duration === 1 ? '' : 's'}`,
         inline: false
       },
       {
         name: 'Client Permissions',
-        value: getPermOutput(config.clientPerms),
+        value: getPermOutput(clientPerms),
         inline: true
       },
       {
         name: 'User Permissions',
-        value: getPermOutput(config.userPerms),
+        value: getPermOutput(userPerms),
         inline: true
       },
       {
@@ -622,9 +648,9 @@ const generateCommandInfoEmbed = (clientCmd, interaction) => {
 
 /**
  * Generates an embed displaying all available commands
- * @param {Discord.Collection<string, ChatInputCommand>} commands The commands to generate the embed from
- * @param {Discord.CommandInteraction} interaction The received interaction to read data from
- * @returns {Discord.EmbedBuilder} The final embed data object
+ * @param {external:DiscordCollection<string, ChatInputCommand>} commands The commands to generate the embed from
+ * @param {external:DiscordCommandInteraction} interaction The received interaction to read data from
+ * @returns {external:DiscordEmbedBuilder} The final embed data object
  */
 const generateCommandOverviewEmbed = (commands, interaction) => {
   const { member, guild } = interaction;
@@ -633,7 +659,7 @@ const generateCommandOverviewEmbed = (commands, interaction) => {
   const fields = [
     ...sortCommandsByCategory(
       // Filtering out command the user doesn't have access to
-      commands.filter((cmd) => cmd.config.permLevel <= member.permLevel)
+      commands.filter((cmd) => cmd.permLevel <= member.permLevel)
     )
       .map((entry) => {
         return {

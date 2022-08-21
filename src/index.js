@@ -13,10 +13,12 @@ const path = require('path');
 const clientExtensions = require('./client');
 
 // Classes - Alternatively import from ./classes/index
-const ChatInputCommand = require('./classes/commands/ChatInputCommand');
-const UserContextCommand = require('./classes/commands/UserContextCommand');
-const MessageContextCommand = require('./classes/commands/MessageContextCommand');
-const ComponentCommand = require('./classes/commands/ComponentCommand');
+const {
+  ChatInputCommand,
+  UserContextCommand,
+  MessageContextCommand,
+  ComponentCommand
+} = require('./classes/Commands');
 
 // Clear the console in non-production modes & print vanity
 process.env.NODE_ENV !== 'production' && console.clear();

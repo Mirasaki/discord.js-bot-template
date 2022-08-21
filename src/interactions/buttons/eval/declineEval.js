@@ -11,7 +11,7 @@ module.exports = {
     name: DECLINE_EVAL_CODE_EXECUTION
   },
 
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     const { member, message } = interaction;
     const { emojis } = client.container;
 

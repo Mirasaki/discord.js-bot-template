@@ -3,6 +3,12 @@
  * @module Utils
  */
 
+/**
+ * The `discord.js` Collection
+ * @external DiscordCollection
+ * @see {@link https://discord.js.org/#/docs/collection/main/class/Collection}
+ */
+
 // Importing from libraries
 const { OAuth2Scopes, PermissionFlagsBits } = require('discord.js');
 const { readdirSync, statSync } = require('fs');
@@ -124,7 +130,7 @@ const parseSnakeCaseArray = (arr) => {
  */
 const getBotInviteLink = (client) => {
   const { commands } = client.container;
-  const uniqueCombinedPermissions = [ ...new Set([].concat(...commands.map((cmd => cmd.config.clientPerms)))) ];
+  const uniqueCombinedPermissions = [ ...new Set([].concat(...commands.map((cmd => cmd.clientPerms)))) ];
   return client.generateInvite({
     scopes: [ OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot ],
     permissions: uniqueCombinedPermissions.map((rawPerm) => PermissionFlagsBits[rawPerm])
@@ -161,12 +167,12 @@ const getRuntime = (hrtime, decimalPrecision = DEFAULT_DECIMAL_PRECISION) => {
 
 /**
  * Bind a category of JavaScript files to a Discord Collection
- * @param {Array<string>} dirPath The path to the target directory
+ * @param {string} dirPath The path to the target directory
  * @param {ChatInputCommand | UserContextCommand | MessageContextCommand | ComponentCommand} Constructor Type of class constructor
- * @param {Discord.Collection} collection discord.js Collection being used
+ * @param {external:DiscordCollection} collection discord.js Collection being used
  * @param {string} typeStr Debug string
  * @param {Array<string>} [extensions=['.js', '.mjs', '.cjs']] Extensions to look for in the folder
- * @returns {Discord.Collection} The collection holding all the modules
+ * @returns {external:DiscordCollection} The collection holding all the modules
  */
 const bindDirToCollection = (dirPath, Constructor, collection, typeStr, extensions = ['.js', '.mjs', '.cjs']) => {
   for (const filePath of getFiles(dirPath, extensions)) {

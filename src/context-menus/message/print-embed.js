@@ -7,17 +7,15 @@ const { colorResolver } = require('../../util');
  */
 
 module.exports = {
-  config: {
-    clientPerms: ['EmbedLinks'],
-    globalCmd: true,
-    cooldown: {
-      type: 'guild', // Use guild type cooldown instead of default member
-      usages: 2,
-      duration: 30
-    }
+  clientPerms: ['EmbedLinks'],
+  global: true,
+  cooldown: {
+    type: 'guild', // Use guild type cooldown instead of default member
+    usages: 2,
+    duration: 30
   },
 
-  run: async ({ interaction, client }) => {
+  run: async (client, interaction) => {
     // Destructure from interaction and client container
     const { member, targetId, channel } = interaction;
     const { emojis, colors } = client.container;

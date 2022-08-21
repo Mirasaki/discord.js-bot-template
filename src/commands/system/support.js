@@ -6,22 +6,19 @@ const { colorResolver } = require('../../util');
  */
 
 module.exports = {
+  globak: true,
+  cooldown: {
+    type: 'channel', // Use channel cooldown type instead of default member,
+    usages: 1,
+    duration: 15
+  },
+  clientPerms: ['EmbedLinks'],
   data: {
     name: 'support',
     description: 'Get a link to this bot\'t support server'
   },
 
-  config: {
-    globalCmd: true,
-    cooldown: {
-      type: 'channel', // Use channel cooldown type instead of default member,
-      usages: 1,
-      duration: 15
-    },
-    clientPerms: ['EmbedLinks']
-  },
-
-  run: ({ client, interaction }) => {
+  run: (client, interaction) => {
     interaction.reply({
       embeds: [{
         // Not passing an parameter to colorResolver

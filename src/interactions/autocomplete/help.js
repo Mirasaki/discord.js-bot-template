@@ -5,7 +5,7 @@ const { isAppropriateCommandFilter, getCommandMap } = require('../../handlers/co
  */
 
 module.exports = {
-  run: async ({ client, interaction, query }) => {
+  run: async (client, interaction, query) => {
     const { member } = interaction;
     // Filtering out unusable commands
     const commandMap = getCommandMap();

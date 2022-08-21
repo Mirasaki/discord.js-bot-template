@@ -6,15 +6,11 @@ const { refreshSlashCommandData } = require('../../handlers/commands');
  */
 
 module.exports = {
+  permLevel: 'Developer',
   data: {
     description: 'Re-deploy ApplicationCommand API data'
   },
-
-  config: {
-    permLevel: 'Developer'
-  },
-
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     const { member } = interaction;
     const { emojis } = client.container;
 

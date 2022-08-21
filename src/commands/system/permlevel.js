@@ -5,19 +5,16 @@ const { permConfig } = require('../../handlers/permissions');
  */
 
 module.exports = {
+  global: true,
+  cooldown: { // Default member type cooldown
+    usages: 1,
+    duration: 10
+  },
   data: {
     description: 'Display your bot permission level'
   },
 
-  config: {
-    globalCmd: true,
-    cooldown: { // Default member type cooldown
-      usages: 1,
-      duration: 10
-    }
-  },
-
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Destructure
     const { member } = interaction;
     const { emojis } = client.container;

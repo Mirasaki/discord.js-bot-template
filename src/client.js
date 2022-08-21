@@ -1,3 +1,8 @@
+/**
+ * A collection of client-extensions, containerized under `client.container`. Exported from the `/src/client.js` file
+ * @module Client
+ */
+
 const { Collection } = require('discord.js');
 
 // Local imports
@@ -14,9 +19,21 @@ const AutoCompletes = new Collection();
 const SelectMenus = new Collection();
 
 /**
+ * The status of this presence, online, idle or dnd
+ * @external DiscordClientPresenceStatus
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/typedef/ClientPresenceStatus}
+ */
+
+/**
+ * Discord API Gateway Intents Bits
+ * @external DiscordGatewayIntentBits
+ * @see {@link https://discord-api-types.dev/api/discord-api-types-v10/enum/GatewayIntentBits}
+ */
+
+/**
  * @typedef {Object} ClientConfigPresence
- * @property {Discord.PresenceUpdateStatus} status The client's status (online, busy, dnd, offline)
- * @property {Array<ClientConfigPresenceActivity>} activities Array of client activities
+ * @property {external:DiscordClientPresenceStatus} status The client's status (online, busy, dnd, offline)
+ * @property {Array<module:Client~ClientConfigPresenceActivity>} activities Array of client activities
  */
 
 /**
@@ -27,9 +44,9 @@ const SelectMenus = new Collection();
 
 /**
  * @typedef {Object} ClientConfiguration
- * @property {Array<Discord.GatewayIntentBits>} intents Required gateway intents
- * @property {ClientConfigPresence} presence Client presence configuration
- * @property {ClientConfigPermissions} permissions Internal permission configuration
+ * @property {Array<external:DiscordGatewayIntentBits>} intents Required gateway intents
+ * @property {module:Client~ClientConfigPresence} presence Client presence configuration
+ * @property {module:Client~ClientConfigPermissions} permissions Internal permission configuration
  * @property {string} supportServerInviteLink The link to the Discord server where bot support is offered
  */
 
@@ -52,9 +69,9 @@ const SelectMenus = new Collection();
 
 /**
  * @typedef {Object} ClientContainer
- * @property {ClientConfiguration} config The discord client configuration
- * @property {ClientEmojiConfiguration} emojis An object with defined emoji keys
- * @property {ClientColorConfiguration} colors An object with defined color keys
+ * @property {module:Client~ClientConfiguration} config The discord client configuration
+ * @property {module:Client~ClientEmojiConfiguration} emojis An object with defined emoji keys
+ * @property {module:Client~ClientColorConfiguration} colors An object with defined color keys
  * @property {Collection<string, ChatInputCommand>} commands Chat Input commands
  * @property {Collection<string, UserContextCommand | MessageContextCommand>} contextMenus Context Menu commands
  * @property {Collection<string, ComponentCommand>} buttons Button commands
@@ -65,11 +82,11 @@ const SelectMenus = new Collection();
 
 /**
  * @typedef {Object} Client
- * @property {ClientContainer} container Our containerized client extensions
+ * @property {module:Client~ClientContainer} container Our containerized client extensions
  */
 
 /**
- * @type {ClientContainer}
+ * @type {module:Client~ClientContainer}
  */
 module.exports = {
   // Config
