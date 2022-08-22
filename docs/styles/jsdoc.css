@@ -107,13 +107,13 @@ h4.name a:hover {
 h5, .container-overview .subsection-title {
   font-size: 120%;
   letter-spacing: -0.01em;
-  margin: 8px 0 3px 0;
+  margin: 8px 0 3px;
 }
 
 h6 {
   font-size: 100%;
   letter-spacing: -0.01em;
-  margin: 6px 0 3px 0;
+  margin: 6px 0 3px;
   font-style: italic;
 }
 
@@ -142,7 +142,7 @@ h6 {
 .usertext h4 {
   font-family: "Source Sans Pro";
   font-size: 14px;
-  margin: 0 0 0;
+  margin: 0;
   font-weight: 400;
 }
 
@@ -286,7 +286,7 @@ nav ul ul a:active {
 
 nav h2 {
    font-size: 13px;
-   margin: 10px 0 0 0;
+   margin: 10px 0 0;
    padding: 0;
 }
 
