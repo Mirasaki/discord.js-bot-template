@@ -1,0 +1,3402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> CommandHandler</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-adding-commands.html">
+                                adding-commands
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-permissions.html">
+                                permissions
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Client.html">Client</a></li><li><a href="module-CommandHandler.html">CommandHandler</a></li><li><a href="module-Commands.html">Commands</a></li><li><a href="module-PermissionHandler.html">PermissionHandler</a></li><li><a href="module-Utils.html">Utils</a></li></ul><h3>Externals</h3><ul><li><a href="external-DiscordActionRowBuilder.html">DiscordActionRowBuilder</a></li><li><a href="external-DiscordAPIApplicationCommand.html">DiscordAPIApplicationCommand</a></li><li><a href="external-DiscordChatInputInteraction.html">DiscordChatInputInteraction</a></li><li><a href="external-DiscordClientPresenceStatus.html">DiscordClientPresenceStatus</a></li><li><a href="external-DiscordCollection.html">DiscordCollection</a></li><li><a href="external-DiscordCommandInteraction.html">DiscordCommandInteraction</a></li><li><a href="external-DiscordEmbedBuilder.html">DiscordEmbedBuilder</a></li><li><a href="external-DiscordGatewayIntentBits.html">DiscordGatewayIntentBits</a></li><li><a href="external-DiscordGuildChannel.html">DiscordGuildChannel</a></li><li><a href="external-DiscordGuildMember.html">DiscordGuildMember</a></li><li><a href="external-DiscordPermissionResolvable.html">DiscordPermissionResolvable</a></li></ul><h3>Classes</h3><ul><li><a href="module-Commands-APICommand.html">APICommand</a></li><li><a href="module-Commands-ChatInputCommand.html">ChatInputCommand</a></li><li><a href="module-Commands-CommandBase.html">CommandBase</a></li><li><a href="module-Commands-ComponentCommand.html">ComponentCommand</a></li><li><a href="module-Commands-MessageContextCommand.html">MessageContextCommand</a></li><li><a href="module-Commands-UserContextCommand.html">UserContextCommand</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Module</p>
+                    <h1>CommandHandler</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Our command handler, holds utility functions and everything to do with
+handling commands in this template. Exported from <code>/src/handlers/commands.js</code>.
+See <a href="tutorial-adding-commands.html">adding-commands</a> for an overview.</p></div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line1">line 1</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="~apiCommandTypeList">
+    <a class="href-link" href="#~apiCommandTypeList">#</a>
+    
+        
+            <span class='tag'>inner</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        apiCommandTypeList
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Enum for API Command types</p>
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+<div class="table-container">
+    <table class="props table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>1</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">string</code>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Slash Command</p></td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>2</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">string</code>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>User Context Menu</p></td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>3</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">string</code>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Message Context Menu</p></td>
+</tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line144">line 144</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Methods</h1>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~checkCommandCanExecute">
+        <a class="href-link" href="#~checkCommandCanExecute">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                checkCommandCanExecute<span class="signature">(client, interaction, clientCmd)</span><span class="type-signature"> &rarr; {boolean}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Checks if the command can execute in it's current state.
+Checks internal permission level required, additional required Discord permissions,
+if the command is currently enabled and if the command is NSFW and in a NSFW channel.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>client</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Client</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Our extended discord.js client</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>interaction</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordCommandInteraction.html">external:DiscordCommandInteraction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The received interaction</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>clientCmd</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Command</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The command to check if it can execute</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line405">line 405</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Indicates if the command can be executed or not.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">boolean</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~clearSlashCommandData">
+        <a class="href-link" href="#~clearSlashCommandData">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                clearSlashCommandData<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Clears all InteractionCommand data from the Discord API, both global
+and server-specific commands.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line76">line 76</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~generateCommandInfoEmbed">
+        <a class="href-link" href="#~generateCommandInfoEmbed">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                generateCommandInfoEmbed<span class="signature">(clientCmd, interaction)</span><span class="type-signature"> &rarr; {<a href="external-DiscordEmbedBuilder.html">external:DiscordEmbedBuilder</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Generates an embed displaying command information</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>clientCmd</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Command</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The command object to build the embed from</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>interaction</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordCommandInteraction.html">external:DiscordCommandInteraction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The received interaction</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line593">line 593</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>The final embed with the command information</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type"><a href="external-DiscordEmbedBuilder.html">external:DiscordEmbedBuilder</a></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~generateCommandOverviewEmbed">
+        <a class="href-link" href="#~generateCommandOverviewEmbed">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                generateCommandOverviewEmbed<span class="signature">(commands, interaction)</span><span class="type-signature"> &rarr; {<a href="external-DiscordEmbedBuilder.html">external:DiscordEmbedBuilder</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Generates an embed displaying all available commands</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>commands</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordCollection.html">external:DiscordCollection</a>.&lt;string, ChatInputCommand></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The commands to generate the embed from</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>interaction</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordCommandInteraction.html">external:DiscordCommandInteraction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The received interaction to read data from</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line655">line 655</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>The final embed data object</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type"><a href="external-DiscordEmbedBuilder.html">external:DiscordEmbedBuilder</a></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~getCommandMap">
+        <a class="href-link" href="#~getCommandMap">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                getCommandMap<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="module-CommandHandler.html#~CommandMapDataObj">module:CommandHandler~CommandMapDataObj</a>>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Returns an array with minimal command data</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line522">line 522</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">Array.&lt;<a href="module-CommandHandler.html#~CommandMapDataObj">module:CommandHandler~CommandMapDataObj</a>></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~getCommandSelectMenu">
+        <a class="href-link" href="#~getCommandSelectMenu">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                getCommandSelectMenu<span class="signature">(member)</span><span class="type-signature"> &rarr; {<a href="external-DiscordActionRowBuilder.html">external:DiscordActionRowBuilder</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Generates a Select Menu data object using command data</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>member</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordGuildMember.html">external:DiscordGuildMember</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The Discord API member</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line552">line 552</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>The final select menu data object</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type"><a href="external-DiscordActionRowBuilder.html">external:DiscordActionRowBuilder</a></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~getThrottleId">
+        <a class="href-link" href="#~getThrottleId">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                getThrottleId<span class="signature">(cooldown, data, interaction)</span><span class="type-signature"> &rarr; {string}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Assigns a unique id depending on cooldown type and data id's</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>cooldown</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">CommandBaseCooldown</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The cooldown configuration</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>data</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordAPIApplicationCommand.html">external:DiscordAPIApplicationCommand</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The Discord API command data</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>interaction</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordCommandInteraction.html">external:DiscordCommandInteraction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The interaction received where this cooldown will apply to</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line287">line 287</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>The unique identifier for the cooldown that will be applied</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">string</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~hasAccessToComponentCommand">
+        <a class="href-link" href="#~hasAccessToComponentCommand">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                hasAccessToComponentCommand<span class="signature">(interaction)</span><span class="type-signature"> &rarr; {boolean}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Checks if the member has access to the component command</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>interaction</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordCommandInteraction.html">external:DiscordCommandInteraction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The received interaction</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line481">line 481</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Indicates if the component command is meant for the user that invoked it</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">boolean</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~isAppropriateCommandFilter">
+        <a class="href-link" href="#~isAppropriateCommandFilter">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                isAppropriateCommandFilter<span class="signature">(member, cmdConfig)</span><span class="type-signature"> &rarr; {boolean}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Represents a filter that filters out commands that aren't appropriate for the invoker,
+checks permission level, server-specific commands, and if the command is enabled</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>member</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordGuildMember.html">external:DiscordGuildMember</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The Discord API member object, extended by discord.js</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>cmdConfig</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">commandBaseConfig</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Our client-side command configuration</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line494">line 494</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Indicates whether or not this command is appropriate for the command invoker</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">boolean</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~logCommandApiData">
+        <a class="href-link" href="#~logCommandApiData">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                logCommandApiData<span class="signature">(apiData)</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>(debug) Logs the Discord API InteractionCommand data to the console using <code>console.table</code></p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>apiData</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordAPIApplicationCommand.html">external:DiscordAPIApplicationCommand</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The data returned from the
+Discord api after making a command request</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line159">line 159</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Nothing</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~refreshSlashCommandData">
+        <a class="href-link" href="#~refreshSlashCommandData">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                refreshSlashCommandData<span class="signature">(client)</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Refreshes InteractionCommand (<code>ChatInputCommand</code>, <code>UserContextCommand</code>, and <code>MessageContextCommand</code>) API Data</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>client</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Client</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Our extended discord.js client</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line118">line 118</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Nothing</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~registerGlobalCommands">
+        <a class="href-link" href="#~registerGlobalCommands">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                registerGlobalCommands<span class="signature">(client)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="external-DiscordAPIApplicationCommand.html">external:DiscordAPIApplicationCommand</a>>>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Concatenates all our API command data, and refreshes/registers global command data to the Discord API</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>client</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Client</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Our extended discord.js client</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line177">line 177</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Discord API command data</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">Promise.&lt;Array.&lt;<a href="external-DiscordAPIApplicationCommand.html">external:DiscordAPIApplicationCommand</a>>></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~registerTestServerCommands">
+        <a class="href-link" href="#~registerTestServerCommands">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                registerTestServerCommands<span class="signature">(client)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="external-DiscordAPIApplicationCommand.html">external:DiscordAPIApplicationCommand</a>>>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Concatenates all our API command data, and refreshes/registers server command data to the Discord API</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>client</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Client</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Our extended discord.js client</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line224">line 224</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Discord API command data</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">Promise.&lt;Array.&lt;<a href="external-DiscordAPIApplicationCommand.html">external:DiscordAPIApplicationCommand</a>>></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~sortCommandsByCategory">
+        <a class="href-link" href="#~sortCommandsByCategory">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                sortCommandsByCategory<span class="signature">(commands)</span><span class="type-signature"> &rarr; {Array.&lt;Command>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Sorts a collection of commands by command category</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>commands</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Collection.&lt;string, (ChatInputCommand|UserContextCommand|MessageContextCommand)></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The collections of commands to sort</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line97">line 97</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">Array.&lt;Command></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~throttleCommand">
+        <a class="href-link" href="#~throttleCommand">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                throttleCommand<span class="signature">(clientCmd, interaction)</span><span class="type-signature"> &rarr; {boolean}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Throttles the invoked command/applies &amp; manages cooldown for the command</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>clientCmd</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Command</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The command to throttle</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>interaction</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-DiscordCommandInteraction.html">external:DiscordCommandInteraction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The received interaction</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line324">line 324</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Indicates if the command is actively being throttled.
+true: It went through and was executed, false: command is actively being throttled / command denied.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">boolean</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Type Definitions</h1>
+            <div class="members">
+            
+                <div class="member">
+
+<h4 class="name" id="~CommandMapDataObj">
+    <a class="href-link" href="#~CommandMapDataObj">#</a>
+    
+    <span class="code-name">
+        CommandMapDataObj
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Represents an object with minimal <code>Command</code> data</p>
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+<div class="table-container">
+    <table class="props table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>name</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">string</code>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The name of the command</p></td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>permLevel</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">number</code>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>A number representing the required permission level</p></td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>category</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">string</code>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The category this command belongs too</p></td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>global</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">boolean</code>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Indicates if the command is enabled globally</p></td>
+</tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="handlers_commands.js.html" class="button">View Source</a>
+            <span>
+                <a href="handlers_commands.js.html">handlers/commands.js</a>, <a href="handlers_commands.js.html#line509">line 509</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
