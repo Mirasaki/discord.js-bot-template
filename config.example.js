@@ -1,7 +1,3 @@
-/**
- * @type {import('./typings').ClientConfiguration}
- */
-
 const config = {
   // Array of Intents your bot needs
   // https://discord.com/developers/docs/topics/gateway#gateway-intents
