@@ -1,13 +1,10 @@
 const { getBotInviteLink, colorResolver } = require('../../util');
+const { ChatInputCommand } = require('../../classes/Commands');
 
 // Not really needed with the release of the button on bot profiles in Discord
 // and soon, Bot/App Discovery
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   global: true,
   cooldown: {
     type: 'guild', // Use guild/server cooldown instead of default member
@@ -30,4 +27,4 @@ module.exports = {
       }]
     });
   }
-};
+});

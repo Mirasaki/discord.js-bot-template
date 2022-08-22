@@ -3,12 +3,9 @@ const { colorResolver, getRuntime } = require('../../../util');
 const util = require('util');
 const { EMBED_FIELD_VALUE_MAX_LENGTH, ACCEPT_EVAL_CODE_EXECUTION, ZERO_WIDTH_SPACE_CHAR_CODE } = require('../../../constants');
 const logger = require('@mirasaki/logger');
+const { ComponentCommand } = require('../../../classes/Commands');
 
-/**
- * @type {import('../../../../typings').ComponentCommand}
- */
-
-module.exports = {
+module.exports = new ComponentCommand({
   // Additional layer of protection
   permLevel: 'Developer',
   // Discord API data
@@ -170,7 +167,7 @@ module.exports = {
       });
     }
   }
-};
+});
 
 const clean = (text) => {
   if (typeof (text) === 'string') {

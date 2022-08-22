@@ -1,13 +1,10 @@
 const { stripIndents } = require('common-tags/lib');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { ComponentCommand } = require('../../classes/Commands');
 const { EVAL_CODE_INPUT, ACCEPT_EVAL_CODE_EXECUTION, DECLINE_EVAL_CODE_EXECUTION, EVAL_CODE_MODAL } = require('../../constants');
 const { colorResolver } = require('../../util');
 
-/**
- * @type {import('../../../typings').ComponentCommand}
- */
-
-module.exports = {
+module.exports = new ComponentCommand({
   data: {
     // Overwriting the default file name without
     // our owm custom component id
@@ -50,4 +47,4 @@ module.exports = {
       ]
     });
   }
-};
+});

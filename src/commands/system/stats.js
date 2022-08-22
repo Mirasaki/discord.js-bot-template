@@ -1,3 +1,4 @@
+const { ChatInputCommand } = require('../../classes/Commands');
 const { stripIndents } = require('common-tags');
 const { version } = require('discord.js');
 const { BYTES_IN_KIB, MS_IN_ONE_SECOND, MS_IN_ONE_DAY, MS_IN_ONE_HOUR, MS_IN_ONE_MINUTE, SECONDS_IN_ONE_MINUTE, MINUTES_IN_ONE_HOUR, HOURS_IN_ONE_DAY } = require('../../constants');
@@ -7,11 +8,7 @@ const discordVersion =	version.indexOf('dev') < 0 ? version : version.slice(0, v
 const discordVersionDocLink = `https://discord.js.org/#/docs/discord.js/v${discordVersion.split('.')[0]}/general/welcome`;
 const nodeVersionDocLink = `https://nodejs.org/docs/latest-${process.version.split('.')[0]}.x/api/#`;
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   global: true,
   cooldown: {
     type: 'channel', // Use channel cooldown type instead of default member
@@ -117,4 +114,4 @@ module.exports = {
       ]
     });
   }
-};
+});

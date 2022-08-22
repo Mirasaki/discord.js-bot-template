@@ -1,15 +1,12 @@
 const { ApplicationCommandOptionType } = require('discord.js');
+const { ChatInputCommand } = require('../../classes/Commands');
 const {
   getCommandSelectMenu,
   generateCommandOverviewEmbed,
   generateCommandInfoEmbed
 } = require('../../handlers/commands');
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   global: true,
   cooldown: {
     type: 'user', // Use user cooldown type instead of default member
@@ -69,4 +66,4 @@ module.exports = {
       embeds: [ generateCommandInfoEmbed(clientCmd, interaction) ]
     });
   }
-};
+});

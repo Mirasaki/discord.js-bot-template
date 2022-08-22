@@ -1,12 +1,9 @@
 const logger = require('@mirasaki/logger');
+const { MessageContextCommand } = require('../../classes/Commands');
 const { EMBED_DESCRIPTION_MAX_LENGTH } = require('../../constants');
 const { colorResolver } = require('../../util');
 
-/**
- * @type {import('../../../typings').MessageContextCommand}
- */
-
-module.exports = {
+module.exports = new MessageContextCommand({
   clientPerms: ['EmbedLinks'],
   global: true,
   cooldown: {
@@ -71,4 +68,4 @@ module.exports = {
       })
     });
   }
-};
+});

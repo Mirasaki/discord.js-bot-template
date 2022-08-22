@@ -1,10 +1,7 @@
-/**
- * @type {import('../../../../typings').ComponentCommand}
- */
-
+const { ComponentCommand } = require('../../../classes/Commands');
 const { DECLINE_EVAL_CODE_EXECUTION } = require('../../../constants');
 
-module.exports = {
+module.exports = new ComponentCommand({
   data: {
     // Overwriting the default file name without
     // our owm custom component id
@@ -26,4 +23,4 @@ module.exports = {
       components: []
     });
   }
-};
+});

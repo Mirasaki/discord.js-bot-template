@@ -1,14 +1,10 @@
 // JavaScript files that start with the "." character
 // are ignored by our command file handler
 
-/**
- * (ctrl+space) in VSCode to show auto-complete/IntelliSense options
- * Make sure you update the relative import path correctly
- * @type {import('../../../typings').ComponentCommand}
- */
+const { ComponentCommand } = require('../../classes/Commands');
 
-module.exports = {
+module.exports = new ComponentCommand({
   run: async (client, interaction) => {
 
   }
-}
+});

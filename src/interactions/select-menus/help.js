@@ -1,12 +1,9 @@
 const logger = require('@mirasaki/logger');
 const { generateCommandInfoEmbed, generateCommandOverviewEmbed } = require('../../handlers/commands');
 const { HELP_COMMAND_SELECT_MENU, HELP_SELECT_MENU_SEE_MORE_OPTIONS } = require('../../constants');
+const { ComponentCommand } = require('../../classes/Commands');
 
-/**
- * @type {import('../../../typings').ComponentCommand}
- */
-
-module.exports = {
+module.exports = new ComponentCommand({
   data: {
     name: HELP_COMMAND_SELECT_MENU
   },
@@ -40,4 +37,4 @@ module.exports = {
     const embedData = generateCommandInfoEmbed(clientCmd, interaction);
     interaction.update({ embeds: [ embedData ] });
   }
-};
+});

@@ -1,12 +1,9 @@
 const { exec } = require('child_process');
 const { EMBED_FIELD_VALUE_MAX_LENGTH } = require('../../constants');
+const { ChatInputCommand } = require('../../classes/Commands');
 const { colorResolver, getRuntime } = require('../../util');
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   permLevel: 'Developer',
   clientPerms: ['EmbedLinks', 'AttachFiles'],
   data: {
@@ -114,4 +111,4 @@ module.exports = {
       });
     });
   }
-};
+});

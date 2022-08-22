@@ -71,9 +71,10 @@ const rest = new REST({ version: '10' })
 /**
  * Clears all InteractionCommand data from the Discord API, both global
  * and server-specific commands.
+ * @throws {process.exit(1)} Shuts down the client/process after clearing API command data
  * @returns {void}
  */
-const clearSlashCommandData = () => {
+const clearApplicationCommandData = () => {
   logger.info('Clearing ApplicationCommand API data');
   rest.put(Routes.applicationCommands(CLIENT_ID), { body: [] });
   rest.put(Routes.applicationGuildCommands(CLIENT_ID, TEST_SERVER_GUILD_ID), { body: [] })
@@ -686,7 +687,7 @@ const generateCommandOverviewEmbed = (commands, interaction) => {
 
 module.exports = {
   apiCommandTypeList,
-  clearSlashCommandData,
+  clearApplicationCommandData,
   refreshSlashCommandData,
   sortCommandsByCategory,
   throttleCommand,

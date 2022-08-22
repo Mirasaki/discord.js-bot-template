@@ -1,10 +1,7 @@
+const { ComponentCommand } = require('../../classes/Commands');
 const helpModule = require('./help');
 
-/**
- * @type {import('../../../typings').ComponentCommand}
- */
-
 // Uses the same auto complete querying as the help command
-module.exports = {
+module.exports = new ComponentCommand({
   run: helpModule.run
-};
+});

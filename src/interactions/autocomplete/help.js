@@ -1,10 +1,7 @@
+const { ComponentCommand } = require('../../classes/Commands');
 const { isAppropriateCommandFilter, getCommandMap } = require('../../handlers/commands');
 
-/**
- * @type {import('../../../typings').ComponentCommand}
- */
-
-module.exports = {
+module.exports = new ComponentCommand({
   run: async (client, interaction, query) => {
     const { member } = interaction;
     // Filtering out unusable commands
@@ -25,4 +22,4 @@ module.exports = {
       .map(cmd => ({ name: cmd.name, value: cmd.name }))
       .sort((a, b) => a.name.localeCompare(b.name));
   }
-};
+});

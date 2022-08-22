@@ -1,16 +1,13 @@
 const { EmbedBuilder } = require('@discordjs/builders');
 const logger = require('@mirasaki/logger');
 const { stripIndents } = require('common-tags/lib');
+const { UserContextCommand } = require('../../classes/Commands');
 const { MS_IN_ONE_SECOND } = require('../../constants');
 const { colorResolver, getRelativeTime } = require('../../util');
 
 const MAX_ROLE_DISPLAY_LENGTH = 25;
 
-/**
- * @type {import('../../../typings').UserContextCommand}
- */
-
-module.exports = {
+module.exports = new UserContextCommand({
   clientPerms: ['EmbedLinks'],
   global: true,
   cooldown: {
@@ -94,4 +91,4 @@ module.exports = {
       embeds: [ userInfoEmbed ]
     });
   }
-};
+});

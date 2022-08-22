@@ -1,7 +1,3 @@
-/*** JSDoc: Ignored
- * @module Commands
- */
-
 const {
   permConfig,
   permLevelMap,
@@ -13,7 +9,6 @@ const {
 const path = require('path');
 const chalk = require('chalk');
 const logger = require('@mirasaki/logger');
-const { commands } = require('../client');
 
 /**
  * The interaction object received when a user/member invokes the command
@@ -22,9 +17,9 @@ const { commands } = require('../client');
  */
 
 /**
- * The discord.js PermissionResolvable
+ * The discord.js DiscordPermissionResolvable
  * @external DiscordPermissionResolvable
- * @see {@link https://discord.js.org/#/docs/discord.js/main/typedef/PermissionResolvable}
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/typedef/DiscordPermissionResolvable}
  */
 
 /**
@@ -56,50 +51,50 @@ const { commands } = require('../client');
 /**
  * @typedef {Object} BaseConfig
  * @property {PermLevel} [permLevel='User'] The permission level required to use the command
- * @property {Array<external:DiscordPermissionResolvable>} [clientPerms=[]] Permissions required by the client to execute the command
- * @property {Array<external:DiscordPermissionResolvable>} [userPerms=[]] Permissions required by the user to execute the commands
+ * @property {Array<string>} [clientPerms=[]] Permissions required by the client to execute the command
+ * @property {Array<string>} [userPerms=[]] Permissions required by the user to execute the commands
  * @property {boolean} [enabled=true] Is the command currently enabled
  * @property {boolean} [nsfw=false] Is the command Not Safe For Work
  * @property {CommandBaseCooldown} [cooldown={ type: 'member', usages: 1, duration: 2 }] Cooldown configuration for the command
- * @property {string} [category='origin_path_parent_folder_name'] This command's category
+ * @property {string} [category='parent_folder_name'] This command's category
  * @property {string} [filePath='absolute_origin_path'] Path to file, automatically set, can be overwritten, only invoked on command reloads
  * @property {Object} [data={}] Discord API Application Command Object {@link https://discord.com/developers/docs/interactions/application-commands#application-command-object}
- * @property {CommandCallback} [run=() => {}] The callback to execute when the command is invoked/called
+ * @property {CommandCallback} run The callback to execute when the command is invoked/called
  */
 
-/** Represents the base class used for all our commands & components*/
+/** Represents the base class used for all our commands & components */
 class CommandBase {
   /**
    * @param {BaseConfig} config The full command configuration
    */
   constructor (config) {
     /**
-     * @property {PermLevel} [permLevel='User'] The permission level required to use the command
+     * @property {PermLevel} permLevel The permission level required to use the command
      */
-    this.permLevel = config.name || permConfig[permConfig.length - 1].name;
+    this.permLevel = config.permLevel || permConfig[permConfig.length - 1].name;
 
     /**
-     * @property {Array<external:DiscordPermissionResolvable>} [clientPerms=[]] Permissions required by the client to execute the command
+     * @property {Array<external:DiscordPermissionResolvable>} clientPerms Permissions required by the client to execute the command
      */
     this.clientPerms = config.clientPerms || [];
 
     /**
-     * @property {Array<external:DiscordPermissionResolvable>} [userPerms=[]] Permissions required by the user to execute the commands
+     * @property {Array<external:DiscordPermissionResolvable>} userPerms Permissions required by the user to execute the commands
      */
     this.userPerms = config.userPerms || [];
 
     /**
-     * @property {boolean} [enabled=true] Is the command currently enabled
+     * @property {boolean} enabled Is the command currently enabled
      */
     this.enabled = config.enabled || true;
 
     /**
-     * @property {boolean} [nsfw=false] Is the command Not Safe For Work
+     * @property {boolean} nsfw Is the command Not Safe For Work
      */
     this.nsfw = config.nsfw || false;
 
     /**
-     * @property {CommandBaseCooldown} [cooldown={ type: 'member', usages: 1, duration: 2 }] Cooldown configuration for the command
+     * @property {CommandBaseCooldown} cooldown Cooldown configuration for the command
      */
     this.cooldown = config.cooldown || {
       type: 'member',
@@ -108,31 +103,19 @@ class CommandBase {
     };
 
     /**
-     * @property {string} [category='origin_path_parent_folder_name'] This command's category
+     * @property {string} category This command's category
      */
-    this.category = config.category || config.filePath.slice(
-      config.filePath.lastIndexOf(path.sep, config.filePath.lastIndexOf(path.sep) - 1) + 1,
-      config.filePath.lastIndexOf(path.sep)
-    );
+    this.category = config.category || undefined;
 
     /**
-     * @property {string} [filePath='absolute_origin_path'] Path to file, automatically set, can be overwritten, only invoked on command reloads
+     * @property {Object} data Discord API Application Command Object {@link https://discord.com/developers/docs/interactions/application-commands#application-command-object}
      */
-    this.filePath = config.filePath;
+    this.data = config.data || {};
 
     /**
-     * @property {Object} [data={}] Discord API Application Command Object {@link https://discord.com/developers/docs/interactions/application-commands#application-command-object}
+     * @property {string} filePath Path to file, only present if `this.setFilePathDetails` is invoked
      */
-    this.data = {
-      // Default = file name without extension
-      name: config.filePath.slice(
-        config.filePath.lastIndexOf(path.sep) + 1,
-        config.filePath.lastIndexOf('.')
-      ),
-
-      // Overwrite default data with user provided API data
-      ...config.data
-    };
+    this.filePath = config.filePath || undefined;
 
     // Overwriting the default callback function with the
     // user provided function
@@ -211,12 +194,100 @@ class CommandBase {
 
   /**
    * The callback executed when the command is ran
-   * @method
-   * @param {external:DiscordChatInputInteraction} interaction The interaction received
-   * @param {Client} client Our discord.js-extended client
-   * @returns {void | Promise<void>}
+   * @member {CommandCallback}
    */
   run = () => {};
+
+  /**
+   * Grabs data from the origin file path to set `data.name` and `category` fallbacks
+   * @method
+   * @returns {void} Nothing
+   */
+  setFilePathDetails = () => {
+    const origin = this.filePath;
+    // Check if the data name has been set
+    // Set filename without extension as fallback
+    if (!this.data.name) {
+      const fileNameWithoutExtension = origin.slice(
+        origin.lastIndexOf(path.sep) + 1,
+        origin.lastIndexOf('.')
+      );
+      this.data.name = fileNameWithoutExtension;
+    }
+    // Check if the category has been set
+    // Set parent folder name as fallback
+    if (!this.category) {
+      const parentFolder = origin.slice(
+        origin.lastIndexOf(path.sep, origin.lastIndexOf(path.sep) - 1) + 1,
+        origin.lastIndexOf(path.sep) || undefined
+      );
+      this.category = parentFolder;
+    }
+  };
+
+  /**
+   * Loads the command, setting the filepath, printing to console, and adding to a {@link module:Client~ClientContainer} collection
+   * @method
+   * @param {string} origin The absolute file path to exported module/config,
+   * can be used this way as we export each Command within it's own, dedicated file
+   * @param {external:DiscordCollection} collection The collection this command should be set to
+   * @returns {void} Nothing
+   *
+   * @example
+   * for (const filePath of getFiles('src/commands')) {
+   *  const command = require(filePath);
+   *  command.load(filePath, client.container.commands);
+   * }
+   */
+  load = (filePath, collection) => {
+    this.filePath = filePath;
+    this.setFilePathDetails();
+
+    // Debug Logging - After we set our file path defaults/fallbacks
+    if (DEBUG_ENABLED === 'true') {
+      logger.debug(`Loading <${chalk.cyanBright(this.data.name)}>`);
+    }
+
+    // Set the command in our command collection
+    collection.set(this.data.name, this);
+  };
+
+  /**
+   * Unloads the command, removing it from out  {@link module:Client~ClientContainer} collection and removing it from our module cache
+   * @method
+   * @param {external:DiscordCollection} collection The collection this command should be removed from
+   * @returns {void} Nothing
+   *
+   * @example
+   * const commands = client.container.commands;
+   * const command = commands.get('eval');
+   * command.unload(commands)
+   */
+  unload = (collection) => {
+    // Getting and deleting our current cmd module cache
+    collection.delete(this.data.name);
+    const filePath = this.filePath;
+    const module = require.cache[require.resolve(filePath)];
+    delete require.cache[require.resolve(filePath)];
+    for (let i = 0; i < module.children.length; i++) {
+      if (module.children[i] === module) {
+        module.children.splice(i, 1);
+        break;
+      }
+    }
+  };
+
+  /**
+   * Reloads the command, shorthand for invoking `this.unload()` and `this.load()`
+   * @method
+   * @param {external:DiscordCollection} collection The collection this command should be removed from
+   * @returns {void} Nothing
+   */
+  reload = (collection) => {
+    this.unload(collection);
+    // this.filePath is only present after the command has been loaded initially
+    this.load(this.filePath, collection);
+  };
 }
 
 
@@ -234,7 +305,7 @@ class ComponentCommand extends CommandBase {
 
 
 /**
- * @typedef {Object} APICommandConfig
+ * @typedef {BaseConfig} APICommandConfig
  * @property {boolean} [global=true] Is the command enabled globally or only in our test-server
  */
 
@@ -253,7 +324,7 @@ class APICommand extends CommandBase {
   constructor (config) {
     super(config);
     /**
-     * @property {boolean} [global=false] Is the command enabled globally or only in our test-server
+     * @property {boolean} global Is the command enabled globally or only in our test-server
      */
     this.global = config.global || false;
   }
@@ -324,6 +395,7 @@ class UserContextCommand extends APICommand {
 class ChatInputCommand extends APICommand {
   /**
    * @param {BaseConfig | APICommandConfig} config The full command configuration
+   * @throws {Error} An Error if no `data.description` field is present, as this is required by Discord's API
    */
   constructor (config) {
     super(config);
@@ -335,40 +407,6 @@ class ChatInputCommand extends APICommand {
       throw new Error(`An InteractionCommand description is required by Discord's API\nCommand: ${this.data.name}`);
     }
   }
-
-  // [DEV] - Add load(), unload() and reload() functionality
-  /**
-   * Reloads the commands config, data and run function in module cache,
-   * as an alternative to using nodemon
-   * @method
-   * @returns {void}
-   */
-  reload = () => {
-    // Getting and deleting our current cmd module cache
-    commands.delete(this.data.name);
-    const filePath = this.filePath;
-    const module = require.cache[require.resolve(filePath)];
-    delete require.cache[require.resolve(filePath)];
-    for (let i = 0; i < module.children.length; i++) {
-      if (module.children[i] === module) {
-        module.children.splice(i, 1);
-        break;
-      }
-    }
-
-    // Require as module
-    const newModule = require(filePath);
-    // Calling the class constructor
-    const command = new this.constructor({ ...newModule, filePath });
-
-    // Debug Logging
-    if (DEBUG_ENABLED === 'true') {
-      logger.debug(`Loading the <${chalk.cyanBright(command.data.name)}> command`);
-    }
-
-    // Set the command in our command collection
-    commands.set(command.data.name, command);
-  };
 }
 
 module.exports = {

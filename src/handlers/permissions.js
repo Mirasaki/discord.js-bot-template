@@ -95,6 +95,9 @@ const permConfig = [
  */
 const permLevelMap = { ...permConfig.map(({ name }) => name) };
 
+// [DEV] - document
+const getPermLevelName = (integer) => permConfig.find((cfg) => cfg.level === integer)?.name;
+
 
 /**
  * Our {@link Handler/Permissions~PermConfig} sorted by perm level, highest first
@@ -157,6 +160,7 @@ module.exports = {
   permConfig,
   sortedPermConfig,
   permLevelMap,
+  getPermLevelName,
   getPermissionLevel,
   getInvalidPerms,
   hasChannelPerms

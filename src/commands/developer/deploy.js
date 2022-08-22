@@ -1,11 +1,8 @@
 const { stripIndents } = require('common-tags');
+const { ChatInputCommand } = require('../../classes/Commands');
 const { refreshSlashCommandData } = require('../../handlers/commands');
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   permLevel: 'Developer',
   data: {
     description: 'Re-deploy ApplicationCommand API data'
@@ -25,4 +22,4 @@ module.exports = {
       `
     });
   }
-};
+});

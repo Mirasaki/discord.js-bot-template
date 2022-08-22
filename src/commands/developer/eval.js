@@ -1,13 +1,10 @@
 const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('@discordjs/builders');
 const { TextInputStyle } = require('discord.js');
+const { ChatInputCommand } = require('../../classes/Commands');
 // Unique identifiers for our components' customIds
 const { EVAL_CODE_MODAL, EVAL_CODE_INPUT } = require('../../constants');
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   permLevel: 'Developer',
   clientPerms: ['EmbedLinks','AttachFiles'],
   data: {
@@ -34,4 +31,4 @@ module.exports = {
     // Showing the modal to the user
     await interaction.showModal(codeModal);
   }
-};
+});

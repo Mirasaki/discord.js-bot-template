@@ -1,12 +1,10 @@
+const { ChatInputCommand } = require('../../classes/Commands');
 const { permConfig } = require('../../handlers/permissions');
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   global: true,
   cooldown: { // Default member type cooldown
+    type: 'member', // [DEV] - If you comment this line, cooldown.type will be undefined
     usages: 1,
     duration: 10
   },
@@ -27,4 +25,4 @@ module.exports = {
       content: `${member} ${emojis.success}, your permission level is **${member.permLevel} | ${memberPermLevelName}**`
     });
   }
-};
+});

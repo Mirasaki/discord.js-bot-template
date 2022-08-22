@@ -1,4 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord.js');
+const { ChatInputCommand } = require('../../classes/Commands');
 const { colorResolver } = require('../../util');
 
 /*
@@ -7,11 +8,7 @@ const { colorResolver } = require('../../util');
   for active development, but still, it's here
 */
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   permLevel: 'Developer',
   data: {
     description: 'Reload an active, existing command',
@@ -68,4 +65,4 @@ module.exports = {
       ]
     });
   }
-};
+});

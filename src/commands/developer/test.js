@@ -1,10 +1,7 @@
 const { ApplicationCommandOptionType } = require('discord.js');
+const { CommandBase, ChatInputCommand } = require('../../classes/Commands');
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
+module.exports = new ChatInputCommand({
   permLevel: 'Developer',
   data: {
     description: 'Test command for the developers',
@@ -22,4 +19,5 @@ module.exports = {
   run: (client, interaction) => {
     // ...
   }
-};
+});
+

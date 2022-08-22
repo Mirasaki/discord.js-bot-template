@@ -1,12 +1,9 @@
 const { stripIndents } = require('common-tags');
+const { ChatInputCommand } = require('../../classes/Commands');
 const { colorResolver } = require('../../util');
 
-/**
- * @type {import('../../../typings').ChatInputCommand}
- */
-
-module.exports = {
-  globak: true,
+module.exports = new ChatInputCommand({
+  global: true,
   cooldown: {
     type: 'channel', // Use channel cooldown type instead of default member,
     usages: 1,
@@ -45,4 +42,4 @@ module.exports = {
       }]
     });
   }
-};
+});
