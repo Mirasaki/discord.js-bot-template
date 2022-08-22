@@ -25,21 +25,26 @@ const SelectMenus = new Collection();
  */
 
 /**
- * The status of this presence, online, idle or dnd
- * @external DiscordClientPresenceStatus
- * @see {@link https://discord.js.org/#/docs/discord.js/main/typedef/ClientPresenceStatus}
- */
-
-/**
  * Discord API Gateway Intents Bits
  * @external DiscordGatewayIntentBits
  * @see {@link https://discord-api-types.dev/api/discord-api-types-v10/enum/GatewayIntentBits}
  */
 
 /**
+ * The status of this presence, online, idle or dnd
+ * @external DiscordClientPresenceStatus
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/typedef/ClientPresenceStatus}
+ */
+
+/**
+ * @external DiscordActivityOptions
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/typedef/ActivityOptions}
+ */
+
+/**
  * @typedef {Object} ClientConfigPresence
  * @property {external:DiscordClientPresenceStatus} status The client's status (online, busy, dnd, offline)
- * @property {Array<module:Client~ClientConfigPresenceActivity>} activities Array of client activities
+ * @property {Array<external:DiscordActivityOptions>} activities Array of client activities
  */
 
 /**
@@ -87,8 +92,7 @@ const SelectMenus = new Collection();
  */
 
 /**
- * @interface Client
- * @extends {external:DiscordClient}
+ * @typedef {external:DiscordClient} Client
  * @property {module:Client~ClientContainer} container Our containerized client extensions
  */
 
