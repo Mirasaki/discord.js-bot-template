@@ -111,3 +111,8 @@ dist
 
 # Ignore our local developmenmt test files
 src/commands/testing
+
+# [DEV] - In development, temporarily hide types output
+types
+TODO
+backup.typings.d.ts
