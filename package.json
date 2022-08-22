@@ -22,7 +22,7 @@
     "lint": "eslint src",
     "linter": "eslint src --fix",
     "writeLinter": "eslint src --output-file linter-output.txt",
-    "doc": "jsdoc -u ./tutorials --readme README.md -c jsdoc.json",
+    "docs": "jsdoc -u ./tutorials --readme README.md -c jsdoc.json",
     "types": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
