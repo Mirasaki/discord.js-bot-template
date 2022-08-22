@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord.js');
-const { CommandBase, ChatInputCommand } = require('../../classes/Commands');
+const { ChatInputCommand } = require('../../classes/Commands');
 
 module.exports = new ChatInputCommand({
   permLevel: 'Developer',
