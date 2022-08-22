@@ -15,8 +15,6 @@ const { readdirSync, statSync } = require('fs');
 const moment = require('moment');
 const path = require('path');
 const colors = require('./config/colors.json');
-const logger = require('@mirasaki/logger');
-const chalk = require('chalk');
 
 // Import our constants
 const {
@@ -24,8 +22,6 @@ const {
   NS_IN_ONE_SECOND,
   DEFAULT_DECIMAL_PRECISION
 } = require('./constants');
-
-const { DEBUG_ENABLED } = process.env;
 
 /**
  * Transforms hex and rgb color input into integer color code
@@ -48,10 +44,10 @@ const colorResolver = (input) => {
  * Get an array of (resolved) absolute file paths in the target directory,
  * Ignores files that start with a "." character
  * @param {string} requestedPath Absolute path to the directory
- * @param {Array<string>} allowedExtensions Array of file extensions
+ * @param {Array<string>} [allowedExtensions=['.js', '.mjs', '.cjs']] Array of file extensions
  * @returns {Array<string>} Array of (resolved) absolute file paths
  */
-const getFiles = (requestedPath, allowedExtensions) => {
+const getFiles = (requestedPath, allowedExtensions = ['.js', '.mjs', '.cjs']) => {
   if (typeof allowedExtensions === 'string') allowedExtensions = [allowedExtensions];
   requestedPath ??= path.resolve(requestedPath);
   let res = [];
@@ -165,35 +161,6 @@ const getRuntime = (hrtime, decimalPrecision = DEFAULT_DECIMAL_PRECISION) => {
   };
 };
 
-/**
- * Bind a category of JavaScript files to a Discord Collection
- * @param {string} dirPath The path to the target directory
- * @param {ChatInputCommand | UserContextCommand | MessageContextCommand | ComponentCommand} Constructor Type of class constructor
- * @param {external:DiscordCollection} collection discord.js Collection being used
- * @param {string} typeStr Debug string
- * @param {Array<string>} [extensions=['.js', '.mjs', '.cjs']] Extensions to look for in the folder
- * @returns {external:DiscordCollection} The collection holding all the modules
- */
-const bindDirToCollection = (dirPath, Constructor, collection, typeStr, extensions = ['.js', '.mjs', '.cjs']) => {
-  for (const filePath of getFiles(dirPath, extensions)) {
-    // Require as module
-    const module = require(filePath);
-    // Calling the class constructor
-    const command = new Constructor({ ...module, filePath });
-
-    // Debug Logging
-    if (DEBUG_ENABLED === 'true') {
-      const debugTag = chalk.black(`[${typeStr}]`);
-      logger.debug(`${debugTag} Loading <${chalk.cyanBright(command.data.name)}>`);
-    }
-
-    // Set the command in our command collection
-    collection.set(command.data.name, command);
-  }
-
-  return collection;
-};
-
 module.exports = {
   splitCamelCaseStr,
   colorResolver,
@@ -205,6 +172,5 @@ module.exports = {
   getBotInviteLink,
   wait: sleep,
   sleep,
-  getRuntime,
-  bindDirToCollection
+  getRuntime
 };
