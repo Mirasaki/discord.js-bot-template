@@ -7,18 +7,11 @@ const { Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus } = requir
 // Local imports
 const pkg = require('../package');
 const config = require('../config.js');
-const { clearSlashCommandData, refreshSlashCommandData } = require('./handlers/commands');
-const { getFiles, titleCase, getRuntime, bindDirToCollection } = require('./util');
+const { clearApplicationCommandData, refreshSlashCommandData } = require('./handlers/commands');
+const { getFiles, titleCase, getRuntime } = require('./util');
 const path = require('path');
 const clientExtensions = require('./client');
-
-// Classes - Alternatively import from ./classes/index
-const {
-  ChatInputCommand,
-  UserContextCommand,
-  MessageContextCommand,
-  ComponentCommand
-} = require('./classes/Commands');
+const { generateCommandHTML } = require('./html');
 
 // Clear the console in non-production modes & print vanity
 process.env.NODE_ENV !== 'production' && console.clear();
@@ -68,6 +61,10 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
+/**
+ * Register our listeners using client.on(fileNameWithoutExtension)
+ * @private
+ */
 const registerListeners = () => {
   const eventFiles = getFiles('src/listeners', '.js');
   const eventNames = eventFiles.map((filePath) => filePath.slice(
@@ -93,65 +90,137 @@ const registerListeners = () => {
   }
 };
 
-const bindCommandsToClient = () => {
-  const {
-    commands,
-    contextMenus,
-    buttons,
-    modals,
-    autoCompletes,
-    selectMenus
-  } = client.container;
+// Use an Immediately Invoked Function Expressions (IIFE) if you need to use await
+// In the index.js main function
+// (async () => {})();
 
-  // Binding our Chat Input/Slash commands
-  bindDirToCollection('src/commands', ChatInputCommand, commands, 'Chat Input Command');
+// Containerizing? =) all our client extensions
+client.container = clientExtensions;
 
-  // Binding our User Context Menu commands
-  bindDirToCollection('src/context-menus/user', UserContextCommand, contextMenus, 'User Context Menu');
+// Clear only executes if enabled in .env
+if (CLEAR_SLASH_COMMAND_API_DATA === 'true') {
+  clearApplicationCommandData();
+}
 
-  // Binding our Message Context Menu commands
-  bindDirToCollection('src/context-menus/message', MessageContextCommand, contextMenus, 'Message Context Menu');
+// Destructure from our client extensions container
+const {
+  commands,
+  contextMenus,
+  buttons,
+  modals,
+  autoCompletes,
+  selectMenus
+} = client.container;
 
-  // Binding our Button interactions
-  bindDirToCollection('src/interactions/buttons', ComponentCommand, buttons, 'Button Interaction');
-
-  // Binding our Modal interactions
-  bindDirToCollection('src/interactions/modals', ComponentCommand, modals, 'Modal Interaction');
-
-  // Binding our Autocomplete interactions
-  bindDirToCollection('src/interactions/autocomplete', ComponentCommand, autoCompletes, 'Auto Complete');
-
-  // Binding our Select Menu interactions
-  bindDirToCollection('src/interactions/select-menus', ComponentCommand, selectMenus, 'Select Menu');
-};
-
-(async () => {
-  // Containerizing? =) all our client extensions
-  client.container = clientExtensions;
-
-  // Clear only executes if enabled in .env
-  if (CLEAR_SLASH_COMMAND_API_DATA === 'true') {
-    clearSlashCommandData();
+// Binding our Chat Input/Slash commands
+const slashCommandDirPath = 'src/commands';
+logger.debug(`Start loading Slash Commands... ("${slashCommandDirPath}")`);
+for (const filePath of getFiles(slashCommandDirPath)) {
+  try {
+    const command = require(filePath);
+    command.load(filePath, commands);
+  } catch (err) {
+    logger.syserr(`Error encountered while loading Slash Command (${slashCommandDirPath}), are you sure you're exporting an instance of ChatInputCommand?\nCommand: ${filePath}`);
+    console.error(err.stack || err);
   }
+}
 
-  // Binding all our components and commands to our client
-  bindCommandsToClient();
+// Binding our User Context Menu commands
+const userCtxMenuCommandDirPath = 'src/context-menus/user';
+logger.debug(`Start loading User Context Menu Commands... ("${userCtxMenuCommandDirPath}")`);
+for (const filePath of getFiles(userCtxMenuCommandDirPath)) {
+  try {
+    const command = require(filePath);
+    command.load(filePath, contextMenus);
+  } catch (err) {
+    logger.syserr(`Error encountered while loading User Context Menu Command (${userCtxMenuCommandDirPath}), are you sure you're exporting an instance of UserContextCommand?\nCommand: ${filePath}`);
+    console.error(err.stack || err);
+  }
+}
 
-  // Refresh InteractionCommand data if requested
-  refreshSlashCommandData(client);
+// Binding our Message Context Menu commands
+const messageCtxMenuCommandDirPath = 'src/context-menus/message';
+logger.debug(`Start loading Message Context Menu Commands... ("${messageCtxMenuCommandDirPath}")`);
+for (const filePath of getFiles(messageCtxMenuCommandDirPath)) {
+  try {
+    const command = require(filePath);
+    command.load(filePath, contextMenus);
+  } catch (err) {
+    logger.syserr(`Error encountered while loading User Context Menu Command (${messageCtxMenuCommandDirPath}), are you sure you're exporting an instance of MessageContextCommand?\nCommand: ${filePath}`);
+    console.error(err.stack || err);
+  }
+}
 
-  // Registering our listeners
-  registerListeners();
+// Binding our Button interactions
+const buttonCommandDirPath = 'src/interactions/buttons';
+logger.debug(`Start loading Button Commands... ("${buttonCommandDirPath}")`);
+for (const filePath of getFiles(buttonCommandDirPath)) {
+  try {
+    const command = require(filePath);
+    command.load(filePath, buttons);
+  } catch (err) {
+    logger.syserr(`Error encountered while loading Button Command (${buttonCommandDirPath}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+    console.error(err.stack || err);
+  }
+}
 
+// Binding our Modal interactions
+const modalCommandDirPath = 'src/interactions/modals';
+logger.debug(`Start loading Modal Commands... ("${modalCommandDirPath}")`);
+for (const filePath of getFiles(modalCommandDirPath)) {
+  try {
+    const command = require(filePath);
+    command.load(filePath, modals);
+  } catch (err) {
+    logger.syserr(`Error encountered while loading Modal Command (${modalCommandDirPath}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+    console.error(err.stack || err);
+  }
+}
 
-  /**
-   * Finished initializing
-   * Performance logging and logging in to our client
-   */
+// Binding our Autocomplete interactions
+const autoCompleteCommandDirPath = 'src/interactions/autocomplete';
+logger.debug(`Start loading Auto Complete Commands... ("${autoCompleteCommandDirPath}")`);
+for (const filePath of getFiles(autoCompleteCommandDirPath)) {
+  try {
+    const command = require(filePath);
+    command.load(filePath, autoCompletes);
+  } catch (err) {
+    logger.syserr(`Error encountered while loading Auto Complete Command (${autoCompleteCommandDirPath}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+    console.error(err.stack || err);
+  }
+}
 
-  // Execution time logging
-  logger.success(`Finished initializing after ${getRuntime(initTimerStart).ms} ms`);
+// Binding our Select Menu interactions
+const selectMenuCommandDirPath = 'src/interactions/select-menus';
+logger.debug(`Start loading Select Menu Commands... ("${selectMenuCommandDirPath}")`);
+for (const filePath of getFiles(selectMenuCommandDirPath)) {
+  try {
+    const command = require(filePath);
+    command.load(filePath, selectMenus);
+  } catch (err) {
+    logger.syserr(`Error encountered while loading Select Menu Command (${selectMenuCommandDirPath}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+    console.error(err.stack || err);
+  }
+}
 
-  // Logging in to our client
-  client.login(DISCORD_BOT_TOKEN);
-})();
+// Refresh InteractionCommand data if requested
+refreshSlashCommandData(client);
+
+// Registering our listeners
+registerListeners();
+
+// All our command and listeners are active
+// We can now re-generate and overwrite
+// our `html/commands.html` file
+generateCommandHTML(commands);
+
+/**
+ * Finished initializing
+ * Performance logging and logging in to our client
+ */
+
+// Execution time logging
+logger.success(`Finished initializing after ${getRuntime(initTimerStart).ms} ms`);
+
+// Logging in to our client
+client.login(DISCORD_BOT_TOKEN);
