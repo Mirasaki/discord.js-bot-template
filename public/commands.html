@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commands</title>
+
+  <style>
+html, body {
+  padding: 0;
+  margin: 0;
+  overflow: smooth-scroll;
+  display: flex;
+  justify-content: center;
+}
+
+.background {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+
+  z-index: -1;
+
+  background: rgb(50, 56, 62);
+  background: -moz-radial-gradient(circle, rgba(50, 56, 62, 1) -25%, rgba(0, 0, 0, 1) 100%);
+  background: -webkit-radial-gradient(circle, rgba(50, 56, 62, 1) -25%, rgba(0, 0, 0, 1) 100%);
+  background: radial-gradient(circle, rgba(50, 56, 62, 1) -25%, rgba(0, 0, 0, 1) 100%);
+}
+
+.commandTableContainer {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  /* font: 120% system-ui; */
+  text-align: center;
+  padding-top: 2rem;
+  color: blue;
+}
+
+table td,
+table th {
+  padding: 8px;
+}
+
+thead {
+  color: #fff;
+  background-color: rgb(4, 170, 109);
+  font-weight: 600;
+  text-shadow: 2px 2px rgb(74, 74, 74);
+}
+
+tbody > tr {
+  color: white;
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgba(0,0,0,.3);
+}
+
+tbody > tr:hover {
+  background-color: rgba(4, 170, 109, .3);
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="commandTableContainer">
+    <table>
+      <thead>
+        <tr>
+<th>Name</th><th>Description</th><th>Permission Level</th><th>Bot</br>Permissions</th><th>User</br>Permissions</th><th>NSFW</th><th>Cooldown</th><th>Global</th></tr></thead><tbody><tr><td>deploy</td><td>Re-deploy ApplicationCommand API data</td><td>Developer</td><td></td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 2 seconds
+      </br><strong>Type:</strong> member
+    </td><td>🚫</td></tr><tr><td>eval</td><td>Evaluate arbitrary JavaScript code</td><td>Developer</td><td>EmbedLinks</br>AttachFiles</td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 2 seconds
+      </br><strong>Type:</strong> member
+    </td><td>🚫</td></tr><tr><td>exec</td><td>Execute console commands</td><td>Developer</td><td>EmbedLinks</br>AttachFiles</td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 2 seconds
+      </br><strong>Type:</strong> member
+    </td><td>🚫</td></tr><tr><td>reload</td><td>Reload an active, existing command</td><td>Developer</td><td></td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 2 seconds
+      </br><strong>Type:</strong> member
+    </td><td>🚫</td></tr><tr><td>test</td><td>Test command for the developers</td><td>Developer</td><td></td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 2 seconds
+      </br><strong>Type:</strong> member
+    </td><td>🚫</td></tr><tr style="visibility: hidden; height: 40px;">
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+      </tr><tr><td>help</td><td>Receive detailed command information</td><td>User</td><td>EmbedLinks</td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 2
+      <br/><strong>Duration:</strong> 10 seconds
+      </br><strong>Type:</strong> user
+    </td><td>✅</td></tr><tr><td>invite</td><td>Add the bot to your server!</td><td>User</td><td>EmbedLinks</td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 3
+      <br/><strong>Duration:</strong> 10 seconds
+      </br><strong>Type:</strong> guild
+    </td><td>✅</td></tr><tr><td>permlevel</td><td>Display your bot permission level</td><td>User</td><td></td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 10 seconds
+      </br><strong>Type:</strong> member
+    </td><td>✅</td></tr><tr><td>ping</td><td>Displays bot stats</td><td>User</td><td>EmbedLinks</td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 30 seconds
+      </br><strong>Type:</strong> channel
+    </td><td>✅</td></tr><tr><td>stats</td><td>Displays bot stats</td><td>User</td><td>EmbedLinks</td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 30 seconds
+      </br><strong>Type:</strong> channel
+    </td><td>✅</td></tr><tr><td>support</td><td>Get a link to this bot't support server</td><td>User</td><td>EmbedLinks</td><td></td><td>🚫</td><td>
+      <strong>Uses:</strong> 1
+      <br/><strong>Duration:</strong> 15 seconds
+      </br><strong>Type:</strong> channel
+    </td><td>✅</td></tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
