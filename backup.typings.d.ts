@@ -60,9 +60,9 @@ export interface CommandBaseConfig {
 
 export interface APICommandConfig extends CommandBaseConfig {
   /**
-   * Is the command a global command, restricted to test server if false
+   * Is the command a global command, or restricted to test server if false
    */
- globalCmd?: boolean;
+ global?: boolean;
 }
 
 /**
