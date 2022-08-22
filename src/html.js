@@ -23,8 +23,7 @@ html, body {
   padding: 0;
   margin: 0;
   overflow: smooth-scroll;
-  display: flex;
-  justify-content: center;
+  width: 100%;
 }
 
 .background {
@@ -51,6 +50,10 @@ html, body {
   text-align: center;
   padding-top: 2rem;
   color: blue;
+}
+
+table {
+  margin: 0 auto;
 }
 
 table td,
