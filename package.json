@@ -33,10 +33,11 @@
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "better-docs": "^2.7.2",
+    "docdash": "^1.2.0",
     "eslint": "^8.15.0",
     "eslint-plugin-sonarjs": "^0.13.0",
     "jsdoc": "^3.6.11",
+    "jsdoc-to-markdown": "^7.1.1",
     "nodemon": "^2.0.16"
   },
   "engines": {
