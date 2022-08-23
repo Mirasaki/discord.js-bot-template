@@ -1,8 +1,14 @@
-const fs = require('fs');
-const { getPermLevelName } = require('./handlers/permissions');
-const { titleCase } = require('./util');
+/*** @module HTML */
 
-// Defining our array of properties that should be ignored
+const fs = require('fs');
+const { getPermLevelName } = require('./permissions');
+const { titleCase } = require('../util');
+
+/*** JSDoc: IGNORED */
+
+/*** Defining our array of properties that should be ignored
+ * @member {Array<string>} ignoredCommandProperties Array of ignored properties belonging to our @see {CommandBase} classes
+ */
 const ignoredCommandProperties = [
   'run',
   'validateConfig',
