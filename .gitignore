@@ -112,6 +112,9 @@ dist
 # Ignore our local developmenmt test files
 src/commands/testing
 
+# Documentation: JSDoc
+docs
+
 # [DEV] - In development, temporarily hide types output
 types
 TODO
