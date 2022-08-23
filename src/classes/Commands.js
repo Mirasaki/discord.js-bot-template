@@ -1,11 +1,16 @@
+// Destructure from Handler/Permissions
 const {
   permConfig,
   permLevelMap,
   getInvalidPerms
 } = require('../handlers/permissions');
+
+// Destructure from environmental
 const {
   DEBUG_ENABLED
 } = process.env;
+
+// Import from packages
 const path = require('path');
 const chalk = require('chalk');
 const logger = require('@mirasaki/logger');
