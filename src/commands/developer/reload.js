@@ -43,7 +43,23 @@ module.exports = new ChatInputCommand({
 
     // Try to reload the command
     try {
-      command.reload();
+      // [DEV] - Calling class unload() doesn't refresh the collection
+      // Removing from our collection
+      commands.delete(commandName);
+      // Getting and deleting our current cmd module cache
+      const filePath = command.filePath;
+      const module = require.cache[require.resolve(filePath)];
+      delete require.cache[require.resolve(filePath)];
+      for (let i = 0; i < module.children?.length; i++) {
+        if (!module.children) break;
+        if (module.children[i] === module) {
+          module.children.splice(i, 1);
+          break;
+        }
+      }
+
+      const newCommand = require(filePath);
+      newCommand.load(filePath, commands);
     } catch (err) {
       // Properly handling errors
       interaction.editReply({
