@@ -323,8 +323,7 @@ const ThrottleMap = new Map();
  */
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const throttleCommand = (clientCmd, interaction) => {
-  const { config, data } = clientCmd;
-  const { cooldown } = config;
+  const { data, cooldown } = clientCmd;
   const debugStr = chalk.red('[Cmd Throttle]');
 
   // Check if a cooldown is configured
@@ -489,61 +488,20 @@ const hasAccessToComponentCommand = (interaction) => {
  * Represents a filter that filters out commands that aren't appropriate for the invoker,
  * checks permission level, server-specific commands, and if the command is enabled
  * @param {external:DiscordGuildMember} member The Discord API member object, extended by discord.js
- * @param {commandBaseConfig} cmdConfig Our client-side command configuration
+ * @param {APICommand} command Our client-side command configuration
  * @returns {boolean} Indicates whether or not this command is appropriate for the command invoker
  */
-const isAppropriateCommandFilter = (member, cmdConfig) =>
+const isAppropriateCommandFilter = (member, command) =>
   // Check permission level
-  member.permLevel >= cmdConfig.permLevel
+  member.permLevel >= command.permLevel
   // Filtering out disabled commands
-  && cmdConfig.enabled === true
+  && command.enabled === true
   // Filtering out test commands
   && (
-    cmdConfig.global === true
+    command.global === true
       ? true
       : member.guild.id === TEST_SERVER_GUILD_ID
   );
-
-// Defining our empty command map
-const commandMap = [];
-
-/**
- * Represents an object with minimal {@link CommandBase} data
- * @typedef CommandMapDataObj
- * @property {string} name The name of the command
- * @property {number} permLevel A number representing the required permission level
- * @property {string} category The category this command belongs too
- * @property {boolean} global Indicates if the command is enabled globally
- */
-
-/**
- * Returns an array with minimal command data
- * @returns {Array<module:Handler/Commands~CommandMapDataObj>}
- */
-const getCommandMap = () => {
-  // Defining our function to populate our commandMap
-  // We cant use "commands.map()" because this is located
-  // in our top level scope - so it would retrieve the empty collection
-  if (commandMap.length === 0) {
-    for (const cmd of commands) {
-      const { data, enabled, permLevel, global, category } = cmd[1];
-      // Checking for command availability
-      if (!enabled) continue;
-
-      // Pushing the entry to our map if it's available
-      commandMap.push({
-        name: data.name,
-        permLevel,
-        description: data.description,
-        category,
-        global
-      });
-    }
-  }
-
-  // Return the result
-  return commandMap;
-};
 
 /**
  * Generates a Select Menu data object using command data
@@ -552,14 +510,13 @@ const getCommandMap = () => {
  */
 const getCommandSelectMenu = (member) => {
   // Filtering out unusable commands
-  const commandMap = getCommandMap();
-  const workingCmdMap = commandMap.filter((cmd) => isAppropriateCommandFilter(member, cmd));
+  const workingCmdMap = commands.filter((cmd) => isAppropriateCommandFilter(member, cmd));
 
   // Getting our structured array of objects
   let cmdOutput = workingCmdMap.map((cmd) => ({
-    label: cmd.name,
-    description: cmd.description,
-    value: cmd.name
+    label: cmd.data.name,
+    description: cmd.data.description,
+    value: cmd.data.name
   }));
 
   // If too long, slice chunk out and notify member
@@ -694,7 +651,6 @@ module.exports = {
   checkCommandCanExecute,
   hasAccessToComponentCommand,
   isAppropriateCommandFilter,
-  getCommandMap,
   getCommandSelectMenu,
   generateCommandInfoEmbed,
   generateCommandOverviewEmbed
