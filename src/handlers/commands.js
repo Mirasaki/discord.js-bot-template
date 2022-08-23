@@ -508,7 +508,7 @@ const isAppropriateCommandFilter = (member, cmdConfig) =>
 const commandMap = [];
 
 /**
- * Represents an object with minimal {@link Command} data
+ * Represents an object with minimal {@link CommandBase} data
  * @typedef CommandMapDataObj
  * @property {string} name The name of the command
  * @property {number} permLevel A number representing the required permission level
