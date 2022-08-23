@@ -1,0 +1,14 @@
+{
+  "name": "discord.js-bot-template-backend",
+  "version": "1.0.0",
+  "description": "The backend for our bot template",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Richard Hillebrand (Mirasaki)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
