@@ -269,12 +269,14 @@ class CommandBase {
    * command.unload(commands)
    */
   unload = (collection) => {
-    // Getting and deleting our current cmd module cache
+    // Removing from our collection
     collection.delete(this.data.name);
+    // Getting and deleting our current cmd module cache
     const filePath = this.filePath;
     const module = require.cache[require.resolve(filePath)];
     delete require.cache[require.resolve(filePath)];
-    for (let i = 0; i < module.children.length; i++) {
+    for (let i = 0; i < module.children?.length; i++) {
+      if (!module.children) break;
       if (module.children[i] === module) {
         module.children.splice(i, 1);
         break;
