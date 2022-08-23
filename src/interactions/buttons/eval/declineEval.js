@@ -19,7 +19,7 @@ module.exports = new ComponentCommand({
 
     // Update the original message
     await message.edit({
-      content: `${emojis.error} ${member}, this code block has been discarded.`,
+      content: `${emojis.error} ${member}, this code block has been discarded, unevaluated.`,
       components: []
     });
   }
