@@ -14,10 +14,6 @@ const {
   DEBUG_INTERACTIONS
 } = process.env;
 
-/**
- * @type {import('../../../typings').InteractionEventCallback}
- */
-
 // eslint-disable-next-line sonarjs/cognitive-complexity
 module.exports = (client, interaction) => {
   // Definitions

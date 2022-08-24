@@ -6,10 +6,6 @@ const chalk = require('chalk');
 // Destructure from env
 const { DEBUG_AUTOCOMPLETE_RESPONSE_TIME } = process.env;
 
-/**
- * @type {import('../../../typings').InteractionEventCallback}
- */
-
 module.exports = async (client, interaction) => {
   // guild property is present and available,
   // we check in the main interactionCreate.js file
