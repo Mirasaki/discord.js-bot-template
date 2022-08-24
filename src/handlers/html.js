@@ -205,7 +205,7 @@ const generateCommandHTML = (commands) => {
   html += baseHTMLEnd;
 
   // Saving the file
-  fs.writeFileSync('public/commands.html', html);
+  fs.writeFileSync('public/html/commands.html', html);
 };
 
 module.exports = {
