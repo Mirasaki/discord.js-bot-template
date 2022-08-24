@@ -83,14 +83,19 @@ app.use(bodyParser.json());
 // Routes Middleware
 app.use('/api/commands', commandRoutes);
 
-// Serving our static public files
+// Serving our generated client documentation as root
 app.use(
-  '/public',
-  express.static(path.join(__dirname || path.resolve(), '/public'))
+  '/',
+  express.static('docs', { extensions: ['html'] })
 );
 
-// Serving our generated documentation
+
+// Serving our generated API documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openAPISpecification));
+
+// Serving our static public files
+app.use(express.static('public'));
+
 
 // Apply our local middleware
 app.use(notFound);
