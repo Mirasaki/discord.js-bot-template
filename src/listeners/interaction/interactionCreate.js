@@ -9,43 +9,21 @@ const {
 const { getPermissionLevel } = require('../../handlers/permissions');
 const { titleCase, getRuntime } = require('../../util');
 
+// Destructure from origin file because it's
+// used in multiple functions
+const { emojis } = require('../../client');
+
 const {
   DEBUG_ENABLED,
   DEBUG_INTERACTIONS
 } = process.env;
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 module.exports = (client, interaction) => {
   // Definitions
-  const { emojis, commands, contextMenus, buttons, modals, selectMenus } = client.container;
-  const { member, channel, user, commandName, customId, guild } = interaction;
+  const { member, channel, commandName, customId } = interaction;
 
   // Initial performance measuring timer
   const cmdRunTimeStart = process.hrtime.bigint();
-
-  // Check for DM interactions
-  // Planning on adding support later down the road
-  if (!interaction.inGuild()) {
-    if (interaction.isRepliable()) {
-      interaction.reply({
-        content: `${emojis.error} ${member || user}, I don't currently support DM interactions. Please try again in a server.`
-      });
-    }
-    return;
-  }
-
-  // Check for outages
-  if (guild?.available !== true) {
-    const { guild } = interaction;
-    logger.debug(`Interaction returned, server unavailable.\nServer: ${guild.name} (${guild.id})`);
-    return;
-  }
-
-  // Check for missing 'bot' scope
-  if (!interaction.guild) {
-    logger.debug('Interaction returned, missing \'bot\' scope / missing guild object in interaction.');
-    return;
-  }
 
   // Conditional Debug logging
   if (DEBUG_INTERACTIONS === 'true') {
@@ -53,6 +31,11 @@ module.exports = (client, interaction) => {
     console.dir(interaction, { showHidden: false, depth: 0, colors: true });
     logger.endLog('New Interaction');
   }
+
+  // Check interaction/command availability
+  // API availability, guild object, etc
+  // Replies to the interaction in function
+  if (checkInteractionAvailability(interaction) === false) return;
 
   // Setting the permLevel on the member object before we do anything else
   const permLevel = getPermissionLevel(member, channel);
@@ -76,12 +59,52 @@ module.exports = (client, interaction) => {
     return;
   }
 
+  // Run the command
+  // Has additional checks inside
+  runCommand(client, interaction, activeId, cmdRunTimeStart);
+};
+
+const checkInteractionAvailability = (interaction) => {
+  const { member, guild } = interaction;
+
+  // Check for DM interactions
+  // Planning on adding support later down the road
+  if (!interaction.inGuild()) {
+    if (interaction.isRepliable()) {
+      interaction.reply({
+        content: `${emojis.error} ${member}, I don't currently support DM interactions. Please try again in a server.`
+      });
+    }
+    return false;
+  }
+
+  // Check for outages
+  if (guild?.available !== true) {
+    const { guild } = interaction;
+    logger.debug(`Interaction returned, server unavailable.\nServer: ${guild.name} (${guild.id})`);
+    return false;
+  }
+
+  // Check for missing 'bot' scope
+  if (!interaction.guild) {
+    logger.debug('Interaction returned, missing \'bot\' scope / missing guild object in interaction.');
+    return false;
+  }
+
+  // Return true if all checks pass
+  return true;
+};
+
+const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
+  const { commands, contextMenus, buttons, modals, selectMenus } = client.container;
+  const { member, guild, channel } = interaction;
+
   // Grab the command
   const clientCmd = commands.get(activeId)
-    || contextMenus.get(activeId)
-    || buttons.get(activeId)
-    || modals.get(activeId)
-    || selectMenus.get(activeId);
+   || contextMenus.get(activeId)
+   || buttons.get(activeId)
+   || modals.get(activeId)
+   || selectMenus.get(activeId);
 
   // Check for late API changes
   if (!clientCmd) {
@@ -106,8 +129,8 @@ module.exports = (client, interaction) => {
   // Check if the Component Command is meant for the member initiating it
   if (
     interaction.isButton()
-    || interaction.isSelectMenu()
-    || interaction.isMessageComponent()
+   || interaction.isSelectMenu()
+   || interaction.isMessageComponent()
   ) {
     const componentIsForMember = hasAccessToComponentCommand(interaction);
     if (!componentIsForMember) {
@@ -140,10 +163,10 @@ module.exports = (client, interaction) => {
   }
 
   /*
-    All checks have passed
-    Run the command
-    While catching possible errors
-   */
+   All checks have passed
+   Run the command
+   While catching possible errors
+  */
   (async () => {
     try {
       await clientCmd.run(client, interaction);
