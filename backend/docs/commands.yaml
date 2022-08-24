@@ -1,0 +1,304 @@
+paths:
+  # Application Chat Input Commands
+  /api/commands:
+    get:
+      summary: Retrieves a list of chat input commands
+      description: Retrieves a list of chat input commands, sorted by category.. Holds valuable information like cooldown configuration, permission levels, and Discord API data.
+      parameters:
+      - in: path
+        name: category
+        required: false
+        description: Only show commands belonging to a specific category
+        schema:
+          type: string
+      - in: path
+        name: limit
+        required: false
+        description: Only show the first {limit} results
+        schema:
+          type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/APICommand'
+  /api/commands/{name}:
+    get:
+      summary: Find a command by name
+      description: Find a specific command in the command collection by name
+      responses:
+        '200':
+          description: OK, the command was found
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/APICommand'
+        '404':
+          description: Not found, couldn't find a command with the provided name
+
+  # Application Context Menu Commands
+  /api/commands/context-menus:
+    get:
+      summary: Retrieves a list of context menu commands
+      description: Retrieves a list of context menu commands, sorted by category.. Holds valuable information like cooldown configuration, permission levels, and Discord API data.
+      parameters:
+      - in: path
+        name: category
+        required: false
+        description: Only show commands belonging to a specific category
+        schema:
+          type: string
+      - in: path
+        name: limit
+        required: false
+        description: Only show the first {limit} results
+        schema:
+          type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/APICommand'
+  /api/commands/context-menus/{name}:
+    get:
+      summary: Find a context menu command by name
+      description: Find a specific context menu command in the command collection by name
+      responses:
+        '200':
+          description: OK, the command was found
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/APICommand'
+        '404':
+          description: Not found, couldn't find a command with the provided name
+
+  # Application Auto Complete Commands
+  /api/commands/auto-complete:
+    get:
+      summary: Retrieves a list of auto complete commands
+      description: Retrieves a list of auto complete commands, sorted by category.. Holds valuable information like cooldown configuration, permission levels, and Discord API data.
+      parameters:
+      - in: path
+        name: category
+        required: false
+        description: Only show commands belonging to a specific category
+        schema:
+          type: string
+      - in: path
+        name: limit
+        required: false
+        description: Only show the first {limit} results
+        schema:
+          type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BaseCommand'
+  /api/commands/auto-complete/{name}:
+    get:
+      summary: Find an auto complete command by name
+      description: Find a specific auto complete command in the command collection by name
+      responses:
+        '200':
+          description: OK, the command was found
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/BaseCommand'
+        '404':
+          description: Not found, couldn't find a command with the provided name
+
+  # Application Button Commands
+  /api/commands/buttons:
+    get:
+      summary: Retrieves a list of button commands
+      description: Retrieves a list of button commands, sorted by category.. Holds valuable information like cooldown configuration, permission levels, and Discord API data.
+      parameters:
+      - in: path
+        name: category
+        required: false
+        description: Only show commands belonging to a specific category
+        schema:
+          type: string
+      - in: path
+        name: limit
+        required: false
+        description: Only show the first {limit} results
+        schema:
+          type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BaseCommand'
+  /api/commands/buttons/{name}:
+    get:
+      summary: Find a button command by name
+      description: Find a specific button command in the command collection by name
+      responses:
+        '200':
+          description: OK, the command was found
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/BaseCommand'
+        '404':
+          description: Not found, couldn't find a command with the provided name
+
+# Application Modal Commands
+  /api/commands/modals:
+    get:
+      summary: Retrieves a list of modal commands
+      description: Retrieves a list of modal commands, sorted by category.. Holds valuable information like cooldown configuration, permission levels, and Discord API data.
+      parameters:
+      - in: path
+        name: category
+        required: false
+        description: Only show commands belonging to a specific category
+        schema:
+          type: string
+      - in: path
+        name: limit
+        required: false
+        description: Only show the first {limit} results
+        schema:
+          type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BaseCommand'
+  /api/commands/modals/{name}:
+    get:
+      summary: Find a modal command by name
+      description: Find a specific modal command in the command collection by name
+      responses:
+        '200':
+          description: OK, the command was found
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/BaseCommand'
+        '404':
+          description: Not found, couldn't find a command with the provided name
+
+# Application Select Menu Commands
+  /api/commands/select-menus:
+    get:
+      summary: Retrieves a list of select menu commands
+      description: Retrieves a list of select menu commands, sorted by category.. Holds valuable information like cooldown configuration, permission levels, and Discord API data.
+      parameters:
+      - in: path
+        name: category
+        required: false
+        description: Only show commands belonging to a specific category
+        schema:
+          type: string
+      - in: path
+        name: limit
+        required: false
+        description: Only show the first {limit} results
+        schema:
+          type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BaseCommand'
+  /api/commands/select-menus/{name}:
+    get:
+      summary: Find a select menu command by name
+      description: Find a specific select menu command in the command collection by name
+      responses:
+        '200':
+          description: OK, the command was found
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/BaseCommand'
+        '404':
+          description: Not found, couldn't find a command with the provided name
+
+
+# Command Components
+components:
+  schemas:
+    BaseCommand:
+      type: object
+      properties:
+        permLevel:
+          type: integer
+          description: The permission level required to execute the command
+        clientPerms:
+          type: array
+          description: Additional Discord permissions required by the client to execute the command
+          items:
+            type: string
+        userPerms:
+          type: array
+          description: Additional Discord permissions required by the user (command-invoker) to execute the command
+          items:
+            type: string
+        enabled:
+          description: Is the command currently enabled
+          type: boolean
+        nsfw:
+          description: Is the command NSFW, or SFW
+          type: boolean
+        category:
+          description: The category this command belongs to
+          type: string
+        cooldown:
+          type: object
+          description: Cooldown configuration for this command
+          properties:
+            type:
+              type: string
+            usages:
+              type: number
+            duration:
+              type: number
+        data:
+          type: object
+          description: Discord API Application Command data
+          properties:
+            type:
+              type: number
+            name:
+              type: string
+            description:
+              type: string
+    APICommand:
+      allOf:
+        - type: object
+          properties:
+            global:
+              type: boolean
+              description: Is the command enabled globally, or only in the testing server
+        - $ref: '#/components/schemas/BaseCommand'

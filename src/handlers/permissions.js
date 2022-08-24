@@ -1,7 +1,45 @@
+/**
+ * Our permission handler, holds utility functions and everything to do with
+ * handling permissions in this template. Exported from `/src/handlers/permissions.js`.
+ * See {@tutorial permissions} for an overview.
+ * @module Handler/Permissions
+ */
+
 const { PermissionsBitField } = require('discord.js');
 const config = require('../../config');
 
-// Our ordered permission level configuration
+/**
+ * The `discord.js` GuildMember object
+ * @external DiscordGuildMember
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/class/GuildMember}
+ */
+
+/**
+ * The `discord.js` GuildChannel object
+ * @external DiscordGuildChannel
+ * @see {@link https://discord.js.org/#/docs/discord.js/main/class/GuildChannel}
+ */
+
+/**
+ * Check if the command invoker has this level
+ * @typedef {Function} hasLevel
+ * @param {external:DiscordGuildMember} member The Discord API member object
+ * @param {external:DiscordGuildChannel} [channel] The Discord API channel object
+ * @returns {boolean} Indicates if the invoke has this permission level
+ */
+
+/**
+ * Represents a valid permission configuration data entry
+ * @typedef {Object} PermConfigEntry
+ * @property {string} name The name of the permission level
+ * @property {number} level The level of the permission level
+ * @property {module:Handler/Permissions~hasLevel} hasLevel Indicates if the invoker has this permission level
+ */
+
+/**
+ * Our ordered permission level configuration
+ * @member {Array<module:Handler/Permissions~PermConfigEntry>} permConfig
+ */
 const permConfig = [
   {
     name: 'User',
@@ -48,24 +86,62 @@ const permConfig = [
     level: 5,
     hasLevel: (member) => config.permissions.ownerId === member.id
   }
-].reverse(); // Reverse the array so the highest permission level is checked first
+];
 
-// Creating a permission level map/list
+/**
+ * Enum for our permission levels/names
+ * @readonly
+ * @enum {string}
+ */
 const permLevelMap = { ...permConfig.map(({ name }) => name) };
 
-// Get someone's permLvl, returns Integer
+/**
+ * Resolve a permission level integer
+ * @param {number} integer The permission level integer to resolve
+ * @returns {string} The resolved permission level name
+ */
+const getPermLevelName = (integer) => permConfig.find((cfg) => cfg.level === integer)?.name;
+
+
+/**
+ * Our {@link Handler/Permissions~PermConfig} sorted by perm level, highest first
+ * @member {Array<module:Handler/Permissions~PermConfigEntry>} sortedPermConfig
+ */
+const sortedPermConfig = permConfig.sort((a, b) => {
+  return b.level - a.level;
+});
+
+/**
+ * Resolves someone's permission level
+ * @method getPermissionLevel
+ * @param {external:DiscordGuildMember} member The Discord API member object
+ * @param {external:DiscordGuildChannel} channel The Discord API channel object
+ * @returns {number} The member's permission level
+ */
 const getPermissionLevel = (member, channel) => {
-  for (const currLvl of permConfig) {
+  for (const currLvl of sortedPermConfig) {
     if (currLvl.hasLevel(member, channel)) {
       return currLvl.level;
     }
   }
 };
 
-// Utility function for checking if provided permissions are actually valid
+/**
+ * Check if an array of permission strings has any invalid API permissions
+ * @param {Array<string>} permArr Array of permission in string form
+ * @returns {Array<external:DiscordPermissionResolvable>} Array of invalid permissions
+ */
 const getInvalidPerms = (permArr) =>
   permArr.filter((perm) => typeof PermissionsBitField.Flags[perm] === 'undefined');
 
+/**
+ * Check if a user has specific permissions in a channel
+ * @param {string} userId The ID of the user
+ * @param {DiscordGuildChannel} channel The channel to check permissions in
+ * @param {Array<string>} permArr The array of permissions to check for
+ * @returns {true | Array<external:DiscordPermissionResolvable>} True if the member has all permissions,
+ * or the array of missing permissions
+ */
 const hasChannelPerms = (userId, channel, permArr) => {
   // Convert string to array
   if (typeof permArr === 'string') permArr = [permArr];
@@ -86,7 +162,9 @@ const hasChannelPerms = (userId, channel, permArr) => {
 
 module.exports = {
   permConfig,
+  sortedPermConfig,
   permLevelMap,
+  getPermLevelName,
   getPermissionLevel,
   getInvalidPerms,
   hasChannelPerms

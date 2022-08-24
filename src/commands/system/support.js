@@ -1,17 +1,21 @@
 const { stripIndents } = require('common-tags');
+const { ChatInputCommand } = require('../../classes/Commands');
 const { colorResolver } = require('../../util');
 
-module.exports = {
+module.exports = new ChatInputCommand({
+  global: true,
+  cooldown: {
+    type: 'channel', // Use channel cooldown type instead of default member,
+    usages: 1,
+    duration: 15
+  },
+  clientPerms: ['EmbedLinks'],
   data: {
     name: 'support',
     description: 'Get a link to this bot\'t support server'
   },
 
-  config: {
-    globalCmd: true
-  },
-
-  run: ({ client, interaction }) => {
+  run: (client, interaction) => {
     interaction.reply({
       embeds: [{
         // Not passing an parameter to colorResolver
@@ -38,4 +42,4 @@ module.exports = {
       }]
     });
   }
-};
+});

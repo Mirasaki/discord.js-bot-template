@@ -1,21 +1,17 @@
-// discordjs type definitions
-const { ActivityType, PresenceUpdateStatus } = require('discord.js');
-
 const config = {
   // Array of Intents your bot needs
   // https://discord.com/developers/docs/topics/gateway#gateway-intents
-  intents: [ 'GUILDS' ],
+  intents: [ 'Guilds', 'GuildMessages' ],
 
   // Bot activity
   presence: {
     // One of online, idle, invisible, dnd
-    status: PresenceUpdateStatus['online'],
+    status: 'online',
     activities: [
       {
         name: '/help',
-        // Activity type ENUM
-        // Playing = 0, Streaming = 1, Listening = 2, Watching = 3
-        type: ActivityType[0]
+        // One of Playing, Streaming, Listening, Watching
+        type: 'Listening'
       }
     ]
   },
@@ -26,7 +22,7 @@ const config = {
     ownerId: '290182686365188096',
 
     // Bot developers, second to highest permission level (4)
-    developers: [ '290182686365188096' ]
+    developers: [ '625286565375246366' ]
   },
 
   // The Discord server invite to your Support server

@@ -1,25 +1,25 @@
 const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('@discordjs/builders');
 const { TextInputStyle } = require('discord.js');
+const { ChatInputCommand } = require('../../classes/Commands');
+// Unique identifiers for our components' customIds
+const { EVAL_CODE_MODAL, EVAL_CODE_INPUT } = require('../../constants');
 
-module.exports = {
+module.exports = new ChatInputCommand({
+  permLevel: 'Developer',
+  clientPerms: ['EmbedLinks','AttachFiles'],
   data: {
-    description: 'Execute arbitrary JavaScript code'
+    description: 'Evaluate arbitrary JavaScript code'
   },
-
-  config: {
-    permLevel: 'Developer'
-  },
-
-  run: async ({ interaction }) => {
+  run: async (client, interaction) => {
     // Code Modal
     const codeModal = new ModalBuilder()
-      .setCustomId('eval-code-modal')
+      .setCustomId(EVAL_CODE_MODAL)
       .setTitle('JavaScript code');
 
     // Code Input
     const codeInput = new TextInputBuilder()
-      .setCustomId('eval-code-input')
-      .setLabel('The JavaScript code to eval')
+      .setCustomId(EVAL_CODE_INPUT)
+      .setLabel('The JavaScript code to evaluate')
       .setStyle(TextInputStyle.Paragraph);
 
     // Modal Rows
@@ -31,4 +31,4 @@ module.exports = {
     // Showing the modal to the user
     await interaction.showModal(codeModal);
   }
-};
+});

@@ -5,7 +5,7 @@
 
 This is a bot template using [discord.js](https://github.com/discordjs/discord.js "discord.js on Github") for quickly and easily creating powerful [Discord](https://discord.com/ "Official Discord Website") bots. You don't need much Javascript experience to get started on a project using this template. Not sure where to start? Come join my [Discord Server](https://discord.gg/E3xejZRUFB), where I'll try and answer all the questions you have.
 
-With [Message Content Access becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") I thought I'd build a template where you're pretty much ready to start working on commands after installing it. This template currently doesn't listen to the `messageCreate` event. Update Slash Commands by using the `/deploy` command or altering the environmental variables. It also uses the latest Discord features, like auto-complete, Buttons, Modals, and other components.
+With [Message Content Access becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") I thought I'd build a template where you're pretty much ready to start working on commands after installing it. This template currently doesn't listen to the `messageCreate` event. Update Slash Commands by using the `/deploy` command or altering the environmental variables. It also uses the latest Discord features, like auto-complete, buttons, modals, and other components.
 
 ---
 
@@ -20,33 +20,68 @@ Come try the template yourself in our official [support server](https://discord.
 
 ## Features
 
-Complete | Notes
--------- | ---------
-✅ Built-in Slash Commands | [Message Content Access is becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") and that's why this template focuses on Discord's [Interaction Commands](https://discord.com/developers/docs/interactions/receiving-and-responding#interactions "Discord Interaction Documentation"). In fact, we don't even activily listen to the `messageCreate` event.
-✅ Event Listener | This template comes with an event listener that doesn't use the depracated `.bind()` method.
-✅ Permissions | This template handles user permission level, required command permissions and additional configurable client & user permissions.
-✅ Auto complete | Discord's API auto complete is showcased in the `/help` command and `/src/listeners/interaction/autoCompleteInteraction.js` file.
-✅ Developer Friendly | This template has detailed information available in the files themselves, allowing new developer's to jump right in and get started on commands.
-✅ Testing Friendly | Configure your command to be *global* or *test server only*. Allowing you to test properly, and finally make it available globally.
-✅ Throttling | Configure command cooldowns for all your commands. Allow infinite usages for a command that barely does anything, and restrict resource-heavy commands to 1 usage in 120 seconds.
-✅ Permission | Configure a required permission level for your commands. Also configure any *additional* required [Discord Permissions](https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags "All available permissions") for the client/bot and the member calling the command. Very useful for moderation functionality.
-✅ Global disable & enable | Found a major bug in one of your commands? Disable it in your slash configuration export and the Slash Command will automatically be disabled, be it global or test server.
-✅ NSFW channel restrictions | Configure whether or not your command is SFW and automatically restrict it to NSFW channels if it's not.
-✅ Utility file | This template comes with a `/src/util.js` file which exports utility functions which will make your everyday tasks a lot easier.
-✅ Extensions | Both the `client` and `member` objects have extended properties. `member.permLevel` is available in all Interaction listeners. Client has multiple extensions which are containerized: `client.container.` ->`commands`, `config`, `emoji`, `colors`
-✅ Command Nesting | This template supports and encourages deep command and command-category nesting
+### Dynamic Command Handler
 
-Incomplete | Notes
----------- | -----
-⌛ Add support for DM commands | At the time of writing this, Slash Commands can be called in a bots DM channel. I'd like to add full support for DM Slash Commands.
+- This template comes with a powerful, yet simple to understand and modify, dynamic command handler. You can go straight to adding new commands without having to worry about client internals.
+- [Message Content Access is becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") and that's why this template focuses on Discord's [Interaction Commands](https://discord.com/developers/docs/interactions/receiving-and-responding#interactions "Discord Interaction Documentation"). In fact, we don't even activity listen to the `messageCreate` event.
+- Every module in the [command root folder](/src/commands/) will be loaded as a [ChatInputCommand](/typings.d.ts), taking care of default configuration.
+    1. Default command name is the name of the file without extension.
+    2. Default command category is the name of the parent folder.
+- Every module in the [context-menus folder](/src/context-menus/) will be loaded as either a [UserContextCommand](/typings.d.ts) or a [MessageContextCommand](/typings.d.ts), depending on which folder it's located in.
+- Deep nest to your heart's content. Deep nesting files in folders for all [ChatInputCommand](/typings.d.ts), and **any** API Components is supported for 25 levels.
+- Configure internal permission levels, and define any additional (optional) Discord permissions required to execute the command. Useful for Moderation tools.
+- Enable commands globally, restrict them to a single testing server, or even disable it all together if you've discovered a major bug in your code.
+- Throttle your command usage, configure a `{{usages}} in {{duration}}` cooldown to individual commands. With the 5 different available cooldown types (user, member, channel, guild, global), you can configure an appropriate cooldown for all your commands and components.
 
----
+### Dynamic Component Handler
+
+- Supports, and uses, all the latest Discord API features, like buttons, modals, context-menus, select-menus, and is autocomplete-enabled!
+- The same configuration as your command files. Apply a cooldown to any component, and manage permissions and all the other configuration you're used to from this template.
+- Examples on how to implement all the different API components.
+    1. [`/info`](/src/context-menus/user/info.js) - User Context Menu Command, displays detailed information about the user. (Right-click a user -> Apps)
+    2. [`/print-embeds`](/src/context-menus/message/print-embed.js) - Message Context Menu Command, grabs and prints raw Embed JSON data from a message and sends it to the member. (Right-click a message -> Apps)
+    3. [Autocomplete-enabled `/help` command](src/interactions/autocomplete/help.js) - The template is auto-complete enabled, just return an array of any size in the files `run()` function
+    4. [`/eval` button-integration](/src/interactions/buttons/eval/acceptEval.js) - Manage buttons and button-groups easily, and apply additional permissions and cooldown for **all** components. (except `autocomplete`)
+    5. [`/eval` modal-integration](/src/interactions/modals/evalSubmit.js) - Manage modals, we have unique identifier declared in our [constants file](/src/constants.js) to make sure we use the same `customId` field across all components and different files. Not required, but strongly recommended.
+    6. [`/help` select-menu-integration](/src/interactions/select-menus/help.js) - Integrating seamlessly with the code in our main [`/help` command](/src/commands/system/help.js)
+
+### Dynamic Event Handler
+
+Every file in [the `listeners` folder](/src/listeners/) will be registered as an event listener where the file name without extension is the name of the event. Creating a file named `messageCreate.js` will listen to the `messageCreate` event, achieving the same as using `client.on()`. It listens for events, not much more to say about it.
+
+### Others
+
+- Supports VSCode IntelliSense for auto-complete during local development.
+- Uses Discord's Autocomplete API, and showcases it in the `/help` command.
+- All the template files have comments explaining what's going on, making it easy for new JavaScript developers to jump in.
+- Comes with a [utility file](/src/util.js), which exports utility functions to make your common tasks easier/faster.
+- Extensions to `discord.js` have been containerized. Everything is documented in the [typings file](/typings.d.ts), or check out the [client-extension](/src/client.js) file, which is served as `client.container`.
+- Automatically (environmental variable) deploy changes to your API commands, or use the [/deploy](/src/commands/developer/deploy.js) command.
+
+### Notes
+
+You don't **have** to use the built-in component command (buttons, modals, etc) handler. Alternatively, you can use the following (vanilla `discord.js`) code to achieve the same, but within a ChatInput/UserContextMenu/MessageContextMenu command file:
+
+```javascript
+// In any scope with a valid interaction object
+const { ComponentType } = require('discord.js');
+// Fetching the message attached to the received interaction
+const interactionMessage = await interaction.fetchReply();
+
+// Button reply/input collector
+const acceptEvalCollector = interactionMessage.createMessageComponentCollector({
+    filter: (i) => (
+        // Filter out custom ids
+        i.customId === 'customId' || i.customId === 'customIdTwo'
+    ) && i.user.id === interaction.user.id, // Filter out people without access to the command
+    componentType: ComponentType.Button,
+    time: 60000
+});
+```
 
 ## Installation & Usage
 
----
-
-## Prerequisites
+### Prerequisites
 
 - [NodeJS](https://nodejs.org/en/download/) (if you're running as a plain NodeJS app)
     1) Head over to the download page
@@ -64,8 +99,8 @@ Incomplete | Notes
 
 The quickest, and easiest, way to host/use this bot is by deploying it inside of a Docker container.
 
-1. Clone this repository: `git clone git@github.com:Mirasaki/discord.js-bot-template.git`
-2. Navigate inside the new folder: `cd discord-bot-template`
+1. Clone this repository: `git clone https://github.com/Mirasaki/discord.js-bot-template.git`
+2. Navigate inside the new folder: `cd discord.js-bot-template`
 3. Rename `.env.example` to `.env` and provide your environmental variables
 4. Rename `config.example.js` to `config.js` and provide your configuration
 5. Build the project: `docker build --tag discord-bot-template .`
@@ -75,16 +110,16 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 
 You can also clone this repository or download a release, and host the project directly. You will need [Node/NodeJS](https://nodejs.org/en/) (Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard)
 
-1. Head over to [the download page](https://github.com/Mirasaki/discord.js-bot-template/releases/) (or clone by using: `git clone git@github.com:Mirasaki/discord.js-bot-template.git`)
+1. Head over to [the download page](https://github.com/Mirasaki/discord.js-bot-template/releases/)
+    - Alternatively, clone this repository by using `git clone https://github.com/Mirasaki/discord.js-bot-template.git` and skip to step 4 if you have [Git](https://git-scm.com/downloads "Git Download Section") installed.
 2. Download either the `zip` or `zip.gz` source code
-3. Extract it using [your favorite zip tool](https://www.rarlab.com/download.htm)
-4. Open the folder containing your recently extracted files
-5. Open a console/terminal/shell prompt in this directory
-6. Run `npm i --include-dev` to install all dependencies
-7. Rename `.env.example` to `.env` and configure your environmental variables
-8. Rename `config.js.example` to `config.js` and go through your bot configuration
-9. Use the command `node .` to start the application, `npm run start` to keep the process alive with [PM2](https://pm2.io/) (if you have this installed), or `npm run start:dev` if you have `nodemon` installed for automatic restarts on changes (active development)
+3. Extract it using [your favorite zip tool](https://www.rarlab.com/download.htm "It's WinRar, duh")
+4. Open a new console/terminal/shell window in the newly created project folder.
+5. Run `npm i --include-dev` to install all dependencies, including development dependencies.
+6. Rename [`.env.example`](/.env.example "View .env.example file in current repository") to `.env` and configure your environmental variables
+7. Rename [`config.example.js`](/config.example.js "View config.example.js file in current repository") to `config.js` and go through your bot configuration
+8. Use the command `node .` to start the application, or alternatively:
+    - `npm run start` to keep the process alive with [PM2](https://pm2.io/ "PM2 | Official Website"), suitable for production environments. (`npm i -g pm2` to install)
+    - `npm run start:dev` if you have `nodemon` installed for automatic restarts on changes, suitable for development environments.
 
-### Notes
-
-- Get a Bot Token from [the Discord developer portal](https://www.discord.com/developers) (you will need this in your `.env` file)
+> Open source, self-hosted, and MIT licensed, meaning you're in full control.

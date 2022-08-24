@@ -108,3 +108,18 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Ignore our local developmenmt test files
+src/commands/testing
+
+# Documentation: JSDoc
+/docs
+
+# Our generated command table
+/public/html/commands.html
+
+# Personal TODO file
+TODO
+
+# In-development, Intellisense for events/listeners
+backup.typings.d.ts

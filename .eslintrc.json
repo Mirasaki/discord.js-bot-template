@@ -69,6 +69,7 @@
     ],
     "no-lone-blocks": "warn",
     "no-loop-func": "warn",
+    "no-magic-numbers": 0,
     "no-mixed-operators": [
       "warn",
       {

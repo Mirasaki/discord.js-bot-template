@@ -1,14 +1,18 @@
 {
   "name": "discord.js-bot-template",
   "description": "A discord bot template using discord.js",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "main": "src/index.js",
   "scripts": {
-    "start": "node .",
-    "start:dev": "nodemon run node --trace-warnings .",
+    "start": "concurrently \"npm run client\" \"npm run server\"",
+    "start:dev": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
+    "client": "node .",
+    "client:dev": "nodemon run node --trace-warnings .",
+    "server": "node backend/server",
+    "server:dev": "nodemon --trace-warnings backend/server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker build --tag discord-bot-template .",
-    "docker:start": "docker run -d --name discord-bot-template --env-file ./.env -p 27017:27017 discord-bot-template",
+    "docker:start": "docker run -v $(pwd):/app -v /app/node_modules --env-file ./.env -d --name discord-bot-template discord-bot-template",
     "docker:restart": "docker restart discord-bot-template",
     "docker:stop": "docker stop discord-bot-template",
     "docker:kill": "docker rm -fv discord-bot-template",
@@ -21,18 +25,29 @@
     "pm2:logsError": "pm2 logs --err --lines 300 discord.js-bot-template",
     "lint": "eslint src",
     "linter": "eslint src --fix",
-    "writeLinter": "eslint src --output-file linter-output.txt"
+    "writeLinter": "eslint src --output-file linter-output.txt",
+    "docs": "jsdoc -u ./tutorials --readme README.md -c jsdoc.json",
+    "types": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
     "@discordjs/rest": "^1.0.1",
     "@mirasaki/logger": "^1.0.4",
+    "body-parser": "^1.20.0",
     "common-tags": "^1.8.2",
-    "discord.js": "^14.1.2",
-    "dotenv": "^16.0.0"
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
+    "concurrently": "^7.3.0",
+    "docdash": "^1.2.0",
     "eslint": "^8.15.0",
     "eslint-plugin-sonarjs": "^0.13.0",
+    "jsdoc": "^3.6.11",
+    "jsdoc-to-markdown": "^7.1.1",
     "nodemon": "^2.0.16"
   },
   "engines": {
@@ -43,11 +58,24 @@
     "url": "git+https://github.com/Mirasaki/discord.js-bot-template.git"
   },
   "keywords": [
+    "nodejs",
     "bot-template",
     "template",
+    "boilerplate",
+    "discord-api",
+    "typings",
     "discord",
+    "discordjs",
+    "v14",
     "discord-bot",
-    "discord-bot-template"
+    "discord-bot-template",
+    "slash-commands",
+    "buttons",
+    "modals",
+    "autocomplete",
+    "context-menus",
+    "select-menus",
+    "documented"
   ],
   "author": "Richard Hillebrand (Mirasaki)",
   "license": "MIT",

@@ -1,20 +1,13 @@
 const { stripIndents } = require('common-tags');
+const { ChatInputCommand } = require('../../classes/Commands');
 const { refreshSlashCommandData } = require('../../handlers/commands');
 
-module.exports = {
+module.exports = new ChatInputCommand({
+  permLevel: 'Developer',
   data: {
-    name: 'deploy',
-    description: 'Re-deploy ApplicationCommand API data',
-
-    // Unavailable to non-admins in guilds
-    default_member_permissions: 0
+    description: 'Re-deploy ApplicationCommand API data'
   },
-
-  config: {
-    permLevel: 'Developer'
-  },
-
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     const { member } = interaction;
     const { emojis } = client.container;
 
@@ -29,4 +22,4 @@ module.exports = {
       `
     });
   }
-};
+});

@@ -1,6 +1,8 @@
 const { ApplicationCommandOptionType } = require('discord.js');
+const { ChatInputCommand } = require('../../classes/Commands');
 
-module.exports = {
+module.exports = new ChatInputCommand({
+  permLevel: 'Developer',
   data: {
     description: 'Test command for the developers',
     options: [
@@ -11,18 +13,11 @@ module.exports = {
         required: true
       }
     ],
-
-    // Unavailable to non-admins in guilds
-    default_member_permissions: 0
+    default_member_permissions: 0 // Unavailable to non-admins in guilds
   },
 
-  config: {
-    permLevel: 'Developer',
-    clientPerms: ['Administrator'],
-    userPerms: ['ManageChannels', 'ManageGuild']
-  },
-
-  run: () => {
+  run: (client, interaction) => {
     // ...
   }
-};
+});
+
