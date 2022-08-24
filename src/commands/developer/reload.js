@@ -43,7 +43,10 @@ module.exports = new ChatInputCommand({
 
     // Try to reload the command
     try {
-      // [DEV] - Calling class unload() doesn't refresh the collection
+      // Calling class#unload() doesn't refresh the collection
+      // To avoid code repetition in Commands class file
+      // We'll re-create the function in our /reload command
+
       // Removing from our collection
       commands.delete(commandName);
       // Getting and deleting our current cmd module cache
