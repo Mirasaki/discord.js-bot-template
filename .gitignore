@@ -118,7 +118,8 @@ src/commands/testing
 # Our generated command table
 /public/html/commands.html
 
-# [DEV] - In development, temporarily hide types output
-types
+# Personal TODO file
 TODO
+
+# In-development, Intellisense for events/listeners
 backup.typings.d.ts
