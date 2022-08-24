@@ -95,7 +95,11 @@ const permConfig = [
  */
 const permLevelMap = { ...permConfig.map(({ name }) => name) };
 
-// [DEV] - document
+/**
+ * Resolve a permission level integer
+ * @param {number} integer The permission level integer to resolve
+ * @returns {string} The resolved permission level name
+ */
 const getPermLevelName = (integer) => permConfig.find((cfg) => cfg.level === integer)?.name;
 
 
