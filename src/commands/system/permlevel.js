@@ -4,7 +4,6 @@ const { permConfig } = require('../../handlers/permissions');
 module.exports = new ChatInputCommand({
   global: true,
   cooldown: { // Default member type cooldown
-    type: 'member', // [DEV] - If you comment this line, cooldown.type will be undefined
     usages: 1,
     duration: 10
   },
