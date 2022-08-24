@@ -101,11 +101,10 @@ class CommandBase {
     /**
      * @property {CommandBaseCooldown} cooldown Cooldown configuration for the command
      */
-    this.cooldown = config.cooldown || {
-      type: 'member',
-      usages: 1,
-      duration: 2
-    };
+    this.cooldown = config.cooldown || {};
+    this.cooldown.type = config.cooldown?.type || 'member';
+    this.cooldown.usages = config.cooldown?.usages || 1;
+    this.cooldown.duration = config.cooldown?.duration || 2;
 
     /**
      * @property {string} category This command's category
