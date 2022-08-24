@@ -90,7 +90,7 @@ app.use(
 );
 
 // Serving our generated documentation
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(openAPISpecification));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openAPISpecification));
 
 // Apply our local middleware
 app.use(notFound);
