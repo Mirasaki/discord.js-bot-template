@@ -33,7 +33,7 @@ const swaggerDefinition = { // https://swagger.io/specification/#openapi-object
     version: pkg.version,
     description: `This is a REST API application made with Express. It serves ${pkg.name} command data.`,
     license: {
-      name: 'Licensed Under MIT',
+      name: 'MIT License',
       url: 'https://spdx.org/licenses/MIT.html'
     },
     contact: {
