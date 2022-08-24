@@ -109,7 +109,7 @@ dist
 # TernJS port file
 .tern-port
 
-# Ignore our local developmenmt test files
+# Ignore our local development test files
 src/commands/testing
 
 # Documentation: JSDoc

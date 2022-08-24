@@ -26,7 +26,7 @@ const config = {
   },
 
   // The Discord server invite to your Support server
-  supportServerInviteLink: 'https://discord.gg/KaxTGGg4jK'
+  supportServerInviteLink: 'https://discord.mirasaki.dev'
 };
 
 module.exports = config;
