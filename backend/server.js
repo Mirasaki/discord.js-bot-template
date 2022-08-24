@@ -63,7 +63,7 @@ const app = express();
 // Applying our Morgan logger middleware
 app.use(
   // Use development mode in non-production environments
-  morgan(NODE_ENV !== 'production' && 'dev')
+  morgan(NODE_ENV === 'production' ? 'combined' : 'dev')
 );
 
 /*** Applying our body-parser middleware

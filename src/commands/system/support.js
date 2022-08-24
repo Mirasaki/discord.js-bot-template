@@ -12,7 +12,7 @@ module.exports = new ChatInputCommand({
   clientPerms: ['EmbedLinks'],
   data: {
     name: 'support',
-    description: 'Get a link to this bot\'t support server'
+    description: 'Get a link to this bot\'s support server'
   },
 
   run: (client, interaction) => {
