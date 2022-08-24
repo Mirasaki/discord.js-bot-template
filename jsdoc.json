@@ -48,6 +48,16 @@
         "href": "/api-docs",
         "class": "menu-item",
         "id": "api-documentation"
+      },
+      "Commands": {
+        "href": "/html/commands.html",
+        "class": "menu-item",
+        "id": "commands"
+      },
+      "Contact": {
+        "href": "https://mirasaki.dev",
+        "class": "menu-item",
+        "id": "contact"
       }
     }
   }
