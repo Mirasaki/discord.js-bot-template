@@ -1,9 +1,6 @@
 // Require our shared environmental file as early as possible
 require('dotenv').config();
 
-// Importing from Node modules
-const path = require('path');
-
 // Importing from packages
 const express = require('express');
 const morgan = require('morgan');
