@@ -3,6 +3,17 @@ const express = require('express');
 const { getFiles } = require('../util/files');
 const router = express.Router();
 
+// Destructuring from env
+const {
+  // Project directory structure
+  CHAT_INPUT_COMMAND_DIR,
+  CONTEXT_MENU_COMMAND_DIR,
+  AUTO_COMPLETE_INTERACTION_DIR,
+  BUTTON_INTERACTION_DIR,
+  MODAL_INTERACTION_DIR,
+  SELECT_MENU_INTERACTION_DIR
+} = process.env;
+
 // Re-usable callback
 const commandMapCallback = (filePath) => {
   const cmd = require(filePath);
@@ -19,22 +30,22 @@ const queryFilterCommands = (arr, category, limit) => {
 };
 
 // Client Chat Input Commands
-const clientCommands = getFiles('src/commands')
+const clientCommands = getFiles(CHAT_INPUT_COMMAND_DIR)
   .map(commandMapCallback);
 // Client Context Menus
-const clientCtxMenus = getFiles('src/context-menus')
+const clientCtxMenus = getFiles(CONTEXT_MENU_COMMAND_DIR)
   .map(commandMapCallback);
 // Client Auto Complete Components
-const clientAutoCompletes = getFiles('src/interactions/autocomplete')
+const clientAutoCompletes = getFiles(AUTO_COMPLETE_INTERACTION_DIR)
   .map(commandMapCallback);
 // Client Button Components
-const clientButtons = getFiles('src/interactions/buttons')
+const clientButtons = getFiles(BUTTON_INTERACTION_DIR)
   .map(commandMapCallback);
 // Client Modal Components
-const clientModals = getFiles('src/interactions/modals')
+const clientModals = getFiles(MODAL_INTERACTION_DIR)
   .map(commandMapCallback);
 // Client Select Menu Components
-const clientSelectMenus = getFiles('src/interactions/select-menus')
+const clientSelectMenus = getFiles(SELECT_MENU_INTERACTION_DIR)
   .map(commandMapCallback);
 
 // Application Chat Input Commands

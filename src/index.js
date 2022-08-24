@@ -38,7 +38,15 @@ const client = new Client({
 const {
   DISCORD_BOT_TOKEN,
   DEBUG_ENABLED,
-  CLEAR_SLASH_COMMAND_API_DATA
+  CLEAR_SLASH_COMMAND_API_DATA,
+
+  // Project directory structure
+  CHAT_INPUT_COMMAND_DIR,
+  CONTEXT_MENU_COMMAND_DIR,
+  AUTO_COMPLETE_INTERACTION_DIR,
+  BUTTON_INTERACTION_DIR,
+  MODAL_INTERACTION_DIR,
+  SELECT_MENU_INTERACTION_DIR
 } = process.env;
 
 // Listen for user requested shutdown
@@ -113,92 +121,85 @@ const {
 } = client.container;
 
 // Binding our Chat Input/Slash commands
-const slashCommandDirPath = 'src/commands';
-logger.debug(`Start loading Slash Commands... ("${slashCommandDirPath}")`);
-for (const filePath of getFiles(slashCommandDirPath)) {
+logger.debug(`Start loading Slash Commands... ("${CHAT_INPUT_COMMAND_DIR}")`);
+for (const filePath of getFiles(CHAT_INPUT_COMMAND_DIR)) {
   try {
     const command = require(filePath);
     command.load(filePath, commands);
   } catch (err) {
-    logger.syserr(`Error encountered while loading Slash Command (${slashCommandDirPath}), are you sure you're exporting an instance of ChatInputCommand?\nCommand: ${filePath}`);
+    logger.syserr(`Error encountered while loading Slash Command (${CHAT_INPUT_COMMAND_DIR}), are you sure you're exporting an instance of ChatInputCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our User Context Menu commands
-const userCtxMenuCommandDirPath = 'src/context-menus/user';
-logger.debug(`Start loading User Context Menu Commands... ("${userCtxMenuCommandDirPath}")`);
-for (const filePath of getFiles(userCtxMenuCommandDirPath)) {
+logger.debug(`Start loading User Context Menu Commands... ("${CONTEXT_MENU_COMMAND_DIR}/user")`);
+for (const filePath of getFiles(`${CONTEXT_MENU_COMMAND_DIR}/user`)) {
   try {
     const command = require(filePath);
     command.load(filePath, contextMenus);
   } catch (err) {
-    logger.syserr(`Error encountered while loading User Context Menu Command (${userCtxMenuCommandDirPath}), are you sure you're exporting an instance of UserContextCommand?\nCommand: ${filePath}`);
+    logger.syserr(`Error encountered while loading User Context Menu Command (${CONTEXT_MENU_COMMAND_DIR}/user), are you sure you're exporting an instance of UserContextCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Message Context Menu commands
-const messageCtxMenuCommandDirPath = 'src/context-menus/message';
-logger.debug(`Start loading Message Context Menu Commands... ("${messageCtxMenuCommandDirPath}")`);
-for (const filePath of getFiles(messageCtxMenuCommandDirPath)) {
+logger.debug(`Start loading Message Context Menu Commands... ("${CONTEXT_MENU_COMMAND_DIR}/message")`);
+for (const filePath of getFiles(`${CONTEXT_MENU_COMMAND_DIR}/message`)) {
   try {
     const command = require(filePath);
     command.load(filePath, contextMenus);
   } catch (err) {
-    logger.syserr(`Error encountered while loading User Context Menu Command (${messageCtxMenuCommandDirPath}), are you sure you're exporting an instance of MessageContextCommand?\nCommand: ${filePath}`);
+    logger.syserr(`Error encountered while loading User Context Menu Command (${CONTEXT_MENU_COMMAND_DIR}/message), are you sure you're exporting an instance of MessageContextCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Button interactions
-const buttonCommandDirPath = 'src/interactions/buttons';
-logger.debug(`Start loading Button Commands... ("${buttonCommandDirPath}")`);
-for (const filePath of getFiles(buttonCommandDirPath)) {
+logger.debug(`Start loading Button Commands... ("${BUTTON_INTERACTION_DIR}")`);
+for (const filePath of getFiles(BUTTON_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
     command.load(filePath, buttons);
   } catch (err) {
-    logger.syserr(`Error encountered while loading Button Command (${buttonCommandDirPath}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+    logger.syserr(`Error encountered while loading Button Command (${BUTTON_INTERACTION_DIR}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Modal interactions
-const modalCommandDirPath = 'src/interactions/modals';
-logger.debug(`Start loading Modal Commands... ("${modalCommandDirPath}")`);
-for (const filePath of getFiles(modalCommandDirPath)) {
+logger.debug(`Start loading Modal Commands... ("${MODAL_INTERACTION_DIR}")`);
+for (const filePath of getFiles(MODAL_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
     command.load(filePath, modals);
   } catch (err) {
-    logger.syserr(`Error encountered while loading Modal Command (${modalCommandDirPath}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+    logger.syserr(`Error encountered while loading Modal Command (${MODAL_INTERACTION_DIR}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Autocomplete interactions
-const autoCompleteCommandDirPath = 'src/interactions/autocomplete';
-logger.debug(`Start loading Auto Complete Commands... ("${autoCompleteCommandDirPath}")`);
-for (const filePath of getFiles(autoCompleteCommandDirPath)) {
+logger.debug(`Start loading Auto Complete Commands... ("${AUTO_COMPLETE_INTERACTION_DIR}")`);
+for (const filePath of getFiles(AUTO_COMPLETE_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
     command.load(filePath, autoCompletes);
   } catch (err) {
-    logger.syserr(`Error encountered while loading Auto Complete Command (${autoCompleteCommandDirPath}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+    logger.syserr(`Error encountered while loading Auto Complete Command (${AUTO_COMPLETE_INTERACTION_DIR}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Select Menu interactions
-const selectMenuCommandDirPath = 'src/interactions/select-menus';
-logger.debug(`Start loading Select Menu Commands... ("${selectMenuCommandDirPath}")`);
-for (const filePath of getFiles(selectMenuCommandDirPath)) {
+logger.debug(`Start loading Select Menu Commands... ("${SELECT_MENU_INTERACTION_DIR}")`);
+for (const filePath of getFiles(SELECT_MENU_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
     command.load(filePath, selectMenus);
   } catch (err) {
-    logger.syserr(`Error encountered while loading Select Menu Command (${selectMenuCommandDirPath}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+    logger.syserr(`Error encountered while loading Select Menu Command (${SELECT_MENU_INTERACTION_DIR}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
   }
 }
