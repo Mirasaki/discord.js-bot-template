@@ -32,7 +32,7 @@ module.exports = new UserContextCommand({
         content: `${emojis.error} ${member}, can't fetch user information for **\`${targetId}\`**, please try again later.`
       });
       logger.syserr(`<User Context Menu - Info> Unable to fetch user information for ${targetId}`);
-      logger.printErr(err.stack || err);
+      console.error(err.stack || err);
       return;
     }
 

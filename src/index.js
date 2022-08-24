@@ -53,11 +53,11 @@ process.on('SIGINT', () => {
 if (process.env.NODE_ENV !== 'production') {
   process.on('unhandledRejection', (reason, promise) => {
     logger.syserr('Encountered unhandledRejection error (catch):');
-    logger.printErr(reason, promise);
+    console.error(reason, promise);
   });
   process.on('uncaughtException', (err, origin) => {
     logger.syserr('Encountered uncaughtException error:');
-    logger.printErr(err, origin);
+    console.error(err, origin);
   });
 }
 

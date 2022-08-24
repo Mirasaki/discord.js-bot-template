@@ -153,7 +153,7 @@ module.exports = (client, interaction) => {
       await clientCmd.run(client, interaction);
     } catch (err) {
       logger.syserr(`An error has occurred while executing the /${chalk.whiteBright(activeId)} command`);
-      logger.printErr(err);
+      console.error(err);
     }
 
     // Log command execution time

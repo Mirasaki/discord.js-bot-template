@@ -29,7 +29,7 @@ module.exports = new MessageContextCommand({
         content: `${emojis.error} ${member}, can't fetch message **\`${targetId}\`**, please try again later.`
       });
       logger.syserr(`<Message Context Menu - Info> Unable to fetch message ${targetId}`);
-      logger.printErr(err.stack || err);
+      console.error(err.stack || err);
       return;
     }
 

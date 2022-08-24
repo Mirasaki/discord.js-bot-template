@@ -133,7 +133,7 @@ module.exports = new ComponentCommand({
     } catch (err) {
       // Log potential errors
       logger.syserr('Encountered error while executing /eval code');
-      logger.printErr(err);
+      console.error(err);
 
       // Update button interaction
       interaction.editReply({

@@ -259,7 +259,7 @@ const registerTestServerCommands = async (client) => {
     // Invalid TEST_SERVER_GUILD_ID
     if (err.status === 404) {
       logger.syserr('Error encountered while trying to register GuildCommands in the test server, this probably means your TEST_SERVER_GUILD_ID in the .env file is invalid or the client isn\'t currently in that server');
-      logger.printErr(err.stack || err);
+      console.error(err.stack || err);
     }
 
     // Invalid Form Body error
@@ -273,7 +273,7 @@ const registerTestServerCommands = async (client) => {
 
     else {
       // Catching Missing Access error
-      logger.printErr(err);
+      console.error(err);
     }
   });
 };

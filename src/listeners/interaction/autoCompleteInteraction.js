@@ -47,7 +47,7 @@ module.exports = async (client, interaction) => {
     // Handle unexpected errors
     else {
       logger.syserr(`Unknown error encountered while responding to autocomplete query in ${commandName}`);
-      logger.printErr(err.stack || err);
+      console.error(err.stack || err);
     }
   });
 
