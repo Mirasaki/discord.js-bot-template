@@ -92,7 +92,7 @@ const clearApplicationCommandData = () => {
 
 /**
  * Sorts a collection of commands by command category
- * @param {Collection<string, ChatInputCommand | UserContextCommand | MessageContextCommand>} commands The collections of commands to sort
+ * @param {external:DiscordCollection<string, ChatInputCommand | UserContextCommand | MessageContextCommand>} commands The collections of commands to sort
  * @returns {Array<Command>}
  */
 const sortCommandsByCategory = (commands) => {
