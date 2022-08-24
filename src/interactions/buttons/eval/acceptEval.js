@@ -131,6 +131,7 @@ module.exports = new ComponentCommand({
       });
 
     } catch (err) {
+      const timeSinceHr = getRuntime(startEvalTime);
       // Log potential errors
       logger.syserr('Encountered error while executing /eval code');
       console.error(err);
@@ -141,7 +142,6 @@ module.exports = new ComponentCommand({
       });
 
       // Format time stamps
-      const timeSinceHr = startEvalTime;
       const timeSinceStr = `${timeSinceHr.seconds} seconds (${timeSinceHr.ms} ms)`;
 
       // Update original embed interaction
