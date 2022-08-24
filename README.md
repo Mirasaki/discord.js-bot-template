@@ -72,7 +72,7 @@ This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only 
 
 ### Notes
 
-- Don't like the folder structure? Jump into the [environmental file](/.env.exmaple) and configure where your commands and components are loaded from
+- Don't like the folder structure? Jump into the [environmental file](/.env.example) and configure where your commands and components are loaded from
 - Every embed color code and emoji are grabbed from their respective [configuration file](/src/config/), meaning you can personalize the bot without having to go over a plethora of files
 - Comes with a [constants file](/src/constants.js) to manage your unique ids and previously hard-coded values
 - And lastly...
