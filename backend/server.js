@@ -1,9 +1,6 @@
 // Require our shared environmental file as early as possible
 require('dotenv').config();
 
-// Importing from Node modules
-const path = require('path');
-
 // Importing from packages
 const express = require('express');
 const morgan = require('morgan');
@@ -36,7 +33,7 @@ const swaggerDefinition = { // https://swagger.io/specification/#openapi-object
     version: pkg.version,
     description: `This is a REST API application made with Express. It serves ${pkg.name} command data.`,
     license: {
-      name: 'Licensed Under MIT',
+      name: 'MIT License',
       url: 'https://spdx.org/licenses/MIT.html'
     },
     contact: {
@@ -83,14 +80,19 @@ app.use(bodyParser.json());
 // Routes Middleware
 app.use('/api/commands', commandRoutes);
 
-// Serving our static public files
+// Serving our generated client documentation as root
 app.use(
-  '/public',
-  express.static(path.join(__dirname || path.resolve(), '/public'))
+  '/',
+  express.static('docs', { extensions: ['html'] })
 );
 
-// Serving our generated documentation
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(openAPISpecification));
+
+// Serving our generated API documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openAPISpecification));
+
+// Serving our static public files
+app.use(express.static('public'));
+
 
 // Apply our local middleware
 app.use(notFound);
