@@ -18,7 +18,7 @@
     "docker:kill": "docker rm -fv discord-bot-template",
     "docker:logs": "docker logs discord-bot-template -f",
     "docker:bash": "docker exec -it discord-bot-template bash",
-    "pm2:start": "pm2 start src/index.js --name=discord.js-bot-template",
+    "pm2:start": "pm2 start --name=discord.js-bot-template npm -- run start",
     "pm2:stop": "pm2 stop discord.js-bot-template",
     "pm2:purge": "pm2 stop discord.js-bot-template && pm2 delete discord.js-bot-template && pm2 reset discord.js-bot-template",
     "pm2:logs": "pm2 logs --lines 300 discord.js-bot-template",
