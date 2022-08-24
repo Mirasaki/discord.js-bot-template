@@ -27,7 +27,7 @@ const {
  * Transforms hex and rgb color input into integer color code
  * @method colorResolver
  * @param {string | Array<number>} [input] Hex color code or RGB array
- * @returns {integer}
+ * @returns {number}
  */
 const colorResolver = (input) => {
   // Return main bot color if no input is provided
@@ -135,7 +135,7 @@ const getBotInviteLink = (client) => {
 
 /**
  * Make the client sleep/wait for a specific amount of time
- * @param {integer} ms The amount of time in milliseconds to wait/sleep
+ * @param {number} ms The amount of time in milliseconds to wait/sleep
  * @returns {Promise<void>} The promise to await
  */
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
