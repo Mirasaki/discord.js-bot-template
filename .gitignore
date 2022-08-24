@@ -113,7 +113,7 @@ dist
 src/commands/testing
 
 # Documentation: JSDoc
-docs
+/docs
 
 # [DEV] - In development, temporarily hide types output
 types
