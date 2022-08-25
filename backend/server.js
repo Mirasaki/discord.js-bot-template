@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 // Importing local files
 const pkg = require('../package.json');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware.js');
+const { addCORSHeader } = require('./middleware/cors');
 
 // Importing our routes
 const commandRoutes = require('./routes/commandRoutes.js');
@@ -42,6 +43,10 @@ const swaggerDefinition = { // https://swagger.io/specification/#openapi-object
     }
   },
   servers: [
+    {
+      url: 'https://djs.mirasaki.dev/',
+      description: 'Live Server'
+    },
     {
       url: `http://localhost:${PORT}`,
       description: 'Development Server'
@@ -97,6 +102,7 @@ app.use(express.static('public'));
 // Apply our local middleware
 app.use(notFound);
 app.use(errorHandler);
+app.use(addCORSHeader);
 
 // Actively listen for requests to our API/backend
 app.listen(
