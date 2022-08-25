@@ -7,6 +7,7 @@ npm-debug.log
 .github
 .gitattributes
 .gitignore
+**/.gitkeep
 
 # Docker
 .dockerignore
@@ -20,3 +21,5 @@ linter-output.txt
 .env.example
 .config.example.js
 .markdownlint.json
+tsconfig.json # Only used to generate types in development
+TODO # My personal todo list
