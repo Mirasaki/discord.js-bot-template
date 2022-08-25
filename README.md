@@ -40,6 +40,7 @@ Come try the template yourself in our official [support server](https://discord.
 - Configure internal permission levels, and define any additional (optional) Discord permissions required to execute the command. Useful for Moderation tools.
 - Enable commands globally, restrict them to a single testing server, or even disable it all together if you've discovered a major bug in your code.
 - Throttle your command usage, configure a `{{usages}} in {{duration}}` cooldown to individual commands. With the 5 different available cooldown types (user, member, channel, guild, global), you can configure an appropriate cooldown for all your commands and components.
+- Configure aliases for all your Application Commands. (ChatInput, UserContextMenu, and MessageContextMenu)
 
 ### Dynamic Component Handler
 
