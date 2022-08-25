@@ -37,7 +37,7 @@ Come try the template yourself in our official [support server](https://discord.
 - [DayZ Leaderboard bot](https://github.com/Mirasaki/dayz-leaderboard-bot "DayZ Leaderboard bot on GitHub")
 - Create a new issues if you want to have your project showcased here
 
-## Documentation
+<h2 id="documentation">Documentation</h2>
 
 - The client (bot) code is documented at [djs.mirasaki.dev](https://djs.mirasaki.dev "Client Documentation")
 - The API is documented at [djs.mirasaki.dev/api-docs](https://djs.mirasaki.dev/api-docs "Backend/API Documentation")
