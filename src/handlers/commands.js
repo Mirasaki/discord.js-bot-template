@@ -285,7 +285,7 @@ const registerTestServerCommands = async (client) => {
  * @param {external:DiscordCommandInteraction} interaction The interaction received where this cooldown will apply to
  * @returns {string} The unique identifier for the cooldown that will be applied
  */
-const getThrottleId = (cooldown, data, interaction) => {
+const getThrottleId = (cooldown, cmdName, interaction) => {
   // Destructure from interaction
   const { member, channel, guild } = interaction;
 
@@ -306,7 +306,7 @@ const getThrottleId = (cooldown, data, interaction) => {
   }
 
   // Append the command name to the identifier string
-  identifierStr += `-${data.name}`;
+  identifierStr += `-${cmdName}`;
 
   // return the uid
   return identifierStr;
@@ -325,11 +325,12 @@ const ThrottleMap = new Map();
 const throttleCommand = (clientCmd, interaction) => {
   const { data, cooldown } = clientCmd;
   const debugStr = chalk.red('[Cmd Throttle]');
+  const activeCommandName = clientCmd.isAlias ? clientCmd.aliasFor : data.name;
 
   // Check if a cooldown is configured
   if (cooldown === false) {
     if (DEBUG_COMMAND_THROTTLING === 'true') {
-      logger.debug(`${debugStr} - ${data.name} No cooldown configured.`);
+      logger.debug(`${debugStr} - ${activeCommandName} No cooldown configured.`);
     }
     return false;
   }
@@ -338,17 +339,17 @@ const throttleCommand = (clientCmd, interaction) => {
   const cooldownInMS = parseInt(cooldown.duration * MS_IN_ONE_SECOND);
   if (!cooldownInMS || cooldownInMS < 0) {
     if (DEBUG_COMMAND_THROTTLING === 'true') {
-      logger.debug(`${debugStr} - ${data.name} No cooldown configured.`);
+      logger.debug(`${debugStr} - ${activeCommandName} No cooldown configured.`);
     }
     return false;
   }
 
   // Get our command throttle id
-  const identifierStr = getThrottleId(cooldown, data, interaction);
+  const identifierStr = getThrottleId(cooldown, activeCommandName, interaction);
 
   // Debug logging
   if (DEBUG_COMMAND_THROTTLING === 'true') {
-    logger.debug(`${debugStr} - ${chalk.green(identifierStr)} UID Applied to ${chalk.blue(data.name)} with cooldown type ${chalk.red(cooldown.type)}`);
+    logger.debug(`${debugStr} - ${chalk.green(identifierStr)} UID Applied to ${chalk.blue(activeCommandName)} with cooldown type ${chalk.red(cooldown.type)}`);
   }
 
   // No data
@@ -377,6 +378,7 @@ const throttleCommand = (clientCmd, interaction) => {
       if (DEBUG_COMMAND_THROTTLING === 'true') {
         logger.debug(`${debugStr} - ${chalk.green(identifierStr)} Command is actively being throttled, returning.`);
       }
+      // Still return the used command name instead of aliasFor if alias
       return `${emojis.error} {{user}}, you can use **\`/${data.name}\`** again in ${
         Number.parseFloat(((nonExpired[0] + cooldownInMS) - Date.now()) / MS_IN_ONE_SECOND).toFixed(2)
       } seconds`;
