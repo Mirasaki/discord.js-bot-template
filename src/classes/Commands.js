@@ -2,8 +2,12 @@
 const {
   permConfig,
   permLevelMap,
-  getInvalidPerms
+  getInvalidPerms,
+  getPermLevelName
 } = require('../handlers/permissions');
+
+// Top level command collection import
+const { commands } = require('../client');
 
 // Destructure from environmental
 const {
@@ -313,6 +317,9 @@ class ComponentCommand extends CommandBase {
 /**
  * @typedef {BaseConfig} APICommandConfig
  * @property {boolean} [global=true] Is the command enabled globally or only in our test-server
+ * @property {Array<string>} [aliases=[]] Array of command aliases
+ * @property {boolean} [isAlias=false] Indicates if the command is an active alias, you should never have to use this in the constructor, used internally
+ * @property {string} [aliasFor='parent_command_name'] The command name this alias is for, you should never have to use this in the constructor, used internally
  */
 
 /**
@@ -333,7 +340,54 @@ class APICommand extends CommandBase {
      * @property {boolean} global Is the command enabled globally or only in our test-server
      */
     this.global = config.global || false;
+    /**
+     * @property {Array<string>} aliases Array of command aliases
+     */
+    this.aliases = config.aliases || [];
+    /**
+     * @property {boolean} isAlias Indicates if the command is an active alias
+     */
+    this.isAlias = config.isAlias || false;
+    /**
+     * @property {string | undefined} aliasFor The command name this alias is for
+     */
+    this.aliasFor = config.aliasFor || undefined;
   }
+
+  /**
+   * Register new commands for aliases
+   * @method
+   * @returns {void} Nothing
+   */
+  loadAliases = () => {
+    // Check if we should manage command aliases
+    if (!this.isAlias && this.aliases.length >= 1) {
+
+      // Looping over all over aliases
+      this.aliases.forEach((alias) => {
+        // Creating the config object for the new command
+        const newCmdConfig = {
+          ...this, // spread all properties
+          data: {
+            ...this.data,
+            name: alias
+            // Overwrite API name after spreading api data
+          },
+          permLevel: getPermLevelName(this.permLevel), // Transforming the permission level back
+          // Setting alias values
+          isAlias: true,
+          aliases: [],
+          aliasFor: this.data.name
+        };
+
+        // Constructing our new command
+        const newCmd = new APICommand(newCmdConfig);
+
+        // Loading the new command
+        newCmd.load(this.filePath, commands);
+      });
+    }
+  };
 }
 
 
