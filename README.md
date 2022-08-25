@@ -88,7 +88,7 @@ This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only 
 - All the template files have comments explaining what's going on, making it easy for new JavaScript developers to jump in.
 - Comes with a [utility file](https://djs.mirasaki.dev/module-Utils.html "Utility file documentation"), which exports utility functions to make your common tasks easier/faster.
 - Extensions to `discord.js` have been containerized. Everything is documented in the [typings file](/typings.d.ts), or check out the [client-extension](https://djs.mirasaki.dev/module-Client.html "Client-extension documentation") file, which is served as `client.container`.
-- Automatically (environmental variable) deploy changes to your API commands, or use the [/deploy](/src/commands/developer/deploy.js) command.
+- Automatically (environmental variable dependent) deploy changes to your API commands, or use the [/deploy](/src/commands/developer/deploy.js) command.
 
 ### Notes
 
