@@ -17,8 +17,11 @@ RUN npm ci --omit=dev
 # Bundle app source
 COPY . ./
 
+# Documentation & API port
+EXPOSE 3000
+
 # Show current folder structure in logs
 # RUN ls -al -R
 
 # Run the start command
-CMD [ "node", "." ]
+CMD [ "npm", "run", "start" ]
