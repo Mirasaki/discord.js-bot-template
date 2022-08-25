@@ -127,7 +127,7 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 3. Rename `.env.example` to `.env` and provide your environmental variables
 4. Rename `config.example.js` to `config.js` and provide your configuration
 5. Build the project: `docker build --tag discord-bot-template .`
-6. Start the bot: `docker run -d --name discord-bot-template --env-file ./.env -p 27017:27017 discord-bot-template`
+6. Start the bot: `docker run -d --name discord-bot-template -p 3000:3000 --env-file ./.env -p 27017:27017 discord-bot-template`
 
 ### Run as a plain NodeJS app
 
