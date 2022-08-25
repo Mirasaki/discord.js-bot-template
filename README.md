@@ -9,6 +9,25 @@ With [Message Content Access becoming a privileged intent](https://support-dev.d
 
 ---
 
+## Table of Contents
+
+- [Live Demo](#live-demo)
+- [Showcase](#showcase)
+- [Documentation](#documentation)
+- [Features](#features)
+  - [Dynamic Command Handler](#dynamic-command-handler)
+  - [Dynamic Component Handler](#dynamic-component-handler)
+  - [Dynamic Event Handler](#dynamic-event-handler)
+  - [RESTful API](#restful-api)
+  - [Others](#others)
+- [Notes](#notes)
+- [Installation & Usage](#installation--usage)
+  - [Prerequisites](#prerequisites)
+  - [Docker](#run-as-a-docker-container-preferred)
+  - [Node](#run-as-a-plain-nodejs-app)
+
+---
+
 ## Live Demo
 
 Come try the template yourself in our official [support server](https://discord.mirasaki.dev "Mirasaki Development on Discord")
