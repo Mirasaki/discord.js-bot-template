@@ -12,7 +12,7 @@
     "server:dev": "nodemon --trace-warnings backend/server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker build --tag discord-bot-template .",
-    "docker:start": "docker run -v $(pwd):/app -v /app/node_modules --env-file ./.env -d --name discord-bot-template discord-bot-template",
+    "docker:start": "docker run -v $(pwd):/app -v /app/node_modules -p 3000:3000 --env-file ./.env -d --name discord-bot-template discord-bot-template",
     "docker:restart": "docker restart discord-bot-template",
     "docker:stop": "docker stop discord-bot-template",
     "docker:kill": "docker rm -fv discord-bot-template",
