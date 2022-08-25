@@ -75,6 +75,7 @@ This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only 
 - Don't like the folder structure? Jump into the [environmental file](/.env.example) and configure where your commands and components are loaded from
 - Every embed color code and emoji are grabbed from their respective [configuration file](/src/config/), meaning you can personalize the bot without having to go over a plethora of files
 - Comes with a [constants file](/src/constants.js) to manage your unique ids and previously hard-coded values
+- Comes with example scripts for `pm2`, `docker` and `concurrently`
 - And lastly...
 
 You don't **have** to use the built-in component command (buttons, modals, etc) handler. Alternatively, you can use the following (vanilla `discord.js`) code to achieve the same, but within a ChatInput/UserContextMenu/MessageContextMenu command file:
@@ -115,6 +116,8 @@ acceptEvalCollector.on('collect', (i) => { /* The callback to run */ });
     5) Click "Add Bot" -> "Yes, do it!"
     6) Click "Reset Token" and copy it to your clipboard, you will need it later
 
+> If you're planning on hosting the backend, be sure to run the command `npm run docs` after installing, otherwise the root/index at `http://localhost:3000/` will return a 404 | Not Found error.
+
 ### Run as a [Docker](https://docs.docker.com/engine/install/ "Official Docker Website") container (preferred)
 
 The quickest, and easiest, way to host/use this bot is by deploying it inside of a Docker container.
@@ -124,7 +127,7 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 3. Rename `.env.example` to `.env` and provide your environmental variables
 4. Rename `config.example.js` to `config.js` and provide your configuration
 5. Build the project: `docker build --tag discord-bot-template .`
-6. Start the bot: `docker run -d --name discord-bot-template --env-file ./.env -p 27017:27017 discord-bot-template`
+6. Start the bot: `docker run -d --name discord-bot-template -p 3000:3000 --env-file ./.env -p 27017:27017 discord-bot-template`
 
 ### Run as a plain NodeJS app
 

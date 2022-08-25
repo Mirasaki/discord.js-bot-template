@@ -119,7 +119,7 @@ src/commands/testing
 /public/html/commands.html
 
 # Personal TODO file
-TODO
+TODO.md
 
 # In-development, Intellisense for events/listeners
-backup.typings.d.ts
+typings.d.ts
