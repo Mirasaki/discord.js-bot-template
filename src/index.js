@@ -126,6 +126,9 @@ for (const filePath of getFiles(CHAT_INPUT_COMMAND_DIR)) {
   try {
     const command = require(filePath);
     command.load(filePath, commands);
+
+    // loadAliases AFTER #load(), setting the origin filepath
+    command.loadAliases();
   } catch (err) {
     logger.syserr(`Error encountered while loading Slash Command (${CHAT_INPUT_COMMAND_DIR}), are you sure you're exporting an instance of ChatInputCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
@@ -138,6 +141,7 @@ for (const filePath of getFiles(`${CONTEXT_MENU_COMMAND_DIR}/user`)) {
   try {
     const command = require(filePath);
     command.load(filePath, contextMenus);
+    command.loadAliases();
   } catch (err) {
     logger.syserr(`Error encountered while loading User Context Menu Command (${CONTEXT_MENU_COMMAND_DIR}/user), are you sure you're exporting an instance of UserContextCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
@@ -150,6 +154,7 @@ for (const filePath of getFiles(`${CONTEXT_MENU_COMMAND_DIR}/message`)) {
   try {
     const command = require(filePath);
     command.load(filePath, contextMenus);
+    command.loadAliases();
   } catch (err) {
     logger.syserr(`Error encountered while loading User Context Menu Command (${CONTEXT_MENU_COMMAND_DIR}/message), are you sure you're exporting an instance of MessageContextCommand?\nCommand: ${filePath}`);
     console.error(err.stack || err);
