@@ -137,9 +137,9 @@ acceptEvalCollector.on('collect', (i) => { /* The callback to run */ });
 
 > If you're planning on hosting the backend, be sure to run the command `npm run docs` after installing, otherwise the root/index at `http://localhost:3000/` will return a 404 | Not Found error.
 
-<h3 id="run-as-a-docker-container-preferred">Run as a [Docker](https://docs.docker.com/engine/install/ "Official Docker Website") container (preferred)</h3>
+<h3 id="run-as-a-docker-container-preferred">Run as a Docker container (preferred)</h3>
 
-The quickest, and easiest, way to host/use this bot is by deploying it inside of a Docker container.
+The quickest, and easiest, way to host/use this bot is by deploying it inside of a [Docker](https://docs.docker.com/engine/install/ "Official Docker Website") container.
 
 1. Clone this repository: `git clone https://github.com/Mirasaki/discord.js-bot-template.git`
 2. Navigate inside the new folder: `cd discord.js-bot-template`
