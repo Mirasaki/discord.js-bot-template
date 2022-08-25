@@ -20,7 +20,11 @@ const ignoredCommandProperties = [
   'reload',
   'data',
   'category',
-  'enabled'
+  'enabled',
+  'global',
+  'loadAliases',
+  'isAlias',
+  'aliasFor'
 ];
 
 // Defining our styles
@@ -174,7 +178,7 @@ const generateCommandHTML = (commands) => {
   let currCat = undefined;
   commands.forEach((cmd) => {
     // Skip if the command is not enabled
-    if (!cmd.enabled) return;
+    if (!cmd.enabled || cmd.isAlias) return;
 
     // Adding an empty line after category change,
     // Ignore first category so we don't start with an empty line

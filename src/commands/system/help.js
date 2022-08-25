@@ -8,6 +8,7 @@ const {
 
 module.exports = new ChatInputCommand({
   global: true,
+  aliases: [ 'commands' ],
   cooldown: {
     type: 'user', // Use user cooldown type instead of default member
     usages: 2,
