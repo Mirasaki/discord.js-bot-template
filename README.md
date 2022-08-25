@@ -115,6 +115,8 @@ acceptEvalCollector.on('collect', (i) => { /* The callback to run */ });
     5) Click "Add Bot" -> "Yes, do it!"
     6) Click "Reset Token" and copy it to your clipboard, you will need it later
 
+> If you're planning on hosting the backend, be sure to run the command `npm run docs` after installing, otherwise the root/index at `http://localhost:3000/` will return a 404 | Not Found error.
+
 ### Run as a [Docker](https://docs.docker.com/engine/install/ "Official Docker Website") container (preferred)
 
 The quickest, and easiest, way to host/use this bot is by deploying it inside of a Docker container.
