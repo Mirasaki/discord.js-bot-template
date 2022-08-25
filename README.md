@@ -75,6 +75,7 @@ This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only 
 - Don't like the folder structure? Jump into the [environmental file](/.env.example) and configure where your commands and components are loaded from
 - Every embed color code and emoji are grabbed from their respective [configuration file](/src/config/), meaning you can personalize the bot without having to go over a plethora of files
 - Comes with a [constants file](/src/constants.js) to manage your unique ids and previously hard-coded values
+- Comes with example scripts for `pm2`, `docker` and `concurrently`
 - And lastly...
 
 You don't **have** to use the built-in component command (buttons, modals, etc) handler. Alternatively, you can use the following (vanilla `discord.js`) code to achieve the same, but within a ChatInput/UserContextMenu/MessageContextMenu command file:
