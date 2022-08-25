@@ -95,16 +95,19 @@ const checkInteractionAvailability = (interaction) => {
   return true;
 };
 
-const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
+// Resolves the active command
+const getCommand = (client, activeId) => {
   const { commands, contextMenus, buttons, modals, selectMenus } = client.container;
-  const { member, guild, channel } = interaction;
+  return commands.get(activeId)
+    || contextMenus.get(activeId)
+    || buttons.get(activeId)
+    || modals.get(activeId)
+    || selectMenus.get(activeId);
+};
 
-  // Grab the command
-  const clientCmd = commands.get(activeId)
-   || contextMenus.get(activeId)
-   || buttons.get(activeId)
-   || modals.get(activeId)
-   || selectMenus.get(activeId);
+const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
+  const { member, guild, channel } = interaction;
+  const clientCmd = getCommand(client, activeId);
 
   // Check for late API changes
   if (!clientCmd) {
@@ -182,8 +185,9 @@ const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
   })();
 
   // Logging the Command to our console
+  const aliasTag = clientCmd.isAlias ? `(Alias for: ${clientCmd.aliasFor})` : '';
   console.log([
-    `${logger.timestamp()} ${chalk.white('[CMD]')}    : ${chalk.bold(titleCase(activeId))} (${InteractionType[interaction.type]})`,
+    `${logger.timestamp()} ${chalk.white('[CMD]')}    : ${chalk.bold(titleCase(activeId))} ${aliasTag} (${InteractionType[interaction.type]})`,
     guild.name,
     `#${channel.name}`,
     member.user.username
