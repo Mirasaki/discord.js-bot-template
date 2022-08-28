@@ -172,6 +172,21 @@ const logCommandApiData = (cmdData) => {
 };
 
 /**
+ * Return a the commands data object and removes the description field for Context Menu commands
+ * @param {ChatInputCommand || MessageContextCommand || UserContextCommand} cmd The command to client API data for
+ * @returns {external:DiscordAPIApplicationCommand}
+ */
+const cleanAPIData = (cmd) => {
+  // Remove the description field as it's not allowed in the api call
+  if (
+    cmd instanceof UserContextCommand
+    || cmd instanceof MessageContextCommand
+  ) return { ...cmd.data, description: null };
+
+  return cmd.data;
+};
+
+/**
  * Concatenates all our API command data, and refreshes/registers global command data to the Discord API
  * @param {Client} client Our extended discord.js client
  * @returns {Promise<Array<external:DiscordAPIApplicationCommand>>} Discord API command data
@@ -188,15 +203,7 @@ const registerGlobalCommands = async (client) => {
       cmd.global === true
       && cmd.enabled === true
     )
-    .map((cmd) => {
-      // Remove the description field as it's not allowed in the api call
-      if (
-        cmd instanceof UserContextCommand
-        || cmd instanceof MessageContextCommand
-      ) return { ...cmd.data, description: null };
-
-      return cmd.data;
-    });
+    .map(cleanAPIData);
 
   // Extensive debug logging
   if (DEBUG_SLASH_COMMAND_API_DATA === 'true') {
@@ -240,15 +247,7 @@ const registerTestServerCommands = async (client) => {
       cmd.global === false // Filter out global commands
       && cmd.enabled === true
     )
-    .map((cmd) => {
-      // Remove the description field as it's not allowed in the api call
-      if (
-        cmd instanceof UserContextCommand
-        || cmd instanceof MessageContextCommand
-      ) return { ...cmd.data, description: null };
-
-      return cmd.data;
-    });
+    .map(cleanAPIData);
 
   // Return if there's no test command data
   if (testServerCommandData.length === 0) {
