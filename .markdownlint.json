@@ -2,7 +2,9 @@
   "line-length": false,
   "no-inline-html": {
     "allowed_elements": [
-      "div"
+      "div",
+      "h2",
+      "h3"
     ]
   }
 }

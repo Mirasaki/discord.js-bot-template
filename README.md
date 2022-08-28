@@ -28,16 +28,15 @@ With [Message Content Access becoming a privileged intent](https://support-dev.d
 
 ---
 
-## Live Demo
-
+<h2 id="live-demo">Live Demo</h2>
 Come try the template yourself in our official [support server](https://discord.mirasaki.dev "Mirasaki Development on Discord")
 
-## Showcase / Projects using this template
+<h2 id="showcase">Showcase / Projects using this template</h2>
 
 - [DayZ Leaderboard bot](https://github.com/Mirasaki/dayz-leaderboard-bot "DayZ Leaderboard bot on GitHub")
 - Create a new issues if you want to have your project showcased here
 
-## Documentation
+<h2 id="documentation">Documentation</h2>
 
 - The client (bot) code is documented at [djs.mirasaki.dev](https://djs.mirasaki.dev "Client Documentation")
 - The API is documented at [djs.mirasaki.dev/api-docs](https://djs.mirasaki.dev/api-docs "Backend/API Documentation")
@@ -45,9 +44,9 @@ Come try the template yourself in our official [support server](https://discord.
 - With the use of JSDoc for client documentation, enjoy code-completion (IntelliSense) in your favorite code editor
 - This template generates a static HTML page with detailed command information ([example](https://djs.mirasaki.dev/html/commands.html "Example of generated HTML command table"))
 
-## Features
+<h2 id="features">Features</h2>
 
-### Dynamic Command Handler
+<h3 id="dynamic-command-handler">Dynamic Command Handler</h3>
 
 - This template comes with a powerful, yet simple to understand and modify, dynamic command handler. You can go straight to adding new commands without having to worry about client internals.
 - [Message Content Access is becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") and that's why this template focuses on Discord's [Application Commands](https://discord.com/developers/docs/interactions/receiving-and-responding#interactions "Discord Application Command Documentation"). In fact, we don't even activity listen to the `messageCreate` event.
@@ -61,7 +60,7 @@ Come try the template yourself in our official [support server](https://discord.
 - Throttle your command usage, configure a `{{usages}} in {{duration}}` cooldown to individual commands. With the 5 different available cooldown types (user, member, channel, guild, global), you can configure an appropriate cooldown for all your commands and components.
 - Configure aliases for all your Application Commands. (ChatInput, UserContextMenu, and MessageContextMenu)
 
-### Dynamic Component Handler
+<h3 id="dynamic-component-handler">Dynamic Component Handler</h3>
 
 - Supports, and uses, all the latest Discord API features, like buttons, modals, context-menus, select-menus, and is autocomplete-enabled!
 - The same configuration as your command files. Apply a cooldown to any component, and manage permissions and all the other configuration you're used to from this template.
@@ -73,15 +72,15 @@ Come try the template yourself in our official [support server](https://discord.
     5. [`/eval` modal-integration](/src/interactions/modals/evalSubmit.js) - Manage modals, we have unique identifier declared in our [constants file](/src/constants.js) to make sure we use the same `customId` field across all components and different files. Not required, but strongly recommended.
     6. [`/help` select-menu-integration](/src/interactions/select-menus/help.js) - Integrating seamlessly with the code in our main [`/help` command](/src/commands/system/help.js)
 
-### Dynamic Event Handler
+<h3 id="dynamic-event-handler">Dynamic Event Handler<h3>
 
 Every file in [the `listeners` folder](/src/listeners/) will be registered as an event listener where the file name without extension is the name of the event. Creating a file named `messageCreate.js` will listen to the `messageCreate` event, achieving the same as using `client.on()`. It listens for events, not much more to say about it.
 
-### RESTful API
+<h3 id="restful-api">RESTful API</h3>
 
 This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only serves the client's command data, which can be used to easily fetch your command data and build a dynamic command table/overview on your personal website. As this project is meant to be newbie-friendly, I thought I would include a **very** basic API template, so new developers are free to play around with it without having to set-up anything themselves. But, of course, you can just remove the `/backend` folder, `npm remove` unused dependencies and just use `npm run client` as the bot/client is completely standalone from the API. It's optional.
 
-### Others
+<h3 id="others">Others</h3>
 
 - Supports VSCode IntelliSense for auto-complete during local development.
 - Uses Discord's Autocomplete API, and showcases it in the `/help` command.
@@ -90,7 +89,7 @@ This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only 
 - Extensions to `discord.js` have been containerized. Everything is documented in the [typings file](/typings.d.ts), or check out the [client-extension](https://djs.mirasaki.dev/module-Client.html "Client-extension documentation") file, which is served as `client.container`.
 - Automatically (environmental variable dependent) deploy changes to your API commands, or use the [/deploy](/src/commands/developer/deploy.js) command.
 
-### Notes
+<h3 id="notes">Notes</h3>
 
 - Don't like the folder structure? Jump into the [environmental file](/.env.example) and configure where your commands and components are loaded from
 - Every embed color code and emoji are grabbed from their respective [configuration file](/src/config/), meaning you can personalize the bot without having to go over a plethora of files
@@ -120,9 +119,9 @@ const acceptEvalCollector = interactionMessage.createMessageComponentCollector({
 acceptEvalCollector.on('collect', (i) => { /* The callback to run */ });
 ```
 
-## Installation & Usage
+<h2 id="installation--usage">Installation & Usage</h2>
 
-### Prerequisites
+<h3 id="prerequisites">Prerequisites</h3>
 
 - [NodeJS](https://nodejs.org/en/download/ "Node official website") (if you're running as a plain NodeJS app)
     1) Head over to the download page
@@ -138,9 +137,9 @@ acceptEvalCollector.on('collect', (i) => { /* The callback to run */ });
 
 > If you're planning on hosting the backend, be sure to run the command `npm run docs` after installing, otherwise the root/index at `http://localhost:3000/` will return a 404 | Not Found error.
 
-### Run as a [Docker](https://docs.docker.com/engine/install/ "Official Docker Website") container (preferred)
+<h3 id="run-as-a-docker-container-preferred">Run as a Docker container (preferred)</h3>
 
-The quickest, and easiest, way to host/use this bot is by deploying it inside of a Docker container.
+The quickest, and easiest, way to host/use this bot is by deploying it inside of a [Docker](https://docs.docker.com/engine/install/ "Official Docker Website") container.
 
 1. Clone this repository: `git clone https://github.com/Mirasaki/discord.js-bot-template.git`
 2. Navigate inside the new folder: `cd discord.js-bot-template`
@@ -149,7 +148,7 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 5. Build the project: `docker build --tag discord-bot-template .`
 6. Start the bot: `docker run -d --name discord-bot-template -p 3000:3000 --env-file ./.env -p 27017:27017 discord-bot-template`
 
-### Run as a plain NodeJS app
+<h3 id="run-as-a-plain-nodejs-app">Run as a plain NodeJS app</h3>
 
 You can also clone this repository or download a release, and host the project directly. You will need [Node/NodeJS](https://nodejs.org/en/ "Node official website") (Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard)
 
