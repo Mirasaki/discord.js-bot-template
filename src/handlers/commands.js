@@ -53,7 +53,7 @@ const {
   SelectMenuBuilder,
   PermissionsBitField
 } = require('discord.js');
-const { UserContextCommand, MessageContextCommand } = require('../classes/Commands');
+const { UserContextCommand, MessageContextCommand, ChatInputCommand } = require('../classes/Commands');
 
 // Destructure from process.env
 const {
@@ -587,6 +587,13 @@ const generateCommandInfoEmbed = (clientCmd, interaction) => {
       : `${emojis.success} None required`;
   };
 
+  // Assigning our variable type-string
+  const typeStr = clientCmd instanceof ChatInputCommand
+    ? 'Slash Command'
+    : clientCmd instanceof MessageContextCommand
+      ? 'Message Command (right-click message -> Apps)'
+      : 'User Command (right-click user -> Apps)';
+
   return {
     color: colorResolver(colors.main),
     title: titleCase(data.name),
@@ -620,7 +627,10 @@ const generateCommandInfoEmbed = (clientCmd, interaction) => {
         value: data.NSFW === true ? `${emojis.error} This command is **not** SFW` : `${emojis.success} This command **is** SFW`,
         inline: false
       }
-    ]
+    ],
+    footer: {
+      text: `Type: ${typeStr}`
+    }
   };
 };
 
