@@ -14,6 +14,9 @@ module.exports = new UserContextCommand({
     usages: 1,
     duration: 5
   },
+  data: {
+    description: 'Display someone\'s account information'
+  },
 
   run: async (client, interaction) => {
     // Destructure from interaction and client container

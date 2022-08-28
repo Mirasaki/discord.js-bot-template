@@ -11,6 +11,9 @@ module.exports = new MessageContextCommand({
     usages: 2,
     duration: 30
   },
+  data: {
+    description: 'Display raw JSON for embeds attached to a message'
+  },
 
   run: async (client, interaction) => {
     // Destructure from interaction and client container
