@@ -41,7 +41,7 @@ const emojis = require('../config/emojis.json');
 const logger = require('@mirasaki/logger');
 const chalk = require('chalk');
 const { hasChannelPerms } = require('./permissions');
-const { commands, colors } = require('../client');
+const { commands, contextMenus, colors } = require('../client');
 const {
   SELECT_MENU_MAX_OPTIONS,
   HELP_SELECT_MENU_SEE_MORE_OPTIONS,
@@ -193,7 +193,7 @@ const registerGlobalCommands = async (client) => {
       if (
         cmd instanceof UserContextCommand
         || cmd instanceof MessageContextCommand
-      ) delete cmd.data?.description;
+      ) return { ...cmd.data, description: null };
 
       return cmd.data;
     });
@@ -245,7 +245,7 @@ const registerTestServerCommands = async (client) => {
       if (
         cmd instanceof UserContextCommand
         || cmd instanceof MessageContextCommand
-      ) delete cmd.data?.description;
+      ) return { ...cmd.data, description: null };
 
       return cmd.data;
     });
@@ -529,7 +529,8 @@ const isAppropriateCommandFilter = (member, command) =>
  */
 const getCommandSelectMenu = (member) => {
   // Filtering out unusable commands
-  const workingCmdMap = commands.filter((cmd) => isAppropriateCommandFilter(member, cmd));
+  const workingCmdMap = commands.concat(contextMenus)
+    .filter((cmd) => isAppropriateCommandFilter(member, cmd));
 
   // Getting our structured array of objects
   let cmdOutput = workingCmdMap.map((cmd) => ({
@@ -636,7 +637,8 @@ const generateCommandOverviewEmbed = (commands, interaction) => {
   const fields = [
     ...sortCommandsByCategory(
       // Filtering out command the user doesn't have access to
-      commands.filter((cmd) => cmd.permLevel <= member.permLevel)
+      commands.concat(contextMenus)
+        .filter((cmd) => cmd.permLevel <= member.permLevel)
     )
       .map((entry) => {
         return {
