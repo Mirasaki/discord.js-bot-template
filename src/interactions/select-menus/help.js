@@ -9,7 +9,7 @@ module.exports = new ComponentCommand({
   },
 
   run: async (client, interaction) => {
-    const { commands, emojis } = client.container;
+    const { commands, contextMenus, emojis } = client.container;
     const selectTargetValue = interaction.values[0];
     const { member } = interaction;
 
@@ -23,7 +23,9 @@ module.exports = new ComponentCommand({
     }
 
     // Check valid command
-    const clientCmd = commands.get(selectTargetValue) || undefined;
+    const clientCmd = commands.get(selectTargetValue)
+      || contextMenus.get(selectTargetValue)
+      || undefined;
     if (!clientCmd) {
       interaction.update({
         content: `${emojis.error} ${member}, I couldn't find the command **\`/${selectTargetValue}\`**`,

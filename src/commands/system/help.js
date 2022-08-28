@@ -30,7 +30,7 @@ module.exports = new ChatInputCommand({
   run: (client, interaction) => {
     // Destructuring
     const { member } = interaction;
-    const { commands, emojis } = client.container;
+    const { commands, contextMenus, emojis } = client.container;
 
     // Check for optional autocomplete focus
     const commandName = interaction.options.getString('command');
@@ -51,7 +51,8 @@ module.exports = new ChatInputCommand({
 
     // Request HAS optional command argument
     // Assigning our data
-    const clientCmd = commands.get(commandName);
+    const clientCmd = commands.get(commandName)
+      || contextMenus.get(commandName);
 
     // Checking if the commandName is a valid client command
     if (!clientCmd) {

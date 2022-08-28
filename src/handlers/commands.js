@@ -41,7 +41,7 @@ const emojis = require('../config/emojis.json');
 const logger = require('@mirasaki/logger');
 const chalk = require('chalk');
 const { hasChannelPerms } = require('./permissions');
-const { commands, colors } = require('../client');
+const { commands, contextMenus, colors } = require('../client');
 const {
   SELECT_MENU_MAX_OPTIONS,
   HELP_SELECT_MENU_SEE_MORE_OPTIONS,
@@ -53,6 +53,7 @@ const {
   SelectMenuBuilder,
   PermissionsBitField
 } = require('discord.js');
+const { UserContextCommand, MessageContextCommand, ChatInputCommand } = require('../classes/Commands');
 
 // Destructure from process.env
 const {
@@ -171,6 +172,21 @@ const logCommandApiData = (cmdData) => {
 };
 
 /**
+ * Return a the commands data object and removes the description field for Context Menu commands
+ * @param {ChatInputCommand || MessageContextCommand || UserContextCommand} cmd The command to client API data for
+ * @returns {external:DiscordAPIApplicationCommand}
+ */
+const cleanAPIData = (cmd) => {
+  // Remove the description field as it's not allowed in the api call
+  if (
+    cmd instanceof UserContextCommand
+    || cmd instanceof MessageContextCommand
+  ) return { ...cmd.data, description: null };
+
+  return cmd.data;
+};
+
+/**
  * Concatenates all our API command data, and refreshes/registers global command data to the Discord API
  * @param {Client} client Our extended discord.js client
  * @returns {Promise<Array<external:DiscordAPIApplicationCommand>>} Discord API command data
@@ -187,7 +203,7 @@ const registerGlobalCommands = async (client) => {
       cmd.global === true
       && cmd.enabled === true
     )
-    .map((cmd) => cmd.data);
+    .map(cleanAPIData);
 
   // Extensive debug logging
   if (DEBUG_SLASH_COMMAND_API_DATA === 'true') {
@@ -231,7 +247,7 @@ const registerTestServerCommands = async (client) => {
       cmd.global === false // Filter out global commands
       && cmd.enabled === true
     )
-    .map((cmd) => cmd.data);
+    .map(cleanAPIData);
 
   // Return if there's no test command data
   if (testServerCommandData.length === 0) {
@@ -512,7 +528,8 @@ const isAppropriateCommandFilter = (member, command) =>
  */
 const getCommandSelectMenu = (member) => {
   // Filtering out unusable commands
-  const workingCmdMap = commands.filter((cmd) => isAppropriateCommandFilter(member, cmd));
+  const workingCmdMap = commands.concat(contextMenus)
+    .filter((cmd) => isAppropriateCommandFilter(member, cmd));
 
   // Getting our structured array of objects
   let cmdOutput = workingCmdMap.map((cmd) => ({
@@ -569,6 +586,13 @@ const generateCommandInfoEmbed = (clientCmd, interaction) => {
       : `${emojis.success} None required`;
   };
 
+  // Assigning our variable type-string
+  const typeStr = clientCmd instanceof ChatInputCommand
+    ? 'Slash Command'
+    : clientCmd instanceof MessageContextCommand
+      ? 'Message Command (right-click message -> Apps)'
+      : 'User Command (right-click user -> Apps)';
+
   return {
     color: colorResolver(colors.main),
     title: titleCase(data.name),
@@ -602,7 +626,10 @@ const generateCommandInfoEmbed = (clientCmd, interaction) => {
         value: data.NSFW === true ? `${emojis.error} This command is **not** SFW` : `${emojis.success} This command **is** SFW`,
         inline: false
       }
-    ]
+    ],
+    footer: {
+      text: `Type: ${typeStr}`
+    }
   };
 };
 
@@ -619,7 +646,8 @@ const generateCommandOverviewEmbed = (commands, interaction) => {
   const fields = [
     ...sortCommandsByCategory(
       // Filtering out command the user doesn't have access to
-      commands.filter((cmd) => cmd.permLevel <= member.permLevel)
+      commands.concat(contextMenus)
+        .filter((cmd) => cmd.permLevel <= member.permLevel)
     )
       .map((entry) => {
         return {
