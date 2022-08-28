@@ -53,6 +53,7 @@ const {
   SelectMenuBuilder,
   PermissionsBitField
 } = require('discord.js');
+const { UserContextCommand, MessageContextCommand } = require('../classes/Commands');
 
 // Destructure from process.env
 const {
@@ -187,7 +188,15 @@ const registerGlobalCommands = async (client) => {
       cmd.global === true
       && cmd.enabled === true
     )
-    .map((cmd) => cmd.data);
+    .map((cmd) => {
+      // Remove the description field as it's not allowed in the api call
+      if (
+        cmd instanceof UserContextCommand
+        || cmd instanceof MessageContextCommand
+      ) delete cmd.data?.description;
+
+      return cmd.data;
+    });
 
   // Extensive debug logging
   if (DEBUG_SLASH_COMMAND_API_DATA === 'true') {
@@ -231,7 +240,15 @@ const registerTestServerCommands = async (client) => {
       cmd.global === false // Filter out global commands
       && cmd.enabled === true
     )
-    .map((cmd) => cmd.data);
+    .map((cmd) => {
+      // Remove the description field as it's not allowed in the api call
+      if (
+        cmd instanceof UserContextCommand
+        || cmd instanceof MessageContextCommand
+      ) delete cmd.data?.description;
+
+      return cmd.data;
+    });
 
   // Return if there's no test command data
   if (testServerCommandData.length === 0) {
