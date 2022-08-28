@@ -173,7 +173,7 @@ const logCommandApiData = (cmdData) => {
 
 /**
  * Return a the commands data object and removes the description field for Context Menu commands
- * @param {ChatInputCommand || MessageContextCommand || UserContextCommand} cmd The command to client API data for
+ * @param {ChatInputCommand | MessageContextCommand | UserContextCommand} cmd The command to client API data for
  * @returns {external:DiscordAPIApplicationCommand}
  */
 const cleanAPIData = (cmd) => {
