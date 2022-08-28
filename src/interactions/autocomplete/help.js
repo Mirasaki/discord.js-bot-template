@@ -5,8 +5,9 @@ module.exports = new ComponentCommand({
   run: async (client, interaction, query) => {
     const { member } = interaction;
     // Filtering out unusable commands
-    const { commands } = client.container;
-    const workingCmdMap = commands.filter((cmd) => isAppropriateCommandFilter(member, cmd));
+    const { commands, contextMenus } = client.container;
+    const workingCmdMap = commands.concat(contextMenus)
+      .filter((cmd) => isAppropriateCommandFilter(member, cmd));
 
     // Getting our search query's results
     const queryResult = workingCmdMap.filter(
