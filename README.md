@@ -29,6 +29,7 @@ With [Message Content Access becoming a privileged intent](https://support-dev.d
 ---
 
 <h2 id="live-demo">Live Demo</h2>
+
 Come try the template yourself in our official [support server](https://discord.mirasaki.dev "Mirasaki Development on Discord")
 
 <h2 id="showcase">Showcase / Projects using this template</h2>
