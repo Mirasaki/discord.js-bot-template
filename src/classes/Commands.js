@@ -18,6 +18,7 @@ const {
 const path = require('path');
 const chalk = require('chalk');
 const logger = require('@mirasaki/logger');
+const { Collection } = require('discord.js');
 
 /**
  * The interaction object received when a user/member invokes the command
@@ -100,7 +101,7 @@ class CommandBase {
     /**
      * @property {boolean} nsfw Is the command Not Safe For Work
      */
-    this.enabled = 'nsfw' in config ? config.nsfw : false;
+    this.nsfw = 'nsfw' in config ? config.nsfw : false;
 
     /**
      * @property {CommandBaseCooldown} cooldown Cooldown configuration for the command
@@ -238,7 +239,7 @@ class CommandBase {
    * @method
    * @param {string} origin The absolute file path to exported module/config,
    * can be used this way as we export each Command within it's own, dedicated file
-   * @param {external:DiscordCollection} collection The collection this command should be set to
+   * @param {external:DiscordCollection} [collection] The collection this command should be set to
    * @returns {void} Nothing
    *
    * @example
@@ -247,7 +248,7 @@ class CommandBase {
    *  command.load(filePath, client.container.commands);
    * }
    */
-  load = (filePath, collection) => {
+  load = (filePath, collection = new Collection()) => {
     this.filePath = filePath;
     this.setFilePathDetails();
 
