@@ -16,6 +16,7 @@ module.exports = new ChatInputCommand({
     duration: 30
   },
   clientPerms: ['EmbedLinks'],
+  alias: [ 'ping' ],
   data: {
     description: 'Displays bot stats'
   },
