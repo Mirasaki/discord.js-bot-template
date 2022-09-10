@@ -18,6 +18,7 @@ const {
 const path = require('path');
 const chalk = require('chalk');
 const logger = require('@mirasaki/logger');
+const { Collection } = require('discord.js');
 
 /**
  * The interaction object received when a user/member invokes the command
@@ -80,50 +81,50 @@ class CommandBase {
     /**
      * @property {PermLevel} permLevel The permission level required to use the command
      */
-    this.permLevel = config.permLevel || permConfig[permConfig.length - 1].name;
+    this.permLevel = 'permLevel' in config ? config.permLevel : permConfig[permConfig.length - 1].name;
 
     /**
      * @property {Array<external:DiscordPermissionResolvable>} clientPerms Permissions required by the client to execute the command
      */
-    this.clientPerms = config.clientPerms || [];
+    this.clientPerms = 'clientPerms' in config ? config.clientPerms : [];
 
     /**
      * @property {Array<external:DiscordPermissionResolvable>} userPerms Permissions required by the user to execute the commands
      */
-    this.userPerms = config.userPerms || [];
+    this.userPerms = 'userPerms' in config ? config.userPerms : [];
 
     /**
      * @property {boolean} enabled Is the command currently enabled
      */
-    this.enabled = config.enabled || true;
+    this.enabled = 'enabled' in config ? config.enabled : true;
 
     /**
      * @property {boolean} nsfw Is the command Not Safe For Work
      */
-    this.nsfw = config.nsfw || false;
+    this.nsfw = 'nsfw' in config ? config.nsfw : false;
 
     /**
      * @property {CommandBaseCooldown} cooldown Cooldown configuration for the command
      */
-    this.cooldown = config.cooldown || {};
-    this.cooldown.type = config.cooldown?.type || 'member';
-    this.cooldown.usages = config.cooldown?.usages || 1;
-    this.cooldown.duration = config.cooldown?.duration || 2;
+    this.cooldown = 'cooldown' in config ? config.cooldown : {};
+    this.cooldown.type = config.cooldown && 'type' in config.cooldown ? config.cooldown.type : 'member';
+    this.cooldown.usages = config.cooldown && 'usages' in config.cooldown ? config.cooldown.usages : 1;
+    this.cooldown.duration = config.cooldown && 'duration' in config ? config.cooldown.duration : 2;
 
     /**
      * @property {string} category This command's category
      */
-    this.category = config.category || undefined;
+    this.category = 'category' in config ? config.category : undefined;
 
     /**
      * @property {Object} data Discord API Application Command Object {@link https://discord.com/developers/docs/interactions/application-commands#application-command-object}
      */
-    this.data = config.data || {};
+    this.data = 'data' in config ? config.data : {};
 
     /**
      * @property {string} filePath Path to file, only present if `this.setFilePathDetails` is invoked
      */
-    this.filePath = config.filePath || undefined;
+    this.filePath = 'filePath' in config ? config.filePath : undefined;
 
     // Overwriting the default callback function with the
     // user provided function
@@ -238,7 +239,7 @@ class CommandBase {
    * @method
    * @param {string} origin The absolute file path to exported module/config,
    * can be used this way as we export each Command within it's own, dedicated file
-   * @param {external:DiscordCollection} collection The collection this command should be set to
+   * @param {external:DiscordCollection} [collection] The collection this command should be set to
    * @returns {void} Nothing
    *
    * @example
@@ -247,7 +248,7 @@ class CommandBase {
    *  command.load(filePath, client.container.commands);
    * }
    */
-  load = (filePath, collection) => {
+  load = (filePath, collection = new Collection()) => {
     this.filePath = filePath;
     this.setFilePathDetails();
 
