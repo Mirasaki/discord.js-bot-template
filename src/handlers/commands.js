@@ -183,6 +183,12 @@ const cleanAPIData = (cmd) => {
     || cmd instanceof MessageContextCommand
   ) return { ...cmd.data, description: null };
 
+  // Slice the description if it's too long
+  // 100 is max supported by the Discord API
+  if (cmd.data.description.length > 100) {
+    cmd.data.description = `${cmd.data.description.slice(0, 97)}...`;
+  }
+
   return cmd.data;
 };
 
