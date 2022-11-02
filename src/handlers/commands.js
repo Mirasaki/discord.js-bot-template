@@ -657,7 +657,7 @@ const generateCommandOverviewEmbed = (commands, interaction) => {
     )
       .map((entry) => {
         return {
-          name: `${entry.category}`,
+          name: `${titleCase(entry.category.replace(/-/g, ' '))}`,
           value: `**\`${
             entry.commands
               .map((cmd) => cmd.data.name)
