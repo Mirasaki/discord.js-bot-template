@@ -73,7 +73,7 @@ Come try the template yourself in our official [support server](https://discord.
     5. [`/eval` modal-integration](/src/interactions/modals/evalSubmit.js) - Manage modals, we have unique identifier declared in our [constants file](/src/constants.js) to make sure we use the same `customId` field across all components and different files. Not required, but strongly recommended.
     6. [`/help` select-menu-integration](/src/interactions/select-menus/help.js) - Integrating seamlessly with the code in our main [`/help` command](/src/commands/system/help.js)
 
-<h3 id="dynamic-event-handler">Dynamic Event Handler<h3>
+<h3 id="dynamic-event-handler">Dynamic Event Handler</h3>
 
 Every file in [the `listeners` folder](/src/listeners/) will be registered as an event listener where the file name without extension is the name of the event. Creating a file named `messageCreate.js` will listen to the `messageCreate` event, achieving the same as using `client.on()`. It listens for events, not much more to say about it.
 
