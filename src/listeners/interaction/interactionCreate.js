@@ -132,7 +132,7 @@ const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
   // Check if the Component Command is meant for the member initiating it
   if (
     interaction.isButton()
-   || interaction.isSelectMenu()
+   || interaction.isStringSelectMenu()
    || interaction.isMessageComponent()
   ) {
     const componentIsForMember = hasAccessToComponentCommand(interaction);

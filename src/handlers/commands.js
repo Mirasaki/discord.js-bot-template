@@ -50,7 +50,7 @@ const {
 } = require('../constants');
 const {
   ActionRowBuilder,
-  SelectMenuBuilder,
+  StringSelectMenuBuilder,
   PermissionsBitField
 } = require('discord.js');
 const { UserContextCommand, MessageContextCommand, ChatInputCommand } = require('../classes/Commands');
@@ -558,7 +558,7 @@ const getCommandSelectMenu = (member) => {
   // Building our row
   return new ActionRowBuilder()
     .addComponents(
-      new SelectMenuBuilder()
+      new StringSelectMenuBuilder()
         .setCustomId(HELP_COMMAND_SELECT_MENU)
         .setPlaceholder('Select a command')
         .addOptions(cmdOutput)
