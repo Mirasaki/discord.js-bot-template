@@ -50,7 +50,7 @@ const {
 } = require('../constants');
 const {
   ActionRowBuilder,
-  SelectMenuBuilder,
+  StringSelectMenuBuilder,
   PermissionsBitField
 } = require('discord.js');
 const { UserContextCommand, MessageContextCommand, ChatInputCommand } = require('../classes/Commands');
@@ -182,6 +182,12 @@ const cleanAPIData = (cmd) => {
     cmd instanceof UserContextCommand
     || cmd instanceof MessageContextCommand
   ) return { ...cmd.data, description: null };
+
+  // Slice the description if it's too long
+  // 100 is max supported by the Discord API
+  if (cmd.data.description.length > 100) {
+    cmd.data.description = `${cmd.data.description.slice(0, 97)}...`;
+  }
 
   return cmd.data;
 };
@@ -552,7 +558,7 @@ const getCommandSelectMenu = (member) => {
   // Building our row
   return new ActionRowBuilder()
     .addComponents(
-      new SelectMenuBuilder()
+      new StringSelectMenuBuilder()
         .setCustomId(HELP_COMMAND_SELECT_MENU)
         .setPlaceholder('Select a command')
         .addOptions(cmdOutput)
@@ -651,7 +657,7 @@ const generateCommandOverviewEmbed = (commands, interaction) => {
     )
       .map((entry) => {
         return {
-          name: `${entry.category}`,
+          name: `${titleCase(entry.category.replace(/-/g, ' '))}`,
           value: `**\`${
             entry.commands
               .map((cmd) => cmd.data.name)
