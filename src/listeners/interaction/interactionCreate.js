@@ -3,8 +3,7 @@ const chalk = require('chalk');
 const { InteractionType } = require('discord.js');
 const {
   checkCommandCanExecute,
-  throttleCommand,
-  hasAccessToComponentCommand
+  throttleCommand
 } = require('../../handlers/commands');
 const { getPermissionLevel } = require('../../handlers/permissions');
 const { titleCase, getRuntime } = require('../../util');
@@ -127,22 +126,6 @@ const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
   if (!clientCanReply) {
     logger.debug(`Interaction returned - Can't reply to interaction\nCommand: ${data.name}\nServer: ${guild.name}\nChannel: #${channel.name}\nMember: ${member}`);
     return;
-  }
-
-  // Check if the Component Command is meant for the member initiating it
-  if (
-    interaction.isButton()
-   || interaction.isStringSelectMenu()
-   || interaction.isMessageComponent()
-  ) {
-    const componentIsForMember = hasAccessToComponentCommand(interaction);
-    if (!componentIsForMember) {
-      interaction.reply({
-        content: `${emojis.error} ${member}, this message component isn't meant for you.`,
-        ephemeral: true
-      });
-      return;
-    }
   }
 
   // Perform our additional checks
