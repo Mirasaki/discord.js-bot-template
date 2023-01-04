@@ -306,9 +306,21 @@ class CommandBase {
 
 
 /**
+ * @typedef {BaseConfig} ComponentCommandConfig
+ * @property {boolean} [isUserComponent = true] If true, the component is only available to the user who initiated it. If false, everyone can interact with the component
+ */
+
+/**
  * @extends {CommandBase}
  */
 class ComponentCommand extends CommandBase {
+  constructor (config) {
+    super(config);
+    /**
+     * @property {boolean} global If true, the component is only available to the user who initiated it. If false, everyone can interact with the component
+     */
+    this.isUserComponent = 'isUserComponent' in config ? config.isUserComponent : true;
+  }
 }
 
 

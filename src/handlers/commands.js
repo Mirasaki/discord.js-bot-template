@@ -493,9 +493,33 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
     return false;
   }
 
+  // Check if the Component Command is meant for the member initiating it
+  if (
+    isUserComponentCommand(clientCmd, interaction)
+    && !hasAccessToComponentCommand(interaction)
+  ) {
+    interaction.reply({
+      content: `${emojis.error} ${member}, this message component isn't meant for you.`,
+      ephemeral: true
+    });
+    return false;
+  }
+
   // All checks have passed
   return true;
 };
+
+/**
+ * @param {Command} clientCmd The command to execute
+ * @param {external:DiscordCommandInteraction} interaction The discord.js interaction event
+ * @returns {boolean} Whether or not the received component interaction is restricted
+ * to the user who initiated it or available to everyone
+ */
+const isUserComponentCommand = (clientCmd, interaction) => (
+  interaction.isButton()
+  || interaction.isStringSelectMenu()
+  || interaction.isMessageComponent()
+) && clientCmd.isUserComponent === true;
 
 /**
  * Checks if the member has access to the component command
@@ -503,7 +527,14 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
  * @returns {boolean} Indicates if the component command is meant for the user that invoked it
  */
 const hasAccessToComponentCommand = (interaction) => {
+  // Destructure from our received interaction
   const { member, message } = interaction;
+
+  // Check if the component was created outside of interaction context
+  // which means the component should be available to everyone
+  if (!message.interaction) return true;
+
+  // Return as a boolean
   const originInteractionUserId = message.interaction.user?.id;
   return member.id === originInteractionUserId;
 };
@@ -690,6 +721,7 @@ module.exports = {
   throttleCommand,
   getThrottleId,
   checkCommandCanExecute,
+  isUserComponentCommand,
   hasAccessToComponentCommand,
   isAppropriateCommandFilter,
   getCommandSelectMenu,
