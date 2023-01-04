@@ -30,7 +30,7 @@
     "types": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
-    "@discordjs/rest": "^1.4.0",
+    "@discordjs/rest": "^1.5.0",
     "@mirasaki/logger": "^1.0.5",
     "body-parser": "^1.20.0",
     "common-tags": "^1.8.2",
@@ -39,12 +39,12 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "morgan": "^1.10.0",
-    "swagger-jsdoc": "^6.2.5",
+    "swagger-jsdoc": "^6.2.7",
     "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
     "docdash": "^2.0.0",
-    "eslint": "^8.28.0",
+    "eslint": "^8.30.0",
     "eslint-plugin-sonarjs": "^0.17.0",
     "jsdoc": "^4.0.0",
     "jsdoc-to-markdown": "^8.0.0",
