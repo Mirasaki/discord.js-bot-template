@@ -43,7 +43,7 @@
     "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
-    "docdash": "^2.0.0",
+    "docdash": "^2.0.1",
     "eslint": "^8.31.0",
     "eslint-plugin-sonarjs": "^0.17.0",
     "jsdoc": "^4.0.0",
