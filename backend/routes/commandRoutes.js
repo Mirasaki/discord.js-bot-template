@@ -17,6 +17,7 @@ const {
 // Re-usable callback
 const commandMapCallback = (filePath) => {
   const cmd = require(filePath);
+
   cmd.load(filePath, new Collection());
   delete cmd.filePath; // Delete our origin filePath
   return cmd;
@@ -26,7 +27,7 @@ const commandMapCallback = (filePath) => {
 const queryFilterCommands = (arr, category, limit) => {
   return arr
     .filter((cmd) => cmd.category?.toLowerCase() === category.toLowerCase())
-    .slice(0, limit >= 1  ? limit : arr.length);
+    .slice(0, limit >= 1 ? limit : arr.length);
 };
 
 // Client Chat Input Commands
@@ -57,8 +58,10 @@ router.route('/')
 
     // Filter by category if requested
     const usesCategoryFilter = category !== undefined;
+
     if (usesCategoryFilter) {
       const result = queryFilterCommands(clientCommands, category, limit);
+
       res.send(result);
       return;
     }
@@ -80,8 +83,10 @@ router.route('/context-menus')
 
     // Filter by category if requested
     const usesCategoryFilter = category !== undefined;
+
     if (usesCategoryFilter) {
       const result = queryFilterCommands(clientCtxMenus, category, limit);
+
       res.send(result);
       return;
     }
@@ -103,8 +108,10 @@ router.route('/auto-complete')
 
     // Filter by category if requested
     const usesCategoryFilter = category !== undefined;
+
     if (usesCategoryFilter) {
       const result = queryFilterCommands(clientAutoCompletes, category, limit);
+
       res.send(result);
       return;
     }
@@ -126,8 +133,10 @@ router.route('/buttons')
 
     // Filter by category if requested
     const usesCategoryFilter = category !== undefined;
+
     if (usesCategoryFilter) {
       const result = queryFilterCommands(clientButtons, category, limit);
+
       res.send(result);
       return;
     }
@@ -149,8 +158,10 @@ router.route('/modals')
 
     // Filter by category if requested
     const usesCategoryFilter = category !== undefined;
+
     if (usesCategoryFilter) {
       const result = queryFilterCommands(clientModals, category, limit);
+
       res.send(result);
       return;
     }
@@ -172,8 +183,10 @@ router.route('/select-menus')
 
     // Filter by category if requested
     const usesCategoryFilter = category !== undefined;
+
     if (usesCategoryFilter) {
       const result = queryFilterCommands(clientSelectMenus, category, limit);
+
       res.send(result);
       return;
     }
@@ -197,6 +210,7 @@ router.route('/:name')
     const { name } = req.params;
     // Finding our related command
     const cmd = clientCommands.find((cmd) => cmd.data.name === name);
+
     if (cmd) res.send(cmd);
     else res.sendStatus(404);
   });
@@ -208,6 +222,7 @@ router.route('/context-menus/:name')
     const { name } = req.params;
     // Finding our related command
     const cmd = clientCtxMenus.find((cmd) => cmd.data.name === name);
+
     if (cmd) res.send(cmd);
     else res.sendStatus(404);
   });
@@ -219,6 +234,7 @@ router.route('/auto-complete/:name')
     const { name } = req.params;
     // Finding our related command
     const cmd = clientAutoCompletes.find((cmd) => cmd.data.name === name);
+
     if (cmd) res.send(cmd);
     else res.sendStatus(404);
   });
@@ -230,6 +246,7 @@ router.route('/buttons/:name')
     const { name } = req.params;
     // Finding our related command
     const cmd = clientButtons.find((cmd) => cmd.data.name === name);
+
     if (cmd) res.send(cmd);
     else res.sendStatus(404);
   });
@@ -241,6 +258,7 @@ router.route('/modals/:name')
     const { name } = req.params;
     // Finding our related command
     const cmd = clientModals.find((cmd) => cmd.data.name === name);
+
     if (cmd) res.send(cmd);
     else res.sendStatus(404);
   });
@@ -252,6 +270,7 @@ router.route('/select-menus/:name')
     const { name } = req.params;
     // Finding our related command
     const cmd = clientSelectMenus.find((cmd) => cmd.data.name === name);
+
     if (cmd) res.send(cmd);
     else res.sendStatus(404);
   });
