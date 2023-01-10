@@ -112,9 +112,9 @@ const getValueOutput = (key, value) => {
 
     // Cooldown
     case 'cooldown': return `
-      <strong>Uses:</strong> ${value.usages}
-      <br/><strong>Duration:</strong> ${value.duration} seconds
-      </br><strong>Type:</strong> ${value.type}
+      <strong>Uses:</strong> ${ value.usages }
+      <br/><strong>Duration:</strong> ${ value.duration } seconds
+      </br><strong>Type:</strong> ${ value.type }
     `;
 
     // PermLevel
@@ -138,7 +138,7 @@ const baseHTMLStart = `
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Commands</title>
 
-  ${styles}
+  ${ styles }
 </head>
 <body>
   <div class="background"></div>
@@ -161,8 +161,8 @@ const generateCommandHTML = (commands) => {
   let html = baseHTMLStart;
 
   // Adding command name as the first table head column
-  html += '<th>Name</th>'; // Name
-  html += '<th>Description</th>'; // Description
+  html += '<th>Name</th>';
+  html += '<th>Description</th>';
 
   // Building our table head
   for (const key in commands.first()) {
@@ -176,15 +176,19 @@ const generateCommandHTML = (commands) => {
 
   // Looping over our command collection
   let currCat = undefined;
+
   commands.forEach((cmd) => {
     // Skip if the command is not enabled
     if (!cmd.enabled || cmd.isAlias) return;
 
     // Adding an empty line after category change,
     // Ignore first category so we don't start with an empty line
-    if (cmd.category !== currCat && cmd.category !== commands.first().category) {
+    if (
+      cmd.category !== currCat
+      && cmd.category !== commands.first().category
+    ) {
       html += `<tr style="visibility: hidden; height: 40px;">
-        ${'<td></td>'.repeat(9)}
+        ${ '<td></td>'.repeat(9) }
       </tr>`;
     }
     currCat = cmd.category;
@@ -192,14 +196,15 @@ const generateCommandHTML = (commands) => {
     // Adding a table row containing the command property values
     html += '<tr>';
 
-    // Adding the name first
-    html += `<td>${cmd.data.name}</td>`; // Name
-    html += `<td>${cmd.data.description}</td>`; // Description
+    // Adding the name first, and description afterwards
+    html += `<td>${ cmd.data.name }</td>`;
+    html += `<td>${ cmd.data.description }</td>`;
+
     // Looping over additional properties
-    for (const [key, value] of Object.entries(cmd)) {
+    for (const [ key, value ] of Object.entries(cmd)) {
       // Continue if we don't want to display this property
       if (ignoredCommandProperties.includes(key)) continue;
-      html += `<td>${getValueOutput(key, value)}</td>`;
+      html += `<td>${ getValueOutput(key, value) }</td>`;
     }
 
     html += '</tr>';
@@ -212,6 +217,4 @@ const generateCommandHTML = (commands) => {
   fs.writeFileSync('public/html/commands.html', html);
 };
 
-module.exports = {
-  generateCommandHTML
-};
+module.exports = { generateCommandHTML };

@@ -5,17 +5,19 @@ const { colorResolver, getRuntime } = require('../../util');
 
 module.exports = new ChatInputCommand({
   permLevel: 'Developer',
-  clientPerms: ['EmbedLinks', 'AttachFiles'],
+  clientPerms: [ 'EmbedLinks', 'AttachFiles' ],
   data: {
     description: 'Execute console commands',
     options: [
       {
-        type: 3, // STRING
+        // STRING
+        type: 3,
         name: 'command',
         description: 'The command to execute',
         required: true,
         min_length: 1,
-        max_length: 6000 // API max
+        // API max
+        max_length: 6000
       }
     ]
   },
@@ -36,17 +38,17 @@ module.exports = new ChatInputCommand({
     exec(commandToExec, (err, stdout) => {
       // Get runtime
       const timeSinceHr = getRuntime(execStartTime);
-      const timeSinceStr = `${timeSinceHr.seconds} seconds (${timeSinceHr.ms} ms)`;
+      const timeSinceStr = `${ timeSinceHr.seconds } seconds (${ timeSinceHr.ms } ms)`;
 
       // Building our embed object
       let outputStr = undefined;
       const files = [];
       const execEmbed = {
-        description: `:inbox_tray: **Input:**\n\`\`\`bash\n${commandToExec}\n\`\`\``,
+        description: `:inbox_tray: **Input:**\n\`\`\`bash\n${ commandToExec }\n\`\`\``,
         fields: [
           {
             name: 'Time taken',
-            value: `\`\`\`fix\n${timeSinceStr}\`\`\``,
+            value: `\`\`\`fix\n${ timeSinceStr }\`\`\``,
             inline: false
           }
         ]
@@ -54,17 +56,18 @@ module.exports = new ChatInputCommand({
 
       // Properly handle potential errors
       if (err) {
-        outputStr = `${emojis.error} ${member}, error encountered while executing console command.`;
+        outputStr = `${ emojis.error } ${ member }, error encountered while executing console command.`;
         execEmbed.color = colorResolver(colors.error);
 
         // Add output embed field to the start of the Array
         const activeOutput = err.stack || err;
+
         execEmbed.fields.unshift({
           name: ':outbox_tray: Output:',
           value: `\`\`\`js\n${
             activeOutput.length <= EMBED_FIELD_VALUE_MAX_LENGTH
               ? activeOutput
-              : `Error trace over ${EMBED_FIELD_VALUE_MAX_LENGTH} characters, uploaded as attachment instead`
+              : `Error trace over ${ EMBED_FIELD_VALUE_MAX_LENGTH } characters, uploaded as attachment instead`
           }\`\`\``,
           inline: false
         });
@@ -80,7 +83,7 @@ module.exports = new ChatInputCommand({
 
       // No error encountered
       else {
-        outputStr = `${emojis.success} ${member}, console command executed.`;
+        outputStr = `${ emojis.success } ${ member }, console command executed.`;
         execEmbed.color = colorResolver(colors.success);
 
         // Add output embed field to the start of the Array
@@ -89,7 +92,7 @@ module.exports = new ChatInputCommand({
           value: `\`\`\`js\n${
             stdout.length <= EMBED_FIELD_VALUE_MAX_LENGTH
               ? stdout
-              : `Output over ${EMBED_FIELD_VALUE_MAX_LENGTH} characters, uploaded as attachment instead`
+              : `Output over ${ EMBED_FIELD_VALUE_MAX_LENGTH } characters, uploaded as attachment instead`
           }\`\`\``,
           inline: false
         });

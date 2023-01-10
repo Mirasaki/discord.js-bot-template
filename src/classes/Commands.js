@@ -10,9 +10,7 @@ const {
 const { commands } = require('../client');
 
 // Destructure from environmental
-const {
-  DEBUG_ENABLED
-} = process.env;
+const { DEBUG_ENABLED } = process.env;
 
 // Import from packages
 const path = require('path');
@@ -144,7 +142,7 @@ class CommandBase {
   setPermLevel = () => {
     this.permLevel = Number(
       Object.entries(permLevelMap)
-        .find(([lvl, name]) => name === this.permLevel)[0]
+        .find(([ lvl, name ]) => name === this.permLevel)[0]
     );
   };
 
@@ -161,42 +159,46 @@ class CommandBase {
 
     // Check if valid permission level is supplied
     if (!permConfig.find((e) => e.name === this.permLevel)) {
-      throw new Error(`The permission level "${this.permLevel}" is not currently configured.\nCommand: ${data.name}`);
+      throw new Error(`The permission level "${ this.permLevel }" is not currently configured.\nCommand: ${ data.name }`);
     }
 
     // Check that optional client permissions are valid
     if (
       this.clientPerms
       && !Array.isArray(this.clientPerms)
-    ) throw new Error (`Invalid permissions provided in ${data.name} command client permissions\nCommand: ${data.name}`);
+    ) throw new Error(`Invalid permissions provided in ${ data.name } command client permissions\nCommand: ${ data.name }`);
 
     // Check that optional user permissions are valid
     if (
       this.userPerms
       && !Array.isArray(this.userPerms)
-    ) throw new Error (`Invalid permissions provided in ${data.name} command user permissions\nCommand: ${data.name}`);
+    ) throw new Error(`Invalid permissions provided in ${ data.name } command user permissions\nCommand: ${ data.name }`);
 
     // Check boolean nsfw
-    if (typeof this.nsfw !== 'boolean') throw new Error(`Expected nsfw property to be boolean\nCommand: ${data.name}`);
+    if (typeof this.nsfw !== 'boolean') throw new Error(`Expected nsfw property to be boolean\nCommand: ${ data.name }`);
 
     // Check our run function
     if (typeof run !== 'function') {
-      throw new Error(`Expected run to be a function, but received ${typeof run}\nCommand: ${data.name}`);
+      throw new Error(`Expected run to be a function, but received ${ typeof run }\nCommand: ${ data.name }`);
     }
 
     // Check optional required client permissions
     if (this.clientPerms.length >= 1) {
-      const invalidPerms = getInvalidPerms(this.clientPerms).map(e => chalk.red(e));
+      const invalidPerms = getInvalidPerms(this.clientPerms)
+        .map((e) => chalk.red(e));
+
       if (invalidPerms.length >= 1) {
-        throw new Error(`Invalid permissions provided in clientPerms: ${invalidPerms.join(', ')}\nCommand: ${data.name}`);
+        throw new Error(`Invalid permissions provided in clientPerms: ${ invalidPerms.join(', ') }\nCommand: ${ data.name }`);
       }
     }
 
     // Check optional required user permissions
     if (this.userPerms.length >= 1) {
-      const invalidPerms = getInvalidPerms(this.userPerms).map(e => chalk.red(e));
+      const invalidPerms = getInvalidPerms(this.userPerms)
+        .map((e) => chalk.red(e));
+
       if (invalidPerms.length >= 1) {
-        throw new Error(`Invalid permissions provided in userPerms: ${invalidPerms.join(', ')}\nCommand: ${data.name}`);
+        throw new Error(`Invalid permissions provided in userPerms: ${ invalidPerms.join(', ') }\nCommand: ${ data.name }`);
       }
     }
   };
@@ -214,6 +216,7 @@ class CommandBase {
    */
   setFilePathDetails = () => {
     const origin = this.filePath;
+
     // Check if the data name has been set
     // Set filename without extension as fallback
     if (!this.data.name) {
@@ -221,6 +224,7 @@ class CommandBase {
         origin.lastIndexOf(path.sep) + 1,
         origin.lastIndexOf('.')
       );
+
       this.data.name = fileNameWithoutExtension;
     }
     // Check if the category has been set
@@ -230,6 +234,7 @@ class CommandBase {
         origin.lastIndexOf(path.sep, origin.lastIndexOf(path.sep) - 1) + 1,
         origin.lastIndexOf(path.sep) || undefined
       );
+
       this.category = parentFolder;
     }
   };
@@ -254,7 +259,7 @@ class CommandBase {
 
     // Debug Logging - After we set our file path defaults/fallbacks
     if (DEBUG_ENABLED === 'true') {
-      logger.debug(`Loading <${chalk.cyanBright(this.data.name)}>`);
+      logger.debug(`Loading <${ chalk.cyanBright(this.data.name) }>`);
     }
 
     // Set the command in our command collection
@@ -278,6 +283,7 @@ class CommandBase {
     // Getting and deleting our current cmd module cache
     const filePath = this.filePath;
     const module = require.cache[require.resolve(filePath)];
+
     delete require.cache[require.resolve(filePath)];
     for (let i = 0; i < module.children?.length; i++) {
       if (!module.children) break;
@@ -302,9 +308,6 @@ class CommandBase {
 }
 
 
-
-
-
 /**
  * @typedef {BaseConfig} ComponentCommandConfig
  * @property {boolean} [isUserComponent = true] If true, the component is only available to the user who initiated it. If false, everyone can interact with the component
@@ -322,9 +325,6 @@ class ComponentCommand extends CommandBase {
     this.isUserComponent = 'isUserComponent' in config ? config.isUserComponent : true;
   }
 }
-
-
-
 
 
 /**
@@ -375,18 +375,19 @@ class APICommand extends CommandBase {
   loadAliases = () => {
     // Check if we should manage command aliases
     if (!this.isAlias && this.aliases.length >= 1) {
-
       // Looping over all over aliases
       this.aliases.forEach((alias) => {
         // Creating the config object for the new command
         const newCmdConfig = {
-          ...this, // spread all properties
+          // spread all properties
+          ...this,
           data: {
             ...this.data,
             name: alias
             // Overwrite API name after spreading api data
           },
-          permLevel: getPermLevelName(this.permLevel), // Transforming the permission level back
+          // Transforming the permission level back
+          permLevel: getPermLevelName(this.permLevel),
           // Setting alias values
           isAlias: true,
           aliases: [],
@@ -404,9 +405,6 @@ class APICommand extends CommandBase {
 }
 
 
-
-
-
 /**
  * @extends {APICommand}
  */
@@ -419,12 +417,10 @@ class MessageContextCommand extends APICommand {
     /**
      * @property {number} [data.type=3] The type of APICommand
      */
-    this.data.type = 3; // MESSAGE Context Menu
+    // MESSAGE Context Menu
+    this.data.type = 3;
   }
 }
-
-
-
 
 
 /**
@@ -439,12 +435,10 @@ class UserContextCommand extends APICommand {
     /**
      * @property {number} [data.type=3] The type of APICommand
      */
-    this.data.type = 2; // USER Context Menu
+    // USER Context Menu
+    this.data.type = 2;
   }
 }
-
-
-
 
 
 /**
@@ -472,12 +466,12 @@ class ChatInputCommand extends APICommand {
    */
   constructor (config) {
     super(config);
-    // Set API data defaults
-    this.data.type = 1; // CHAT_INPUT
+    // Set API data defaults - CHAT_INPUT
+    this.data.type = 1;
 
     // Check if a description is provided
     if (!this.data.description) {
-      throw new Error(`An InteractionCommand description is required by Discord's API\nCommand: ${this.data.name}`);
+      throw new Error(`An InteractionCommand description is required by Discord's API\nCommand: ${ this.data.name }`);
     }
   }
 }

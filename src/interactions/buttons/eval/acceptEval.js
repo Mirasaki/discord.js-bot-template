@@ -1,19 +1,28 @@
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const { colorResolver, getRuntime } = require('../../../util');
 const util = require('util');
-const { EMBED_FIELD_VALUE_MAX_LENGTH, ACCEPT_EVAL_CODE_EXECUTION, ZERO_WIDTH_SPACE_CHAR_CODE } = require('../../../constants');
+const {
+  EMBED_FIELD_VALUE_MAX_LENGTH, ACCEPT_EVAL_CODE_EXECUTION, ZERO_WIDTH_SPACE_CHAR_CODE
+} = require('../../../constants');
 const logger = require('@mirasaki/logger');
 const { ComponentCommand } = require('../../../classes/Commands');
+
+const clean = (text) => {
+  if (typeof (text) === 'string') {
+    return text.replace(/`/g, '`'
+      + String.fromCharCode(ZERO_WIDTH_SPACE_CHAR_CODE)).replace(/@/g, '@'
+      + String.fromCharCode(ZERO_WIDTH_SPACE_CHAR_CODE))
+      .replace(new RegExp(process.env.DISCORD_BOT_TOKEN), '<token>');
+  }
+  else return text;
+};
 
 module.exports = new ComponentCommand({
   // Additional layer of protection
   permLevel: 'Developer',
   // Discord API data
-  data: {
-    // Overwriting the default file name without
-    // our owm custom component id
-    name: ACCEPT_EVAL_CODE_EXECUTION
-  },
+  // Overwriting the default file name with our owm custom component id
+  data: { name: ACCEPT_EVAL_CODE_EXECUTION },
 
   run: async (client, interaction) => {
     // Destructure from interaction and client
@@ -22,13 +31,16 @@ module.exports = new ComponentCommand({
 
     // Editing original command interaction
     const originalEmbed = message.embeds[0].data;
+
     await message.edit({
-      content: `${emojis.success} ${member}, this code is now executing...`,
-      embeds: [{
+      content: `${ emojis.success } ${ member }, this code is now executing...`,
+      embeds: [
+        {
         // Keep the original embed but change color
-        ...originalEmbed,
-        color: colorResolver(colors.error)
-      }],
+          ...originalEmbed,
+          color: colorResolver(colors.error)
+        }
+      ],
       // Remove decline button and disable accept button
       components: [
         new ActionRowBuilder().addComponents(
@@ -60,28 +72,25 @@ module.exports = new ComponentCommand({
 
       // Get execution time
       const timeSinceHr = getRuntime(startEvalTime);
-      const timeSinceStr = `${timeSinceHr.seconds} seconds (${timeSinceHr.ms} ms)`;
+      const timeSinceStr = `${ timeSinceHr.seconds } seconds (${ timeSinceHr.ms } ms)`;
 
       // String response
       const codeOutput = clean(util.inspect(evaluated, { depth: 0 }));
-      const response = [
-        `\`\`\`js\n${codeOutput}\`\`\``,
-        `\`\`\`fix\n${timeSinceStr}\`\`\``
-      ];
+      const response = [ `\`\`\`js\n${ codeOutput }\`\`\``, `\`\`\`fix\n${ timeSinceStr }\`\`\`` ];
 
       // Building the embed
       const evalEmbed = {
         color: colorResolver(),
-        description: `:inbox_tray: **Input:**\n\`\`\`js\n${codeInput}\n\`\`\``,
+        description: `:inbox_tray: **Input:**\n\`\`\`js\n${ codeInput }\n\`\`\``,
         fields: [
           {
             name: ':outbox_tray: Output:',
-            value: `${response[0]}`,
+            value: `${ response[0] }`,
             inline: false
           },
           {
             name: 'Time taken',
-            value: `${response[1]}`,
+            value: `${ response[1] }`,
             inline: false
           }
         ]
@@ -90,7 +99,7 @@ module.exports = new ComponentCommand({
       // Result fits within character limit
       if (response[0].length <= EMBED_FIELD_VALUE_MAX_LENGTH) {
         await message.edit({
-          content: `${emojis.success} ${member}, this code has been evaluated.`,
+          content: `${ emojis.success } ${ member }, this code has been evaluated.`,
           embeds: [ evalEmbed ],
           components: [
             new ActionRowBuilder().addComponents(
@@ -107,8 +116,9 @@ module.exports = new ComponentCommand({
       // Output is too many characters
       else {
         const output = Buffer.from(codeOutput);
+
         await message.edit({
-          content: `${emojis.success} ${member}, this code has been evaluated.`,
+          content: `${ emojis.success } ${ member }, this code has been evaluated.`,
           components: [
             new ActionRowBuilder().addComponents(
               new ButtonBuilder()
@@ -118,63 +128,50 @@ module.exports = new ComponentCommand({
                 .setStyle('Success')
             )
           ],
-          files: [{
-            attachment: output,
-            name: 'evalOutput.txt'
-          }]
+          files: [
+            {
+              attachment: output,
+              name: 'evalOutput.txt'
+            }
+          ]
         });
       }
 
       // Reply to button interaction
-      interaction.editReply({
-        content: `${emojis.success} ${member}, finished code execution.`
-      });
-
-    } catch (err) {
+      interaction.editReply({ content: `${ emojis.success } ${ member }, finished code execution.` });
+    }
+    catch (err) {
       const timeSinceHr = getRuntime(startEvalTime);
+
       // Log potential errors
       logger.syserr('Encountered error while executing /eval code');
       console.error(err);
 
       // Update button interaction
-      interaction.editReply({
-        content: `${emojis.error} ${member}, code execution error, check original embed for output.`
-      });
+      interaction.editReply({ content: `${ emojis.error } ${ member }, code execution error, check original embed for output.` });
 
       // Format time stamps
-      const timeSinceStr = `${timeSinceHr.seconds} seconds (${timeSinceHr.ms} ms)`;
+      const timeSinceStr = `${ timeSinceHr.seconds } seconds (${ timeSinceHr.ms } ms)`;
 
       // Update original embed interaction
-      message.edit({
-        embeds: [
-          {
-            color: colorResolver(),
-            description: `:inbox_tray: **Input:**\n\`\`\`js\n${codeInput}\n\`\`\``,
-            fields: [
-              {
-                name: ':outbox_tray: Output:',
-                value: `\`\`\`js\n${err.stack || err}\n\`\`\``,
-                inline: false
-              },
-              {
-                name: 'Time taken',
-                value: `\`\`\`fix\n${timeSinceStr}\n\`\`\``,
-                inline: false
-              }
-            ]
-          }
-        ]
-      });
+      message.edit({ embeds: [
+        {
+          color: colorResolver(),
+          description: `:inbox_tray: **Input:**\n\`\`\`js\n${ codeInput }\n\`\`\``,
+          fields: [
+            {
+              name: ':outbox_tray: Output:',
+              value: `\`\`\`js\n${ err.stack || err }\n\`\`\``,
+              inline: false
+            },
+            {
+              name: 'Time taken',
+              value: `\`\`\`fix\n${ timeSinceStr }\n\`\`\``,
+              inline: false
+            }
+          ]
+        }
+      ] });
     }
   }
 });
-
-const clean = (text) => {
-  if (typeof (text) === 'string') {
-    return text.replace(/`/g, '`'
-      + String.fromCharCode(ZERO_WIDTH_SPACE_CHAR_CODE)).replace(/@/g, '@'
-      + String.fromCharCode(ZERO_WIDTH_SPACE_CHAR_CODE))
-      .replace(new RegExp(process.env.DISCORD_BOT_TOKEN), '<token>');
-  } else return text;
-};
-

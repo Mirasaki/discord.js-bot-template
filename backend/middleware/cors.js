@@ -6,6 +6,4 @@ const addCORSHeader = (req, res, next) => {
   next();
 };
 
-module.exports = {
-  addCORSHeader
-};
+module.exports = { addCORSHeader };

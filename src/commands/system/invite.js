@@ -7,24 +7,23 @@ const { ChatInputCommand } = require('../../classes/Commands');
 module.exports = new ChatInputCommand({
   global: true,
   cooldown: {
-    type: 'guild', // Use guild/server cooldown instead of default member
+    // Use guild/server cooldown instead of default member
+    type: 'guild',
     usages: 3,
     duration: 10
   },
-  clientPerms: ['EmbedLinks'],
-  data: {
-    description: 'Add the bot to your server!'
-  },
+  clientPerms: [ 'EmbedLinks' ],
+  data: { description: 'Add the bot to your server!' },
 
   run: async (client, interaction) => {
     // Replying to the interaction with the bot-invite link
     // Not a top-level static variable to take /reload
     // changes into consideration
-    interaction.reply({
-      embeds: [{
+    interaction.reply({ embeds: [
+      {
         color: colorResolver(client.container.colors.invisible),
-        description: `[Add me to your server](${getBotInviteLink(client)})`
-      }]
-    });
+        description: `[Add me to your server](${ getBotInviteLink(client) })`
+      }
+    ] });
   }
 });

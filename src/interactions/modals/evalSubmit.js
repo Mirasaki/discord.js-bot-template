@@ -1,15 +1,14 @@
 const { stripIndents } = require('common-tags/lib');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const { ComponentCommand } = require('../../classes/Commands');
-const { EVAL_CODE_INPUT, ACCEPT_EVAL_CODE_EXECUTION, DECLINE_EVAL_CODE_EXECUTION, EVAL_CODE_MODAL } = require('../../constants');
+const {
+  EVAL_CODE_INPUT, ACCEPT_EVAL_CODE_EXECUTION, DECLINE_EVAL_CODE_EXECUTION, EVAL_CODE_MODAL
+} = require('../../constants');
 const { colorResolver } = require('../../util');
 
 module.exports = new ComponentCommand({
-  data: {
-    // Overwriting the default file name without
-    // our owm custom component id
-    name: EVAL_CODE_MODAL
-  },
+  // Overwriting the default file name with our owm custom component id
+  data: { name: EVAL_CODE_MODAL },
   run: async (client, interaction) => {
     const { member } = interaction;
     const { emojis } = client.container;
@@ -22,13 +21,13 @@ module.exports = new ComponentCommand({
 
     // Verification prompt
     await interaction.editReply({
-      content: `${emojis.wait} ${member}, are you sure you want to evaluate the following code:`,
+      content: `${ emojis.wait } ${ member }, are you sure you want to evaluate the following code:`,
       embeds: [
         {
           color: colorResolver(),
           description: stripIndents`
             \`\`\`js
-            ${codeInput}
+            ${ codeInput }
             \`\`\`
           `
         }

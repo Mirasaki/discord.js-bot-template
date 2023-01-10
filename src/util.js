@@ -47,13 +47,19 @@ const colorResolver = (input) => {
  * @param {Array<string>} [allowedExtensions=['.js', '.mjs', '.cjs']] Array of file extensions
  * @returns {Array<string>} Array of (resolved) absolute file paths
  */
-const getFiles = (requestedPath, allowedExtensions = ['.js', '.mjs', '.cjs']) => {
-  if (typeof allowedExtensions === 'string') allowedExtensions = [allowedExtensions];
+const getFiles = (requestedPath, allowedExtensions = [
+  '.js',
+  '.mjs',
+  '.cjs'
+]) => {
+  if (typeof allowedExtensions === 'string') allowedExtensions = [ allowedExtensions ];
   requestedPath ??= path.resolve(requestedPath);
   let res = [];
+
   for (let itemInDir of readdirSync(requestedPath)) {
     itemInDir = path.resolve(requestedPath, itemInDir);
     const stat = statSync(itemInDir);
+
     if (stat.isDirectory()) res = res.concat(getFiles(itemInDir, allowedExtensions));
     if (
       stat.isFile()
@@ -93,6 +99,7 @@ const titleCase = (str) => {
  */
 const splitCamelCaseStr = (str, joinCharacter = ' ') => {
   const arr = str.split(/ |\B(?=[A-Z])/);
+
   if (typeof joinCharacter === 'string') {
     return arr.join(joinCharacter);
   }
@@ -104,7 +111,7 @@ const splitCamelCaseStr = (str, joinCharacter = ' ') => {
  * @param {*} str The string to capitalize
  * @returns {string} Capitalized string
  */
-const capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+const capitalizeString = (str) => `${ str.charAt(0).toUpperCase() }${ str.slice(1) }`;
 
 /**
  * String converter: Parses a SNAKE_CASE_ARRAY to title-cased strings in an array
@@ -126,7 +133,8 @@ const parseSnakeCaseArray = (arr) => {
  */
 const getBotInviteLink = (client) => {
   const { commands } = client.container;
-  const uniqueCombinedPermissions = [ ...new Set([].concat(...commands.map((cmd => cmd.clientPerms)))) ];
+  const uniqueCombinedPermissions = [ ...new Set([].concat(...commands.map(((cmd) => cmd.clientPerms)))) ];
+
   return client.generateInvite({
     scopes: [ OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot ],
     permissions: uniqueCombinedPermissions.map((rawPerm) => PermissionFlagsBits[rawPerm])
@@ -138,6 +146,8 @@ const getBotInviteLink = (client) => {
  * @param {number} ms The amount of time in milliseconds to wait/sleep
  * @returns {Promise<void>} The promise to await
  */
+// We don't need to access the return value here, EVER, so -
+// eslint-disable-next-line no-promise-executor-return
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**

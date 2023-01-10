@@ -13,7 +13,8 @@ module.exports = new ChatInputCommand({
         required: true
       }
     ],
-    default_member_permissions: 0 // Unavailable to non-admins in guilds
+    // Unavailable to non-admins in guilds
+    default_member_permissions: 0
   },
 
   run: (client, interaction) => {

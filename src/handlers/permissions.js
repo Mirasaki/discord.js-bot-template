@@ -37,6 +37,41 @@ const config = require('../../config');
  */
 
 /**
+ * Check if an array of permission strings has any invalid API permissions
+ * @param {Array<string>} permArr Array of permission in string form
+ * @returns {Array<external:DiscordPermissionResolvable>} Array of invalid permissions
+ */
+const getInvalidPerms = (permArr) => permArr.filter((perm) => typeof PermissionsBitField.Flags[perm] === 'undefined');
+
+/**
+ * Check if a user has specific permissions in a channel
+ * @param {string} userId The ID of the user
+ * @param {DiscordGuildChannel} channel The channel to check permissions in
+ * @param {Array<string>} permArr The array of permissions to check for
+ * @returns {true | Array<external:DiscordPermissionResolvable>} True if the member has all permissions,
+ * or the array of missing permissions
+ */
+const hasChannelPerms = (userId, channel, permArr) => {
+  // Convert string to array
+  if (typeof permArr === 'string') permArr = [ permArr ];
+
+  // Making sure all our perms are valid
+  const invalidPerms = getInvalidPerms(permArr);
+
+  if (invalidPerms.length >= 1) {
+    throw new Error(`Invalid Discord permissions were provided: ${ invalidPerms.join(', ') }`);
+  }
+
+  // Return the entire array if no permissions are found
+  if (!channel.permissionsFor(userId)) return permArr;
+
+  // Filter missing permissions
+  const missingPerms = permArr.filter((perm) => !channel.permissionsFor(userId).has(PermissionsBitField.Flags[perm]));
+
+  return missingPerms.length >= 1 ? missingPerms : true;
+};
+
+/**
  * Our ordered permission level configuration
  * @member {Array<module:Handler/Permissions~PermConfigEntry>} permConfig
  */
@@ -51,14 +86,14 @@ const permConfig = [
     name: 'Moderator',
     level: 1,
     hasLevel: (member, channel) => hasChannelPerms(
-      member.id, channel, ['KickMembers', 'BanMembers']
+      member.id, channel, [ 'KickMembers', 'BanMembers' ]
     ) === true
   },
 
   {
     name: 'Administrator',
     level: 2,
-    hasLevel: (member, channel) => hasChannelPerms(member.id, channel, ['Administrator']) === true
+    hasLevel: (member, channel) => hasChannelPerms(member.id, channel, [ 'Administrator' ]) === true
   },
 
   {
@@ -124,40 +159,6 @@ const getPermissionLevel = (member, channel) => {
       return currLvl.level;
     }
   }
-};
-
-/**
- * Check if an array of permission strings has any invalid API permissions
- * @param {Array<string>} permArr Array of permission in string form
- * @returns {Array<external:DiscordPermissionResolvable>} Array of invalid permissions
- */
-const getInvalidPerms = (permArr) =>
-  permArr.filter((perm) => typeof PermissionsBitField.Flags[perm] === 'undefined');
-
-/**
- * Check if a user has specific permissions in a channel
- * @param {string} userId The ID of the user
- * @param {DiscordGuildChannel} channel The channel to check permissions in
- * @param {Array<string>} permArr The array of permissions to check for
- * @returns {true | Array<external:DiscordPermissionResolvable>} True if the member has all permissions,
- * or the array of missing permissions
- */
-const hasChannelPerms = (userId, channel, permArr) => {
-  // Convert string to array
-  if (typeof permArr === 'string') permArr = [permArr];
-
-  // Making sure all our perms are valid
-  const invalidPerms = getInvalidPerms(permArr);
-  if (invalidPerms.length >= 1) {
-    throw new Error(`Invalid Discord permissions were provided: ${invalidPerms.join(', ')}`);
-  }
-
-  // Return the entire array if no permissions are found
-  if (!channel.permissionsFor(userId)) return permArr;
-
-  // Filter missing permissions
-  const missingPerms = permArr.filter((perm) => !channel.permissionsFor(userId).has(PermissionsBitField.Flags[perm]));
-  return missingPerms.length >= 1 ? missingPerms : true;
 };
 
 module.exports = {
