@@ -16,18 +16,53 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  // https://eslint.org/docs/latest/rules/
   "rules": {
+    // Possible Problems
+    "array-callback-return": "error",
+    "constructor-super": "error",
+    "no-await-in-loop": "error",
+    "no-constant-binary-expression": "error",
+    "no-constructor-return": "error",
+    "no-duplicate-imports": "error",
+    "no-new-native-nonconstructor": "error",
+    "no-promise-executor-return": "error",
+    "no-self-compare": "error",
+    "no-template-curly-in-string": "error",
+    "no-unmodified-loop-condition": "error",
+    "no-unreachable-loop": "error",
+    "no-unused-private-class-members": "error",
+    "no-use-before-define": [ "error", {
+      "functions": true,
+      "classes": true,
+      "variables": true,
+      "allowNamedExports": true
+    }],
+    "require-atomic-updates": "error",
+
+    // Layout & Formatting
+    "array-bracket-newline": ["error", { "multiline": true, "minItems": 3 }],
+    "array-bracket-spacing": [ "error", "always" ],
+    "array-element-newline": ["error", { "multiline": true, "minItems": 3 }],
+    "arrow-parens": "error",
+    "arrow-spacing": ["error", { "before": true, "after": true }],
+    "block-spacing": ["error", "always"],
+    "brace-style": ["error", "stroustrup"],
+    "comma-dangle": ["error", "never"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "comma-style": [ "error", "last" ],
+    "computed-property-spacing": [ "error", "never" ],
+    "dot-location": [ "error", "property" ],
+    "eol-last": ["error", "always"],
+    "func-call-spacing": [ "error", "never" ],
+    
+
     "no-trailing-spaces": "warn",
-    "array-callback-return": "warn",
     "default-case": [
       "warn",
       {
         "commentPattern": "^no default$"
       }
-    ],
-    "dot-location": [
-      "warn",
-      "property"
     ],
     "eqeqeq": [
       "warn",
@@ -128,11 +163,9 @@
     ],
     "no-script-url": "warn",
     "no-self-assign": "warn",
-    "no-self-compare": "warn",
     "no-sequences": "warn",
     "no-shadow-restricted-names": "warn",
     "no-sparse-arrays": "warn",
-    "no-template-curly-in-string": "error",
     "no-this-before-super": "warn",
     "no-throw-literal": "warn",
     "no-undef": "error",
@@ -152,14 +185,6 @@
       {
         "args": "none",
         "ignoreRestSiblings": true
-      }
-    ],
-    "no-use-before-define": [
-      "warn",
-      {
-        "functions": false,
-        "classes": false,
-        "variables": false
       }
     ],
     "no-useless-computed-key": "warn",
@@ -254,11 +279,6 @@
         "destructuring": "any",
         "ignoreReadBeforeAssign": true
       }
-    ],
-    "comma-dangle": [
-      "error",
-      "never"
-    ],
-    "eol-last": ["error", "always"]
+    ]
   }
 }
