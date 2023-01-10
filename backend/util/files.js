@@ -8,13 +8,19 @@ const { readdirSync, statSync } = require('fs');
  * @param {Array<string>} [allowedExtensions=['.js', '.mjs', '.cjs']] Array of file extensions
  * @returns {Array<string>} Array of (resolved) absolute file paths
  */
-const getFiles = (requestedPath, allowedExtensions = ['.js', '.mjs', '.cjs']) => {
-  if (typeof allowedExtensions === 'string') allowedExtensions = [allowedExtensions];
+const getFiles = (requestedPath, allowedExtensions = [
+  '.js',
+  '.mjs',
+  '.cjs'
+]) => {
+  if (typeof allowedExtensions === 'string') allowedExtensions = [ allowedExtensions ];
   requestedPath ??= path.resolve(requestedPath);
   let res = [];
+
   for (let itemInDir of readdirSync(requestedPath)) {
     itemInDir = path.resolve(requestedPath, itemInDir);
     const stat = statSync(itemInDir);
+
     if (stat.isDirectory()) res = res.concat(getFiles(itemInDir, allowedExtensions));
     if (
       stat.isFile()
@@ -27,6 +33,4 @@ const getFiles = (requestedPath, allowedExtensions = ['.js', '.mjs', '.cjs']) =>
   return res;
 };
 
-module.exports = {
-  getFiles
-};
+module.exports = { getFiles };

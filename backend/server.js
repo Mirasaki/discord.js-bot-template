@@ -17,22 +17,21 @@ const { addCORSHeader } = require('./middleware/cors');
 const commandRoutes = require('./routes/commandRoutes.js');
 
 // Destructure from our environmental file
-const {
-  NODE_ENV,
-  PORT = 3000 // Set our default port to 3000 if it's missing from environmental file
-} = process.env;
+// Set our default port to 3000 if it's missing from environmental file
+const { NODE_ENV, PORT = 3000 } = process.env;
 
 /*** JSDoc: Ignored
  * API Documentation
+ * Reference: https://swagger.io/specification/#openapi-object
  */
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDefinition = { // https://swagger.io/specification/#openapi-object
+const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
-    title: `RESTful Express API for ${pkg.name}`,
+    title: `RESTful Express API for ${ pkg.name }`,
     version: pkg.version,
-    description: `This is a REST API application made with Express. It serves ${pkg.name} command data.`,
+    description: `This is a REST API application made with Express. It serves ${ pkg.name } command data.`,
     license: {
       name: 'MIT License',
       url: 'https://spdx.org/licenses/MIT.html'
@@ -48,17 +47,19 @@ const swaggerDefinition = { // https://swagger.io/specification/#openapi-object
       description: 'Live Server'
     },
     {
-      url: `http://localhost:${PORT}`,
+      url: `http://localhost:${ PORT }`,
       description: 'Development Server'
     }
   ]
 };
 const options = {
   swaggerDefinition,
-  failOnErrors: !!(NODE_ENV === 'production'), // Fail on parsing error in development mode
-  apis: ['backend/docs/*.yaml'] // Paths to files containing OpenAPI definitions
+  // Fail on parsing error in development mode
+  failOnErrors: !!(NODE_ENV === 'production'),
+  // Paths to files containing OpenAPI definitions
+  apis: [ 'backend/docs/*.yaml' ]
 };
-const openAPISpecification  = swaggerJsDoc(options);
+const openAPISpecification = swaggerJsDoc(options);
 
 /***
  * Initialize our express app
@@ -88,7 +89,7 @@ app.use('/api/commands', commandRoutes);
 // Serving our generated client documentation as root
 app.use(
   '/',
-  express.static('docs', { extensions: ['html'] })
+  express.static('docs', { extensions: [ 'html' ] })
 );
 
 
@@ -107,8 +108,7 @@ app.use(addCORSHeader);
 // Actively listen for requests to our API/backend
 app.listen(
   PORT,
-  logger.success(chalk.yellow.bold(`API running in ${NODE_ENV}-mode on port ${PORT}`))
+  logger.success(chalk.yellow.bold(`API running in ${ NODE_ENV }-mode on port ${ PORT }`))
 );
-
 
 
