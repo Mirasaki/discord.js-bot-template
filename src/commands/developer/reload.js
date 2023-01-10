@@ -12,19 +12,23 @@ module.exports = new ChatInputCommand({
   permLevel: 'Developer',
   data: {
     description: 'Reload an active, existing command',
-    options: [{
-      type: ApplicationCommandOptionType.String,
-      name: 'command',
-      description: 'Command name or category',
-      autocomplete: true,
-      required: true
-    }]
+    options: [
+      {
+        type: ApplicationCommandOptionType.String,
+        name: 'command',
+        description: 'Command name or category',
+        autocomplete: true,
+        required: true
+      }
+    ]
   },
 
   run: async (client, interaction) => {
     // Destructure
     const { member, options } = interaction;
-    const { emojis, colors, commands } = client.container;
+    const {
+      emojis, colors, commands
+    } = client.container;
 
     // Variables definitions
     const commandName = options.getString('command');
@@ -32,9 +36,7 @@ module.exports = new ChatInputCommand({
 
     // Check is valid command
     if (!command) {
-      interaction.reply({
-        content: `${emojis.error} ${member}, couldn't find any commands named \`${commandName}\`.`
-      });
+      interaction.reply({ content: `${ emojis.error } ${ member }, couldn't find any commands named \`${ commandName }\`.` });
       return;
     }
 
@@ -52,6 +54,7 @@ module.exports = new ChatInputCommand({
       // Getting and deleting our current cmd module cache
       const filePath = command.filePath;
       const module = require.cache[require.resolve(filePath)];
+
       delete require.cache[require.resolve(filePath)];
       for (let i = 0; i < module.children?.length; i++) {
         if (!module.children) break;
@@ -62,24 +65,22 @@ module.exports = new ChatInputCommand({
       }
 
       const newCommand = require(filePath);
+
       newCommand.load(filePath, commands);
-    } catch (err) {
+    }
+    catch (err) {
       // Properly handling errors
-      interaction.editReply({
-        content: `${emojis.error} ${member}, error encountered while reloading the command \`${commandName}\`, click spoiler-block below to reveal.\n\n||${err.stack || err}||`
-      });
+      interaction.editReply({ content: `${ emojis.error } ${ member }, error encountered while reloading the command \`${ commandName }\`, click spoiler-block below to reveal.\n\n||${ err.stack || err }||` });
       return;
     }
 
     // Command successfully reloaded
     interaction.editReply({
-      content: `${emojis.success} ${member}, reloaded the \`/${commandName}\` command`,
+      content: `${ emojis.success } ${ member }, reloaded the \`/${ commandName }\` command`,
       embeds: [
         {
           color: colorResolver(colors.invisible),
-          footer: {
-            text: 'Don\'t forget to use the /deploy command if you made any changes to the command data object'
-          }
+          footer: { text: 'Don\'t forget to use the /deploy command if you made any changes to the command data object' }
         }
       ]
     });

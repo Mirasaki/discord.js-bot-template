@@ -2,27 +2,34 @@
 require('dotenv').config();
 const logger = require('@mirasaki/logger');
 const chalk = require('chalk');
-const { Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus } = require('discord.js');
+const {
+  Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus
+} = require('discord.js');
 
 // Local imports
 const pkg = require('../package');
 const config = require('../config.js');
 const { clearApplicationCommandData, refreshSlashCommandData } = require('./handlers/commands');
-const { getFiles, titleCase, getRuntime } = require('./util');
+const {
+  getFiles, titleCase, getRuntime
+} = require('./util');
 const path = require('path');
 const clientExtensions = require('./client');
 const { generateCommandHTML } = require('./handlers/html');
 
 // Clear the console in non-production modes & print vanity
 process.env.NODE_ENV !== 'production' && console.clear();
-const packageIdentifierStr = `${pkg.name}@${pkg.version}`;
-logger.info(`${chalk.greenBright.underline(packageIdentifierStr)} by ${chalk.cyanBright.bold(pkg.author)}`);
+const packageIdentifierStr = `${ pkg.name }@${ pkg.version }`;
+
+logger.info(`${ chalk.greenBright.underline(packageIdentifierStr) } by ${ chalk.cyanBright.bold(pkg.author) }`);
 
 // Initializing/declaring our variables
 const initTimerStart = process.hrtime.bigint();
 const intents = config.intents.map((intent) => GatewayIntentBits[intent]);
 const presenceActivityMap = config.presence.activities.map(
-  (act) => ({ ...act, type: ActivityType[titleCase(act.type)] })
+  (act) => ({
+    ...act, type: ActivityType[titleCase(act.type)]
+  })
 );
 
 // Building our discord.js client
@@ -82,7 +89,7 @@ const registerListeners = () => {
 
   // Debug logging
   if (DEBUG_ENABLED === 'true') {
-    logger.debug(`Registering ${eventFiles.length} listeners: ${eventNames.map((name) => chalk.whiteBright(name)).join(', ')}`);
+    logger.debug(`Registering ${ eventFiles.length } listeners: ${ eventNames.map((name) => chalk.whiteBright(name)).join(', ') }`);
   }
 
   // Looping over our event files
@@ -94,6 +101,7 @@ const registerListeners = () => {
 
     // Binding our event to the client
     const eventFile = require(filePath);
+
     client.on(eventName, (...received) => eventFile(client, ...received));
   }
 };
@@ -121,90 +129,104 @@ const {
 } = client.container;
 
 // Binding our Chat Input/Slash commands
-logger.debug(`Start loading Slash Commands... ("${CHAT_INPUT_COMMAND_DIR}")`);
+logger.debug(`Start loading Slash Commands... ("${ CHAT_INPUT_COMMAND_DIR }")`);
 for (const filePath of getFiles(CHAT_INPUT_COMMAND_DIR)) {
   try {
     const command = require(filePath);
+
     command.load(filePath, commands);
 
     // loadAliases AFTER #load(), setting the origin filepath
     command.loadAliases();
-  } catch (err) {
-    logger.syserr(`Error encountered while loading Slash Command (${CHAT_INPUT_COMMAND_DIR}), are you sure you're exporting an instance of ChatInputCommand?\nCommand: ${filePath}`);
+  }
+  catch (err) {
+    logger.syserr(`Error encountered while loading Slash Command (${ CHAT_INPUT_COMMAND_DIR }), are you sure you're exporting an instance of ChatInputCommand?\nCommand: ${ filePath }`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our User Context Menu commands
-logger.debug(`Start loading User Context Menu Commands... ("${CONTEXT_MENU_COMMAND_DIR}/user")`);
-for (const filePath of getFiles(`${CONTEXT_MENU_COMMAND_DIR}/user`)) {
+logger.debug(`Start loading User Context Menu Commands... ("${ CONTEXT_MENU_COMMAND_DIR }/user")`);
+for (const filePath of getFiles(`${ CONTEXT_MENU_COMMAND_DIR }/user`)) {
   try {
     const command = require(filePath);
+
     command.load(filePath, contextMenus);
     command.loadAliases();
-  } catch (err) {
-    logger.syserr(`Error encountered while loading User Context Menu Command (${CONTEXT_MENU_COMMAND_DIR}/user), are you sure you're exporting an instance of UserContextCommand?\nCommand: ${filePath}`);
+  }
+  catch (err) {
+    logger.syserr(`Error encountered while loading User Context Menu Command (${ CONTEXT_MENU_COMMAND_DIR }/user), are you sure you're exporting an instance of UserContextCommand?\nCommand: ${ filePath }`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Message Context Menu commands
-logger.debug(`Start loading Message Context Menu Commands... ("${CONTEXT_MENU_COMMAND_DIR}/message")`);
-for (const filePath of getFiles(`${CONTEXT_MENU_COMMAND_DIR}/message`)) {
+logger.debug(`Start loading Message Context Menu Commands... ("${ CONTEXT_MENU_COMMAND_DIR }/message")`);
+for (const filePath of getFiles(`${ CONTEXT_MENU_COMMAND_DIR }/message`)) {
   try {
     const command = require(filePath);
+
     command.load(filePath, contextMenus);
     command.loadAliases();
-  } catch (err) {
-    logger.syserr(`Error encountered while loading User Context Menu Command (${CONTEXT_MENU_COMMAND_DIR}/message), are you sure you're exporting an instance of MessageContextCommand?\nCommand: ${filePath}`);
+  }
+  catch (err) {
+    logger.syserr(`Error encountered while loading User Context Menu Command (${ CONTEXT_MENU_COMMAND_DIR }/message), are you sure you're exporting an instance of MessageContextCommand?\nCommand: ${ filePath }`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Button interactions
-logger.debug(`Start loading Button Commands... ("${BUTTON_INTERACTION_DIR}")`);
+logger.debug(`Start loading Button Commands... ("${ BUTTON_INTERACTION_DIR }")`);
 for (const filePath of getFiles(BUTTON_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
+
     command.load(filePath, buttons);
-  } catch (err) {
-    logger.syserr(`Error encountered while loading Button Command (${BUTTON_INTERACTION_DIR}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+  }
+  catch (err) {
+    logger.syserr(`Error encountered while loading Button Command (${ BUTTON_INTERACTION_DIR }), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${ filePath }`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Modal interactions
-logger.debug(`Start loading Modal Commands... ("${MODAL_INTERACTION_DIR}")`);
+logger.debug(`Start loading Modal Commands... ("${ MODAL_INTERACTION_DIR }")`);
 for (const filePath of getFiles(MODAL_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
+
     command.load(filePath, modals);
-  } catch (err) {
-    logger.syserr(`Error encountered while loading Modal Command (${MODAL_INTERACTION_DIR}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+  }
+  catch (err) {
+    logger.syserr(`Error encountered while loading Modal Command (${ MODAL_INTERACTION_DIR }), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${ filePath }`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Autocomplete interactions
-logger.debug(`Start loading Auto Complete Commands... ("${AUTO_COMPLETE_INTERACTION_DIR}")`);
+logger.debug(`Start loading Auto Complete Commands... ("${ AUTO_COMPLETE_INTERACTION_DIR }")`);
 for (const filePath of getFiles(AUTO_COMPLETE_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
+
     command.load(filePath, autoCompletes);
-  } catch (err) {
-    logger.syserr(`Error encountered while loading Auto Complete Command (${AUTO_COMPLETE_INTERACTION_DIR}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+  }
+  catch (err) {
+    logger.syserr(`Error encountered while loading Auto Complete Command (${ AUTO_COMPLETE_INTERACTION_DIR }), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${ filePath }`);
     console.error(err.stack || err);
   }
 }
 
 // Binding our Select Menu interactions
-logger.debug(`Start loading Select Menu Commands... ("${SELECT_MENU_INTERACTION_DIR}")`);
+logger.debug(`Start loading Select Menu Commands... ("${ SELECT_MENU_INTERACTION_DIR }")`);
 for (const filePath of getFiles(SELECT_MENU_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
+
     command.load(filePath, selectMenus);
-  } catch (err) {
-    logger.syserr(`Error encountered while loading Select Menu Command (${SELECT_MENU_INTERACTION_DIR}), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${filePath}`);
+  }
+  catch (err) {
+    logger.syserr(`Error encountered while loading Select Menu Command (${ SELECT_MENU_INTERACTION_DIR }), are you sure you're exporting an instance of ComponentCommand?\nCommand: ${ filePath }`);
     console.error(err.stack || err);
   }
 }
@@ -226,7 +248,7 @@ generateCommandHTML(commands);
  */
 
 // Execution time logging
-logger.success(`Finished initializing after ${getRuntime(initTimerStart).ms} ms`);
+logger.success(`Finished initializing after ${ getRuntime(initTimerStart).ms } ms`);
 
 // Logging in to our client
 client.login(DISCORD_BOT_TOKEN);

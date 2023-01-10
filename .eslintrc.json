@@ -26,7 +26,7 @@
     "no-constructor-return": "error",
     "no-duplicate-imports": "error",
     "no-new-native-nonconstructor": "error",
-    "no-promise-executor-return": "error",
+    "no-promise-executor-return": "warn",
     "no-self-compare": "error",
     "no-template-curly-in-string": "error",
     "no-unmodified-loop-condition": "error",
@@ -83,7 +83,7 @@
     "linebreak-style": [ "error", "unix" ],
     "lines-between-class-members": ["error", "always"],
     "max-len": [ "error",  {
-      "code": 80, // Default
+      "code": 120, // Default = 80
       "tabWidth": 2, // Default = 4
       "ignoreComments": true,
       "ignoreTrailingComments": false,

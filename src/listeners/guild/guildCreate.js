@@ -6,5 +6,5 @@ module.exports = (client, guild) => {
   if (!guild?.available) return;
 
   // Logging the event to our console
-  logger.success(`${chalk.greenBright('[GUILD JOIN]')} ${guild.name} has added the bot! Members: ${guild.memberCount}`);
+  logger.success(`${ chalk.greenBright('[GUILD JOIN]') } ${ guild.name } has added the bot! Members: ${ guild.memberCount }`);
 };

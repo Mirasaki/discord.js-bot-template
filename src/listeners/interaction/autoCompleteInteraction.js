@@ -23,7 +23,7 @@ module.exports = async (client, interaction) => {
 
   // Check if a query handler is found
   if (!autoCompleteQueryHandler) {
-    logger.syserr(`Missing AutoComplete query handler for ${commandName}`);
+    logger.syserr(`Missing AutoComplete query handler for ${ commandName }`);
     return;
   }
 
@@ -37,18 +37,18 @@ module.exports = async (client, interaction) => {
   ).catch((err) => {
     // Unknown Interaction Error
     if (err.code === 10062) {
-      logger.debug(`Error code 10062 (UNKNOWN_INTERACTION) encountered while responding to autocomplete query in ${commandName} - this interaction probably expired.`);
+      logger.debug(`Error code 10062 (UNKNOWN_INTERACTION) encountered while responding to autocomplete query in ${ commandName } - this interaction probably expired.`);
     }
 
     // Handle unexpected errors
     else {
-      logger.syserr(`Unknown error encountered while responding to autocomplete query in ${commandName}`);
+      logger.syserr(`Unknown error encountered while responding to autocomplete query in ${ commandName }`);
       console.error(err.stack || err);
     }
   });
 
   // Performance logging if requested depending on environment
   if (DEBUG_AUTOCOMPLETE_RESPONSE_TIME === 'true') {
-    logger.debug(`<${chalk.cyanBright(commandName)}> | Auto Complete | Queried "${chalk.green(query)}" in ${getRuntime(autoResponseQueryStart).ms} ms`);
+    logger.debug(`<${ chalk.cyanBright(commandName) }> | Auto Complete | Queried "${ chalk.green(query) }" in ${ getRuntime(autoResponseQueryStart).ms } ms`);
   }
 };

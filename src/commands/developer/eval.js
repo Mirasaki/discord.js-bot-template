@@ -1,4 +1,6 @@
-const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('@discordjs/builders');
+const {
+  ModalBuilder, TextInputBuilder, ActionRowBuilder
+} = require('@discordjs/builders');
 const { TextInputStyle } = require('discord.js');
 const { ChatInputCommand } = require('../../classes/Commands');
 // Unique identifiers for our components' customIds
@@ -6,10 +8,8 @@ const { EVAL_CODE_MODAL, EVAL_CODE_INPUT } = require('../../constants');
 
 module.exports = new ChatInputCommand({
   permLevel: 'Developer',
-  clientPerms: ['EmbedLinks','AttachFiles'],
-  data: {
-    description: 'Evaluate arbitrary JavaScript code'
-  },
+  clientPerms: [ 'EmbedLinks', 'AttachFiles' ],
+  data: { description: 'Evaluate arbitrary JavaScript code' },
   run: async (client, interaction) => {
     // Code Modal
     const codeModal = new ModalBuilder()

@@ -5,19 +5,20 @@ const { colorResolver } = require('../../util');
 module.exports = new ChatInputCommand({
   global: true,
   cooldown: {
-    type: 'channel', // Use channel cooldown type instead of default member,
+    // Use channel cooldown type instead of default member,
+    type: 'channel',
     usages: 1,
     duration: 15
   },
-  clientPerms: ['EmbedLinks'],
+  clientPerms: [ 'EmbedLinks' ],
   data: {
     name: 'support',
     description: 'Get a link to this bot\'s support server'
   },
 
   run: (client, interaction) => {
-    interaction.reply({
-      embeds: [{
+    interaction.reply({ embeds: [
+      {
         // Not passing an parameter to colorResolver
         // will fall-back to client.container.colors.main
         color: colorResolver(),
@@ -27,7 +28,7 @@ module.exports = new ChatInputCommand({
         },
         // Strip our indentation using common-tags
         description: stripIndents`
-          [${client.user.username} Support Server](${client.container.config.supportServerInviteLink} "${client.user.username} Support Server")
+          [${ client.user.username } Support Server](${ client.container.config.supportServerInviteLink } "${ client.user.username } Support Server")
 
           **__Use this server for:__**
           \`\`\`diff
@@ -39,7 +40,7 @@ module.exports = new ChatInputCommand({
             + Be notified of updates
           \`\`\`
         `
-      }]
-    });
+      }
+    ] });
   }
 });
