@@ -8,11 +8,14 @@ const { readdirSync, statSync } = require('fs');
  * @param {Array<string>} [allowedExtensions=['.js', '.mjs', '.cjs']] Array of file extensions
  * @returns {Array<string>} Array of (resolved) absolute file paths
  */
-const getFiles = (requestedPath, allowedExtensions = [
-  '.js',
-  '.mjs',
-  '.cjs'
-]) => {
+const getFiles = (
+  requestedPath,
+  allowedExtensions = [
+    '.js',
+    '.mjs',
+    '.cjs'
+  ]
+) => {
   if (typeof allowedExtensions === 'string') allowedExtensions = [ allowedExtensions ];
   requestedPath ??= path.resolve(requestedPath);
   let res = [];
