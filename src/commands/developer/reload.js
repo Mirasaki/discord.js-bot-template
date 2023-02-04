@@ -1,5 +1,5 @@
-const { ApplicationCommandOptionType } = require('discord.js');
 const { ChatInputCommand } = require('../../classes/Commands');
+const { commandAutoCompleteOption } = require('../../interactions/autocomplete/command');
 const { colorResolver } = require('../../util');
 
 /*
@@ -12,15 +12,7 @@ module.exports = new ChatInputCommand({
   permLevel: 'Developer',
   data: {
     description: 'Reload an active, existing command',
-    options: [
-      {
-        type: ApplicationCommandOptionType.String,
-        name: 'command',
-        description: 'Command name or category',
-        autocomplete: true,
-        required: true
-      }
-    ]
+    options: [ commandAutoCompleteOption ]
   },
 
   run: async (client, interaction) => {
@@ -51,6 +43,7 @@ module.exports = new ChatInputCommand({
 
       // Removing from our collection
       commands.delete(commandName);
+
       // Getting and deleting our current cmd module cache
       const filePath = command.filePath;
       const module = require.cache[require.resolve(filePath)];

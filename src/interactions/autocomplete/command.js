@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord.js');
 const { ComponentCommand } = require('../../classes/Commands');
 const { isAppropriateCommandFilter } = require('../../handlers/commands');
 
@@ -22,3 +23,11 @@ module.exports = new ComponentCommand({ run: async (client, interaction, query) 
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 } });
+
+module.exports.commandAutoCompleteOption = {
+  type: ApplicationCommandOptionType.String,
+  name: 'command',
+  description: 'Command name or category',
+  autocomplete: true,
+  required: true
+};

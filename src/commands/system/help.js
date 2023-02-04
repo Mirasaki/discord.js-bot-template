@@ -1,10 +1,10 @@
-const { ApplicationCommandOptionType } = require('discord.js');
 const { ChatInputCommand } = require('../../classes/Commands');
 const {
   getCommandSelectMenu,
   generateCommandOverviewEmbed,
   generateCommandInfoEmbed
 } = require('../../handlers/commands');
+const { commandAutoCompleteOption } = require('../../interactions/autocomplete/command');
 
 module.exports = new ChatInputCommand({
   global: true,
@@ -18,15 +18,7 @@ module.exports = new ChatInputCommand({
   clientPerms: [ 'EmbedLinks' ],
   data: {
     description: 'Receive detailed command information',
-    options: [
-      {
-        type: ApplicationCommandOptionType.String,
-        name: 'command',
-        description: 'Command name or category',
-        autocomplete: true,
-        required: false
-      }
-    ]
+    options: [ commandAutoCompleteOption ]
   },
 
   run: (client, interaction) => {

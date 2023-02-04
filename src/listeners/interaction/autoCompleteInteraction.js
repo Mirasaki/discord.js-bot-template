@@ -19,7 +19,8 @@ module.exports = async (client, interaction) => {
 
   // Get our command name query
   const query = interaction.options.getFocused()?.toLowerCase() || '';
-  const autoCompleteQueryHandler = autoCompletes.get(commandName);
+  const activeOption = interaction.options._hoistedOptions.find(({ focused }) => focused === true)?.name;
+  const autoCompleteQueryHandler = autoCompletes.get(activeOption);
 
   // Check if a query handler is found
   if (!autoCompleteQueryHandler) {
