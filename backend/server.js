@@ -20,47 +20,6 @@ const commandRoutes = require('./routes/commandRoutes.js');
 // Set our default port to 3000 if it's missing from environmental file
 const { NODE_ENV, PORT = 3000 } = process.env;
 
-/*** JSDoc: Ignored
- * API Documentation
- * Reference: https://swagger.io/specification/#openapi-object
- */
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDefinition = {
-  openapi: '3.0.0',
-  info: {
-    title: `RESTful Express API for ${ pkg.name }`,
-    version: pkg.version,
-    description: `This is a REST API application made with Express. It serves ${ pkg.name } command data.`,
-    license: {
-      name: 'MIT License',
-      url: 'https://spdx.org/licenses/MIT.html'
-    },
-    contact: {
-      name: 'Mirasaki',
-      url: 'https://mirasaki.dev'
-    }
-  },
-  servers: [
-    {
-      url: 'https://djs.mirasaki.dev/',
-      description: 'Live Server'
-    },
-    {
-      url: `http://localhost:${ PORT }`,
-      description: 'Development Server'
-    }
-  ]
-};
-const options = {
-  swaggerDefinition,
-  // Fail on parsing error in development mode
-  failOnErrors: !!(NODE_ENV === 'production'),
-  // Paths to files containing OpenAPI definitions
-  apis: [ 'backend/docs/*.yaml' ]
-};
-const openAPISpecification = swaggerJsDoc(options);
-
 /***
  * Initialize our express app
  */
@@ -91,10 +50,6 @@ app.use(
   '/',
   express.static('docs', { extensions: [ 'html' ] })
 );
-
-
-// Serving our generated API documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openAPISpecification));
 
 // Serving our static public files
 app.use(express.static('public'));
