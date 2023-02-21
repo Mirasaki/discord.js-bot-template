@@ -78,7 +78,7 @@ Every file in [the `listeners` folder](/src/listeners/) will be registered as an
 
 <h3 id="restful-api">RESTful API</h3>
 
-This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only serves the client's command data, which can be used to easily fetch your command data and build a dynamic command table/overview on your personal website. As this project is meant to be newbie-friendly, I thought I would include a **very** basic API template, so new developers are free to play around with it without having to set-up anything themselves. But, of course, you can just remove the `/backend` folder, `npm remove` unused dependencies and just use `npm run client` as the bot/client is completely standalone from the API. It's optional.
+This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only serves the client's command data, which can be used to easily fetch your command data and build a dynamic command table/overview on your personal website. As this project is meant to be newbie-friendly, I thought I would include a **very** basic API template, so new developers are free to play around with it without having to set-up anything themselves. Change `USE_API` to `true` in the [env file](/.env.example) to enable this feature.
 
 <h3 id="others">Others</h3>
 
@@ -94,7 +94,7 @@ This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only 
 - Don't like the folder structure? Jump into the [environmental file](/.env.example) and configure where your commands and components are loaded from
 - Every embed color code and emoji are grabbed from their respective [configuration file](/src/config/), meaning you can personalize the bot without having to go over a plethora of files
 - Comes with a [constants file](/src/constants.js) to manage your unique ids and previously hard-coded values
-- Comes with example scripts for `pm2`, `docker` and `concurrently`
+- Comes with example scripts for `pm2` and `docker`
 - And lastly...
 
 You don't **have** to use the built-in component command (buttons, modals, etc) handler. Alternatively, you can use the following (vanilla `discord.js`) code to achieve the same, but within a ChatInput/UserContextMenu/MessageContextMenu command file:
