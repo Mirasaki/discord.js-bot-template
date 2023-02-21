@@ -115,9 +115,6 @@ src/commands/testing
 # Documentation: JSDoc
 /docs
 
-# Our generated command table
-/public/html/commands.html
-
 # Personal TODO file
 TODO.md
 

@@ -43,7 +43,6 @@ Come try the template yourself in our official [support server](https://discord.
 - The API is documented at [djs.mirasaki.dev/api-docs](https://djs.mirasaki.dev/api-docs "Backend/API Documentation")
 - Source code is well documented with comments, explaining what's going on
 - With the use of JSDoc for client documentation, enjoy code-completion (IntelliSense) in your favorite code editor
-- This template generates a static HTML page with detailed command information ([example](https://djs.mirasaki.dev/html/commands.html "Example of generated HTML command table"))
 
 <h2 id="features">Features</h2>
 

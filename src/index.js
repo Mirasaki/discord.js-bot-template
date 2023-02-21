@@ -15,7 +15,6 @@ const {
 } = require('./util');
 const path = require('path');
 const clientExtensions = require('./client');
-const { generateCommandHTML } = require('./handlers/html');
 
 // Clear the console in non-production modes & print vanity
 process.env.NODE_ENV !== 'production' && console.clear();
@@ -236,11 +235,6 @@ refreshSlashCommandData(client);
 
 // Registering our listeners
 registerListeners();
-
-// All our command and listeners are active
-// We can now re-generate and overwrite
-// our `html/commands.html` file
-generateCommandHTML(commands);
 
 /**
  * Finished initializing
