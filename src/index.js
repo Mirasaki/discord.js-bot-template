@@ -15,7 +15,6 @@ const {
 } = require('./util');
 const path = require('path');
 const clientExtensions = require('./client');
-const { generateCommandHTML } = require('./handlers/html');
 
 // Clear the console in non-production modes & print vanity
 process.env.NODE_ENV !== 'production' && console.clear();
@@ -46,6 +45,7 @@ const {
   DISCORD_BOT_TOKEN,
   DEBUG_ENABLED,
   CLEAR_SLASH_COMMAND_API_DATA,
+  USE_API,
 
   // Project directory structure
   CHAT_INPUT_COMMAND_DIR,
@@ -237,11 +237,6 @@ refreshSlashCommandData(client);
 // Registering our listeners
 registerListeners();
 
-// All our command and listeners are active
-// We can now re-generate and overwrite
-// our `html/commands.html` file
-generateCommandHTML(commands);
-
 /**
  * Finished initializing
  * Performance logging and logging in to our client
@@ -249,6 +244,9 @@ generateCommandHTML(commands);
 
 // Execution time logging
 logger.success(`Finished initializing after ${ getRuntime(initTimerStart).ms } ms`);
+
+// Require our server index file if requested
+if (USE_API) require('./server/');
 
 // Logging in to our client
 client.login(DISCORD_BOT_TOKEN);

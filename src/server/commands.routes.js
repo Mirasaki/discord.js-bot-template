@@ -1,6 +1,6 @@
 const { Collection } = require('discord.js');
 const express = require('express');
-const { getFiles } = require('../util/files');
+const { getFiles } = require('../util');
 const router = express.Router();
 
 // Destructuring from env
