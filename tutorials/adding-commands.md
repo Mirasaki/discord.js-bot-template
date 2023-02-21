@@ -32,7 +32,7 @@ The **only** thing we will have to provide, is the `run` parameter, which is the
 
 ```javascript
 module.exports = new ChatInputCommand({
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Code to run when the command is invoked.
   }
 });
@@ -43,7 +43,7 @@ When you're done developing your command, you should make it available to every 
 ```javascript
 module.exports = new ChatInputCommand({
   global: true,
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Code to run when the command is invoked.
   }
 });
@@ -59,7 +59,7 @@ module.exports = new ChatInputCommand({
     usages: 2, // Command can be used twice
     duration: 10 // in 10 seconds
   },
-  run: async ({ client, interaction }) => {
+  run: async (client, interaction) => {
     // Code to run when the command is invoked.
   }
 });
