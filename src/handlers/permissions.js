@@ -36,12 +36,15 @@ const config = require('../../config');
  * @property {module:Handler/Permissions~hasLevel} hasLevel Indicates if the invoker has this permission level
  */
 
+const validPermValues = Object.values(PermissionsBitField.Flags);
+
 /**
  * Check if an array of permission strings has any invalid API permissions
+ * Allows both String and BigInt
  * @param {Array<string>} permArr Array of permission in string form
  * @returns {Array<external:DiscordPermissionResolvable>} Array of invalid permissions
  */
-const getInvalidPerms = (permArr) => permArr.filter((perm) => typeof PermissionsBitField.Flags[perm] === 'undefined');
+const getInvalidPerms = (permArr) => permArr.filter((perm) => typeof PermissionsBitField.Flags[perm] === 'undefined' && !validPermValues.includes(perm));
 
 /**
  * Check if a user has specific permissions in a channel
@@ -165,6 +168,7 @@ module.exports = {
   permConfig,
   sortedPermConfig,
   permLevelMap,
+  validPermValues,
   getPermLevelName,
   getPermissionLevel,
   getInvalidPerms,
