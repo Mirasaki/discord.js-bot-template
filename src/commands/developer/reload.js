@@ -1,5 +1,5 @@
 const { ChatInputCommand } = require('../../classes/Commands');
-const { commandAutoCompleteOption } = require('../../interactions/autocomplete/command');
+const { requiredCommandAutoCompleteOption } = require('../../interactions/autocomplete/command');
 const { colorResolver } = require('../../util');
 
 /*
@@ -12,7 +12,7 @@ module.exports = new ChatInputCommand({
   permLevel: 'Developer',
   data: {
     description: 'Reload an active, existing command',
-    options: [ commandAutoCompleteOption ]
+    options: [ requiredCommandAutoCompleteOption ]
   },
 
   run: async (client, interaction) => {
