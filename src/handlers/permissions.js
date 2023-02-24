@@ -69,7 +69,9 @@ const hasChannelPerms = (userId, channel, permArr) => {
   if (!channel.permissionsFor(userId)) return permArr;
 
   // Filter missing permissions
-  const missingPerms = permArr.filter((perm) => !channel.permissionsFor(userId).has(PermissionsBitField.Flags[perm]));
+  const missingPerms = permArr.filter(
+    (perm) => !channel.permissionsFor(userId).has(PermissionsBitField.Flags[perm] ?? validPermValues[perm])
+  );
 
   return missingPerms.length >= 1 ? missingPerms : true;
 };
