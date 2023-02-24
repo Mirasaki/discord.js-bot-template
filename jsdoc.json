@@ -45,7 +45,7 @@
         "id":"repository"
       },
       "API Documentation": {
-        "href": "/api-docs",
+        "href": "/tutorial-api-docs",
         "class": "menu-item",
         "id": "api-documentation"
       },
