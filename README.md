@@ -62,6 +62,7 @@ Come try the template yourself in our official [support server](https://discord.
 
 <h3 id="dynamic-component-handler">Dynamic Component Handler</h3>
 
+- Ignores component actions where the custom id starts with `@` - so you can use in-command listeners along side the built-in component handler
 - Supports, and uses, all the latest Discord API features, like buttons, modals, context-menus, select-menus, and is autocomplete-enabled!
 - The same configuration as your command files. Apply a cooldown to any component, and manage permissions and all the other configuration you're used to from this template.
 - Examples on how to implement all the different API components.
