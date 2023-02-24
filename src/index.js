@@ -246,7 +246,7 @@ registerListeners();
 logger.success(`Finished initializing after ${ getRuntime(initTimerStart).ms } ms`);
 
 // Require our server index file if requested
-if (USE_API) require('./server/');
+if (USE_API === 'true') require('./server/');
 
 // Logging in to our client
 client.login(DISCORD_BOT_TOKEN);
