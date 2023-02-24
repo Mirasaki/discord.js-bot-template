@@ -40,7 +40,7 @@ Come try the template yourself in our official [support server](https://discord.
 <h2 id="documentation">Documentation</h2>
 
 - The client (bot) code is documented at [djs.mirasaki.dev](https://djs.mirasaki.dev "Client Documentation")
-- The API is documented at [djs.mirasaki.dev/api-docs](https://djs.mirasaki.dev/api-docs "Backend/API Documentation")
+- The API is documented at [djs.mirasaki.dev/api-docs](https://djs.mirasaki.dev/tutorial-api-docs "Backend/API Documentation")
 - Source code is well documented with comments, explaining what's going on
 - With the use of JSDoc for client documentation, enjoy code-completion (IntelliSense) in your favorite code editor
 
