@@ -309,7 +309,7 @@ class CommandBase {
 
 
 /**
- * @typedef {BaseConfig} ComponentCommandConfig
+ * @typedef {Object} ComponentCommandConfig
  * @property {boolean} [isUserComponent = true] If true, the component is only available to the user who initiated it. If false, everyone can interact with the component
  */
 
@@ -318,9 +318,12 @@ class CommandBase {
  */
 class ComponentCommand extends CommandBase {
   constructor (config) {
+    /**
+     * @param {BaseConfig | ComponentCommandConfig} config The full command configuration
+     */
     super(config);
     /**
-     * @property {boolean} global If true, the component is only available to the user who initiated it. If false, everyone can interact with the component
+     * @property {boolean} isUserComponent If true, the component is only available to the user who initiated it. If false, everyone can interact with the component
      */
     this.isUserComponent = 'isUserComponent' in config ? config.isUserComponent : true;
   }
@@ -328,7 +331,7 @@ class ComponentCommand extends CommandBase {
 
 
 /**
- * @typedef {BaseConfig} APICommandConfig
+ * @typedef {Object} APICommandConfig
  * @property {boolean} [global=true] Is the command enabled globally or only in our test-server
  * @property {Array<string>} [aliases=[]] Array of command aliases
  * @property {boolean} [isAlias=false] Indicates if the command is an active alias, you should never have to use this in the constructor, used internally
