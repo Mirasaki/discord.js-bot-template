@@ -62,13 +62,16 @@ const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
   } = interaction;
   const clientCmd = getCommand(client, activeId);
 
+  // Early escape hatch for in-command components
+  if (activeId.startsWith('@')) return;
+
   // Check for late API changes
   if (!clientCmd) {
     interaction.reply({
       content: `${ emojis.error } ${ member }, this command currently isn't available.`,
       ephemeral: true
     });
-    logger.syserr(`Missing interaction listener for "${ activeId }" (name for commands, customId for components)`);
+    logger.syserr(`Missing interaction listener for "${ activeId }" (name for commands, customId for components - ignored if starts with "@")`);
     return;
   }
 

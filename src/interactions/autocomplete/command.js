@@ -24,10 +24,18 @@ module.exports = new ComponentCommand({ run: async (client, interaction, query) 
     .sort((a, b) => a.name.localeCompare(b.name));
 } });
 
-module.exports.commandAutoCompleteOption = {
+// Can't spread in required option if directly exported
+// because the type will have been resolved
+const commandAutoCompleteOption = {
   type: ApplicationCommandOptionType.String,
   name: 'command',
   description: 'Command name or category',
   autocomplete: true,
+  required: false
+};
+module.exports.commandAutoCompleteOption = commandAutoCompleteOption;
+
+module.exports.requiredCommandAutoCompleteOption = {
+  ...commandAutoCompleteOption,
   required: true
 };
