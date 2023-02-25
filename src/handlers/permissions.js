@@ -70,10 +70,22 @@ const hasChannelPerms = (userId, channel, permArr) => {
 
   // Filter missing permissions
   const missingPerms = permArr.filter(
-    (perm) => !channel.permissionsFor(userId).has(PermissionsBitField.Flags[perm] ?? validPermValues[perm])
+    (perm) => !channel.permissionsFor(userId).has(
+      PermissionsBitField.Flags[perm] ?? validPermValues.find((e) => e === perm)
+    )
   );
 
   return missingPerms.length >= 1 ? missingPerms : true;
+};
+
+const permMap = Object.entries(PermissionsBitField.Flags);
+/**
+ * Transforms permission BigInts back into readable permissions
+ * @param {string[]} perms Array of permissions
+ * @returns {string[]} Resolved array of permissions
+ */
+const resolvePermissionArray = (perms) => {
+  return perms.map((perm) => typeof perm === 'bigint' ? permMap.find((([ k, v ]) => v === perm))[0] : perm);
 };
 
 /**
@@ -171,6 +183,8 @@ module.exports = {
   sortedPermConfig,
   permLevelMap,
   validPermValues,
+  permMap,
+  resolvePermissionArray,
   getPermLevelName,
   getPermissionLevel,
   getInvalidPerms,

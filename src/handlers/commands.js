@@ -42,7 +42,7 @@ const emojis = require('../config/emojis.json');
 // Packages
 const logger = require('@mirasaki/logger');
 const chalk = require('chalk');
-const { hasChannelPerms } = require('./permissions');
+const { hasChannelPerms, resolvePermissionArray } = require('./permissions');
 const {
   commands, contextMenus, colors
 } = require('../client');
@@ -513,7 +513,7 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
     const missingPerms = hasChannelPerms(client.user.id, channel, clientPerms);
 
     if (missingPerms !== true) {
-      interaction.reply({ content: `${ emojis.error } ${ member }, this command can't be executed because I lack the following permissions in ${ channel }\n${ emojis.separator } ${ missingPerms.join(', ') }` });
+      interaction.reply({ content: `${ emojis.error } ${ member }, this command can't be executed because I lack the following permissions in ${ channel }\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }` });
       return false;
     }
   }
@@ -523,7 +523,7 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
     const missingPerms = hasChannelPerms(member.user.id, channel, userPerms);
 
     if (missingPerms !== true) {
-      interaction.reply({ content: `${ emojis.error } ${ member }, this command can't be executed because you lack the following permissions in ${ channel }:\n${ emojis.separator } ${ missingPerms.join(', ') }` });
+      interaction.reply({ content: `${ emojis.error } ${ member }, this command can't be executed because you lack the following permissions in ${ channel }:\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }` });
       return false;
     }
   }
