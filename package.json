@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "docdash": "^2.0.1",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-plugin-sonarjs": "^0.18.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
