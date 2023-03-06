@@ -6,7 +6,8 @@
  */
 
 const { PermissionsBitField } = require('discord.js');
-const config = require('../../config');
+const { clientConfig } = require('../util');
+const config = clientConfig;
 
 /**
  * The `discord.js` GuildMember object

@@ -6,20 +6,22 @@ const {
   Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus
 } = require('discord.js');
 
+// Argv
+const modeArg = process.argv.find((arg) => arg.startsWith('mode='));
+
 // Local imports
 const pkg = require('../package');
-const config = require('../config.js');
 const { clearApplicationCommandData, refreshSlashCommandData } = require('./handlers/commands');
 const {
-  getFiles, titleCase, getRuntime
+  getFiles, titleCase, getRuntime, clientConfig
 } = require('./util');
+const config = clientConfig;
 const path = require('path');
 const clientExtensions = require('./client');
 
 // Clear the console in non-production modes & print vanity
 process.env.NODE_ENV !== 'production' && console.clear();
 const packageIdentifierStr = `${ pkg.name }@${ pkg.version }`;
-
 logger.info(`${ chalk.greenBright.underline(packageIdentifierStr) } by ${ chalk.cyanBright.bold(pkg.author) }`);
 
 // Initializing/declaring our variables
@@ -249,8 +251,7 @@ logger.success(`Finished initializing after ${ getRuntime(initTimerStart).ms } m
 if (USE_API === 'true') require('./server/');
 
 // Exit before initializing listeners in test mode
-const firstArg = process.argv[2];
-if (firstArg && firstArg.startsWith('mode=') && firstArg.endsWith('test')) process.exit(1);
+if (modeArg && modeArg.endsWith('test')) process.exit(1);
 
 // Logging in to our client
 client.login(DISCORD_BOT_TOKEN);
