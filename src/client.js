@@ -6,7 +6,8 @@
 const { Collection } = require('discord.js');
 
 // Local imports
-const config = require('../config.js');
+const { clientConfig } = require('./util');
+const config = clientConfig;
 const emojis = require('./config/emojis');
 const colors = require('./config/colors');
 

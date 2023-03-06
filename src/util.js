@@ -23,6 +23,10 @@ const {
   DEFAULT_DECIMAL_PRECISION
 } = require('./constants');
 
+// Resolve client configuration
+const modeArg = process.argv.find((arg) => arg.startsWith('mode='));
+const clientConfig = require(modeArg && modeArg.endsWith('test') ? '../config.example' : '../config.js');
+
 /**
  * Transforms hex and rgb color input into integer color code
  * @method colorResolver
@@ -172,6 +176,7 @@ const getRuntime = (hrtime, decimalPrecision = DEFAULT_DECIMAL_PRECISION) => {
 };
 
 module.exports = {
+  clientConfig,
   splitCamelCaseStr,
   colorResolver,
   getFiles,
