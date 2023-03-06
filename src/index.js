@@ -11,7 +11,7 @@ const modeArg = process.argv.find((arg) => arg.startsWith('mode='));
 
 // Local imports
 const pkg = require('../package');
-const config = require('../' + modeArg && modeArg.endsWith('test') ? 'config.example.js' : 'config.js');
+const config = require(modeArg && modeArg.endsWith('test') ? '../config.example.js' : '../config.js');
 const { clearApplicationCommandData, refreshSlashCommandData } = require('./handlers/commands');
 const {
   getFiles, titleCase, getRuntime
