@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
-    "start:dev": "nodemon run node --trace-warnings .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon run node --trace-warnings .",
+    "test": "node . mode=test",
     "docker:build": "docker build --tag discord-bot-template .",
     "docker:start": "docker run -v $(pwd):/app -v /app/node_modules -p 3000:3000 --env-file ./.env -d --name discord-bot-template discord-bot-template",
     "docker:restart": "docker restart discord-bot-template",
@@ -19,9 +19,9 @@
     "pm2:purge": "pm2 stop discord.js-bot-template && pm2 delete discord.js-bot-template && pm2 reset discord.js-bot-template",
     "pm2:logs": "pm2 logs --lines 300 discord.js-bot-template",
     "pm2:logsError": "pm2 logs --err --lines 300 discord.js-bot-template",
-    "lint": "eslint src backend",
-    "linter": "eslint src backend --fix",
-    "writeLinter": "eslint src backend --output-file linter-output.txt",
+    "lint": "eslint src",
+    "linter": "eslint src --fix",
+    "writeLinter": "eslint src --output-file linter-output.txt",
     "docs": "jsdoc -u ./tutorials --readme README.md -c jsdoc.json",
     "types": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
@@ -33,12 +33,15 @@
     "dotenv": "^16.0.3"
   },
   "devDependencies": {
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.7",
     "docdash": "^2.0.1",
     "eslint": "^8.35.0",
     "eslint-plugin-sonarjs": "^0.18.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "nodemon": "^2.0.21"
+    "nodemon": "^2.0.21",
+    "semantic-release": "^20.1.1"
   },
   "engines": {
     "node": ">=18"
