@@ -43,9 +43,6 @@
     "nodemon": "^2.0.21",
     "semantic-release": "^20.1.1"
   },
-  "engines": {
-    "node": ">=18"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Mirasaki/discord.js-bot-template.git"
