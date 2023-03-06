@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
-    "start:dev": "nodemon run node --trace-warnings .",
+    "dev": "nodemon run node --trace-warnings .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker build --tag discord-bot-template .",
     "docker:start": "docker run -v $(pwd):/app -v /app/node_modules -p 3000:3000 --env-file ./.env -d --name discord-bot-template discord-bot-template",
