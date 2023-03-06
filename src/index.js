@@ -250,7 +250,7 @@ if (USE_API === 'true') require('./server/');
 
 // Exit before initializing listeners in test mode
 const firstArg = process.argv[2];
-if (firstArg.startsWith('mode=') && firstArg.endsWith('test')) process.exit(1);
+if (firstArg && firstArg.startsWith('mode=') && firstArg.endsWith('test')) process.exit(1);
 
 // Logging in to our client
 client.login(DISCORD_BOT_TOKEN);
