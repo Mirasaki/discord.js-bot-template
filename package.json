@@ -13,6 +13,8 @@
     "docker:stop": "docker stop discord-bot-template",
     "docker:kill": "docker rm -fv discord-bot-template",
     "docker:logs": "docker logs discord-bot-template -f",
+    "docker:image": "docker image tag discord-bot-template mirasaki/discord-bot-template",
+    "docker:push": "docker push mirasaki/discord-bot-template",
     "pm2:start": "pm2 start --name=discord.js-bot-template npm -- run start",
     "pm2:stop": "pm2 stop discord.js-bot-template",
     "pm2:purge": "pm2 stop discord.js-bot-template && pm2 delete discord.js-bot-template && pm2 reset discord.js-bot-template",
