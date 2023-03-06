@@ -72,5 +72,8 @@
   "bugs": {
     "url": "https://github.com/Mirasaki/discord.js-bot-template/issues"
   },
-  "homepage": "https://github.com/Mirasaki/discord.js-bot-template#readme"
+  "homepage": "https://github.com/Mirasaki/discord.js-bot-template#readme",
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  }
 }
