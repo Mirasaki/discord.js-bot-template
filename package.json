@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon run node --trace-warnings .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node . mode=test",
     "docker:build": "docker build --tag discord-bot-template .",
     "docker:start": "docker run -v $(pwd):/app -v /app/node_modules -p 3000:3000 --env-file ./.env -d --name discord-bot-template discord-bot-template",
     "docker:restart": "docker restart discord-bot-template",
@@ -33,12 +33,15 @@
     "dotenv": "^16.0.3"
   },
   "devDependencies": {
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.7",
     "docdash": "^2.0.1",
     "eslint": "^8.34.0",
     "eslint-plugin-sonarjs": "^0.18.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "semantic-release": "^20.1.1"
   },
   "engines": {
     "node": ">=18"
