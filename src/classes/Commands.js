@@ -263,7 +263,7 @@ class CommandBase {
     }
 
     // Set the command in our command collection
-    collection.set(this.data.name, this);
+    if (collection) collection.set(this.data.name, this);
   };
 
   /**
