@@ -7,6 +7,7 @@
     "start": "node .",
     "dev": "nodemon run node --trace-warnings .",
     "test": "node . mode=test",
+    "commit": "cz",
     "docker:build": "docker build --tag discord-bot-template .",
     "docker:shell": "docker run -it --rm discord-bot-template sh",
     "docker:start": "docker run -p 3000:3000 --env-file ./.env -d --name discord-bot-template discord-bot-template",
@@ -39,6 +40,8 @@
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^8.0.7",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "docdash": "^2.0.1",
     "eslint": "^8.35.0",
     "eslint-plugin-sonarjs": "^0.18.0",
@@ -79,5 +82,10 @@
   "homepage": "https://github.com/Mirasaki/discord.js-bot-template#readme",
   "optionalDependencies": {
     "fsevents": "^2.3.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
