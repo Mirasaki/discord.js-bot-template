@@ -143,6 +143,9 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 2. Navigate inside the new folder: `cd discord.js-bot-template`
 3. Rename `.env.example` to `.env` and provide your environmental variables
 4. Rename `config.example.js` to `config.js` and provide your configuration
+
+    - Alternatively, you can now use the `docker-compose up` command to finish setting up the project if you have the [Docker Compose CLI](https://docs.docker.com/compose/) installed
+
 5. Build the project: `docker build --tag my-discord-bot .`
 6. Start the bot: `docker run -it --env-file .env --name my-discord-bot mirasaki/discord-bot-template`
 
