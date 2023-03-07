@@ -5,6 +5,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template/badge)](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Docker Pulls](https://img.shields.io/docker/pulls/mirasaki/discord-bot-template)
+![version](https://img.shields.io/github/v/release/Mirasaki/discord.js-bot-template)
 
 This is a bot template using [discord.js](https://github.com/discordjs/discord.js "discord.js on Github") for quickly and easily creating powerful [Discord](https://discord.com/ "Official Discord Website") bots. You don't need much Javascript experience to get started on a project using this template. Not sure where to start? Come join my [Discord Server](https://discord.mirasaki.dev "Mirasaki Development on Discord"), where I'll try and answer all the questions you have.
 
