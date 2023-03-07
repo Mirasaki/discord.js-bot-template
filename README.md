@@ -125,10 +125,6 @@ acceptEvalCollector.on('collect', (i) => { /* The callback to run */ });
 
 <h3 id="prerequisites">Prerequisites</h3>
 
-- [NodeJS](https://nodejs.org/en/download/ "Node official website") (if you're running as a plain NodeJS app)
-    1) Head over to the download page
-    2) Download the current build (latest features) available for your OS
-    3) Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard
 - A [Discord Bot account](https://discord.com/developers/applications "Discord Developer Portal")
     1) Head over to the page linked above
     2) Click "New Application" in the top right
@@ -153,6 +149,13 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 There's a plethora of Docker scripts included in the `/package.json` file, including a development environment - take a look to get started if you've never used Docker before!
 
 <h3 id="run-as-a-plain-nodejs-app">Run as a plain NodeJS app</h3>
+
+<h4 id="prerequisites">Prerequisites</h4>
+
+- [NodeJS](https://nodejs.org/en/download/ "Node official website") (if you're running as a plain NodeJS app)
+    1) Head over to the download page
+    2) Download the current build (latest features) available for your OS
+    3) Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard
 
 You can also clone this repository or download a release, and host the project directly. You will need [Node/NodeJS](https://nodejs.org/en/ "Node official website") (Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard)
 
