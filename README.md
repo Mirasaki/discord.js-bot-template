@@ -96,7 +96,7 @@ This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only 
 - Don't like the folder structure? Jump into the [environmental file](/.env.example) and configure where your commands and components are loaded from
 - Every embed color code and emoji are grabbed from their respective [configuration file](/src/config/), meaning you can personalize the bot without having to go over a plethora of files
 - Comes with a [constants file](/src/constants.js) to manage your unique ids and previously hard-coded values
-- Comes with example scripts for `pm2` and `docker`
+- Comes with many example scripts for `pm2` and `docker`, including a docker development build - to get you started using these awesome services
 - And lastly...
 
 You don't **have** to use the built-in component command (buttons, modals, etc) handler. Alternatively, you can use the following (vanilla `discord.js`) code to achieve the same, but within a ChatInput/UserContextMenu/MessageContextMenu command file:
@@ -147,8 +147,10 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 2. Navigate inside the new folder: `cd discord.js-bot-template`
 3. Rename `.env.example` to `.env` and provide your environmental variables
 4. Rename `config.example.js` to `config.js` and provide your configuration
-5. Build the project: `docker build --tag discord-bot-template .`
-6. Start the bot: `docker run -d --name discord-bot-template -p 3000:3000 --env-file ./.env -p 27017:27017 discord-bot-template`
+5. Build the project: `docker build --tag my-discord-bot .`
+6. Start the bot: `docker run -it --env-file .env --name my-discord-bot mirasaki/discord-bot-template`
+
+There's a plethora of Docker scripts included in the `/package.json` file, including a development environment - take a look to get started if you've never used Docker before!
 
 <h3 id="run-as-a-plain-nodejs-app">Run as a plain NodeJS app</h3>
 
