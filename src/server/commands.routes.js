@@ -1,6 +1,7 @@
 const express = require('express');
-const { getFiles } = require('../utils/files');
+const { getFiles } = require('../util');
 const router = express.Router();
+const path = require('path');
 
 // Destructuring from env
 const {
@@ -39,27 +40,27 @@ const queryFilterCommands = (arr, category, limit) => {
 };
 
 // Client Chat Input Commands
-const clientCommands = getFiles(`../expansion-market-client/src/${ CHAT_INPUT_COMMAND_DIR }`)
+const clientCommands = getFiles(path.resolve(CHAT_INPUT_COMMAND_DIR))
   .map(commandMapCallback)
   .filter((cmd) => cmd.enabled);
 // Client Context Menus
-const clientCtxMenus = getFiles(`../expansion-market-client/src/${ CONTEXT_MENU_COMMAND_DIR }`)
+const clientCtxMenus = getFiles(path.resolve(CONTEXT_MENU_COMMAND_DIR))
   .map(commandMapCallback)
   .filter((cmd) => cmd.enabled);
 // Client Auto Complete Components
-const clientAutoCompletes = getFiles(`../expansion-market-client/src/${ AUTO_COMPLETE_INTERACTION_DIR }`)
+const clientAutoCompletes = getFiles(path.resolve(AUTO_COMPLETE_INTERACTION_DIR))
   .map(commandMapCallback)
   .filter((cmd) => cmd.enabled);
 // Client Button Components
-const clientButtons = getFiles(`../expansion-market-client/src/${ BUTTON_INTERACTION_DIR }`)
+const clientButtons = getFiles(path.resolve(BUTTON_INTERACTION_DIR))
   .map(commandMapCallback)
   .filter((cmd) => cmd.enabled);
 // Client Modal Components
-const clientModals = getFiles(`../expansion-market-client/src/${ MODAL_INTERACTION_DIR }`)
+const clientModals = getFiles(path.resolve(MODAL_INTERACTION_DIR))
   .map(commandMapCallback)
   .filter((cmd) => cmd.enabled);
 // Client Select Menu Components
-const clientSelectMenus = getFiles(`../expansion-market-client/src/${ SELECT_MENU_INTERACTION_DIR }`)
+const clientSelectMenus = getFiles(path.resolve(SELECT_MENU_INTERACTION_DIR))
   .map(commandMapCallback)
   .filter((cmd) => cmd.enabled);
 
