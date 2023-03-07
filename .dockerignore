@@ -1,6 +1,8 @@
 # Config
 .env
 *.env
+Procfile
+release.config.js
 
 # NPM & dependencies
 node_modules
