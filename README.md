@@ -147,7 +147,7 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
     - Alternatively, you can now use the `docker-compose up` command to finish setting up the project if you have the [Docker Compose CLI](https://docs.docker.com/compose/) installed
 
 5. Build the project: `docker build --tag my-discord-bot .`
-6. Start the bot: `docker run -it --env-file .env --name my-discord-bot mirasaki/discord-bot-template`
+6. Start the bot: `docker run -it --env-file .env --name my-discord-bot mirasaki/discord-bot-template:main`
 
 There's a plethora of Docker scripts included in the `/package.json` file, including a development environment - take a look to get started if you've never used Docker before!
 
