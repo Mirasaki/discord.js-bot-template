@@ -1,10 +1,8 @@
-FROM node:18-alpine
+FROM node:19-alpine
 
 # Create app/working/bot directory
 RUN mkdir -p /app
 WORKDIR /app
-
-# Install dependencies
 
 # Install app production dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -12,18 +10,11 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 
-# Development
-# COPY package.json ./
-# RUN npm install
-
 # Bundle app source
 COPY . ./
 
-# API port
+# Optional API/Backend port
 EXPOSE 3000
-
-# Show current folder structure in logs
-# RUN ls -al -R
 
 # Run the start command
 CMD [ "npm", "run", "start" ]
