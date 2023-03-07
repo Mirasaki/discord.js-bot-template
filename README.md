@@ -2,6 +2,7 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template/badge)](https://www.codefactor.io/repository/github/mirasaki/discord.js-bot-template)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Docker Pulls](https://img.shields.io/docker/pulls/mirasaki/discord-bot-template)
 
 This is a bot template using [discord.js](https://github.com/discordjs/discord.js "discord.js on Github") for quickly and easily creating powerful [Discord](https://discord.com/ "Official Discord Website") bots. You don't need much Javascript experience to get started on a project using this template. Not sure where to start? Come join my [Discord Server](https://discord.mirasaki.dev "Mirasaki Development on Discord"), where I'll try and answer all the questions you have.
 
@@ -95,7 +96,7 @@ This template comes with a REST API (OpenAPI spec 3.0.0). By default, this only 
 - Don't like the folder structure? Jump into the [environmental file](/.env.example) and configure where your commands and components are loaded from
 - Every embed color code and emoji are grabbed from their respective [configuration file](/src/config/), meaning you can personalize the bot without having to go over a plethora of files
 - Comes with a [constants file](/src/constants.js) to manage your unique ids and previously hard-coded values
-- Comes with example scripts for `pm2` and `docker`
+- Comes with many example scripts for `pm2` and `docker`, including a docker development build - to get you started using these awesome services
 - And lastly...
 
 You don't **have** to use the built-in component command (buttons, modals, etc) handler. Alternatively, you can use the following (vanilla `discord.js`) code to achieve the same, but within a ChatInput/UserContextMenu/MessageContextMenu command file:
@@ -124,10 +125,6 @@ acceptEvalCollector.on('collect', (i) => { /* The callback to run */ });
 
 <h3 id="prerequisites">Prerequisites</h3>
 
-- [NodeJS](https://nodejs.org/en/download/ "Node official website") (if you're running as a plain NodeJS app)
-    1) Head over to the download page
-    2) Download the current build (latest features) available for your OS
-    3) Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard
 - A [Discord Bot account](https://discord.com/developers/applications "Discord Developer Portal")
     1) Head over to the page linked above
     2) Click "New Application" in the top right
@@ -146,10 +143,22 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 2. Navigate inside the new folder: `cd discord.js-bot-template`
 3. Rename `.env.example` to `.env` and provide your environmental variables
 4. Rename `config.example.js` to `config.js` and provide your configuration
-5. Build the project: `docker build --tag discord-bot-template .`
-6. Start the bot: `docker run -d --name discord-bot-template -p 3000:3000 --env-file ./.env -p 27017:27017 discord-bot-template`
+
+    - Alternatively, you can now use the `docker-compose up` command to finish setting up the project if you have the [Docker Compose CLI](https://docs.docker.com/compose/) installed
+
+5. Build the project: `docker build --tag my-discord-bot .`
+6. Start the bot: `docker run -it --env-file .env --name my-discord-bot mirasaki/discord-bot-template`
+
+There's a plethora of Docker scripts included in the `/package.json` file, including a development environment - take a look to get started if you've never used Docker before!
 
 <h3 id="run-as-a-plain-nodejs-app">Run as a plain NodeJS app</h3>
+
+<h4 id="prerequisites">Prerequisites</h4>
+
+- [NodeJS](https://nodejs.org/en/download/ "Node official website") (if you're running as a plain NodeJS app)
+    1) Head over to the download page
+    2) Download the current build (latest features) available for your OS
+    3) Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard
 
 You can also clone this repository or download a release, and host the project directly. You will need [Node/NodeJS](https://nodejs.org/en/ "Node official website") (Be sure to check the box that says "Automatically install the necessary tools" when you're running the installation wizard)
 

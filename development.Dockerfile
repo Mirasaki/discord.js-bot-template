@@ -4,17 +4,20 @@ FROM node:19-alpine
 RUN mkdir -p /app
 WORKDIR /app
 
-# Install app production dependencies
+# Install app development dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --include=dev
 
 # Bundle app source
 COPY . ./
 
-# Optional API/Backend port
+# API port
 EXPOSE 3000
 
+# Show current folder structure in logs
+# RUN ls -al -R
+
 # Run the start command
-CMD [ "npm", "run", "start" ]
+CMD [ "npx", "nodemon", "--inspect=0.0.0.0:9229", "src/index.js" ]
