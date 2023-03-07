@@ -374,7 +374,7 @@ const throttleCommand = (clientCmd, interaction) => {
   }
 
   // Check if cooldown is valid
-  const cooldownInMS = parseInt(cooldown.duration * MS_IN_ONE_SECOND);
+  const cooldownInMS = parseInt(cooldown.duration * MS_IN_ONE_SECOND, 10);
 
   if (!cooldownInMS || cooldownInMS < 0) {
     if (DEBUG_COMMAND_THROTTLING === 'true') {
