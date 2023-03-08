@@ -7,9 +7,17 @@
 ![Docker Pulls](https://img.shields.io/docker/pulls/mirasaki/discord-bot-template)
 ![version](https://img.shields.io/github/v/release/Mirasaki/discord.js-bot-template)
 
+---
+
 This is a bot template using [discord.js](https://github.com/discordjs/discord.js "discord.js on Github") for quickly and easily creating powerful [Discord](https://discord.com/ "Official Discord Website") bots. You don't need much Javascript experience to get started on a project using this template. Not sure where to start? Come join my [Discord Server](https://discord.mirasaki.dev "Mirasaki Development on Discord"), where I'll try and answer all the questions you have.
 
+---
+
 With [Message Content Access becoming a privileged intent](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots "source") I thought I'd build a template where you're ready to start working on commands after installing it. This template currently doesn't listen to the `messageCreate` event. Update Slash Commands by using the `/deploy` command or altering the environmental variables. It also uses the latest Discord features, like auto-complete, buttons, modals, and other components.
+
+---
+
+Uses [Semantic Release](https://github.com/semantic-release/semantic-release) so you can easily determine if it's appropriate for you to [update](#updating) the bot
 
 ---
 
@@ -29,6 +37,7 @@ With [Message Content Access becoming a privileged intent](https://support-dev.d
   - [Prerequisites](#prerequisites)
   - [Docker](#run-as-a-docker-container-preferred)
   - [Node](#run-as-a-plain-nodejs-app)
+  - [Updating](#updating)
 
 ---
 
@@ -176,5 +185,29 @@ You can also clone this repository or download a release, and host the project d
 8. Use the command `node .` to start the application, or alternatively:
     - `npm run start` to keep the process alive with [PM2](https://pm2.io/ "PM2 | Official Website"), suitable for production environments. (`npm i -g pm2` to install)
     - `npm run start:dev` if you have `nodemon` installed for automatic restarts on changes, suitable for development environments.
+
+<h3 id="updating">Updating</h3>
+
+This project uses [Semantic Release](https://github.com/semantic-release/semantic-release) so you can update your own bot to the new standards of the template using a relatively simple and easy workflow:
+
+1. Add a new remote repository, called `upstream` here
+
+    - `git remote add upstream git@github.com:Mirasaki/discord.js-bot-template.git`
+
+2. Pull changes from the upstream repo:
+
+    - `git pull upstream main --allow-unrelated-histories`
+    - `--allow-unrelated-histories` is a dangerous flag, and you should only use this if you know what you're doing!
+    - Now, you should see some merge conflicts - I recommended resolving the merge in the VSCode Merge Editor
+    - If you just want it to download the changes without automatically merging, use `git fetch` instead of `git pull`
+
+3. If you want to disable/prevent pushing to the remote repository, set the push URL to an invalid URL using something like
+
+    - `git config remote.upstream.pushurl "PREVENTS_PUSH_TO_REMOTE_UPSTREAM"`
+
+That's it! You're done!
+If you know of a better workflow to pull remote changes, like `git merge -/- --squash etc` (not ideal) - please let us know by creating an issue or pull request.
+
+---
 
 > Open source, self-hosted, and MIT licensed, meaning you're in full control.
