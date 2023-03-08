@@ -153,7 +153,6 @@ for (const filePath of getFiles(`${ CONTEXT_MENU_COMMAND_DIR }/user`)) {
   try {
     const command = require(filePath);
     command.load(filePath, contextMenus, 'user-ctx-menu-');
-    command.loadAliases();
   }
   catch (err) {
     logger.syserr(`Error encountered while loading User Context Menu Command (${ CONTEXT_MENU_COMMAND_DIR }/user), are you sure you're exporting an instance of UserContextCommand?\nCommand: ${ filePath }`);
@@ -167,7 +166,6 @@ for (const filePath of getFiles(`${ CONTEXT_MENU_COMMAND_DIR }/message`)) {
   try {
     const command = require(filePath);
     command.load(filePath, contextMenus, 'message-ctx-menu-');
-    command.loadAliases();
   }
   catch (err) {
     logger.syserr(`Error encountered while loading User Context Menu Command (${ CONTEXT_MENU_COMMAND_DIR }/message), are you sure you're exporting an instance of MessageContextCommand?\nCommand: ${ filePath }`);
