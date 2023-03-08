@@ -152,8 +152,7 @@ logger.debug(`Start loading User Context Menu Commands... ("${ CONTEXT_MENU_COMM
 for (const filePath of getFiles(`${ CONTEXT_MENU_COMMAND_DIR }/user`)) {
   try {
     const command = require(filePath);
-
-    command.load(filePath, contextMenus);
+    command.load(filePath, contextMenus, 'user-ctx-menu-');
     command.loadAliases();
   }
   catch (err) {
@@ -167,8 +166,7 @@ logger.debug(`Start loading Message Context Menu Commands... ("${ CONTEXT_MENU_C
 for (const filePath of getFiles(`${ CONTEXT_MENU_COMMAND_DIR }/message`)) {
   try {
     const command = require(filePath);
-
-    command.load(filePath, contextMenus);
+    command.load(filePath, contextMenus, 'message-ctx-menu-');
     command.loadAliases();
   }
   catch (err) {
@@ -182,7 +180,6 @@ logger.debug(`Start loading Button Commands... ("${ BUTTON_INTERACTION_DIR }")`)
 for (const filePath of getFiles(BUTTON_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
-
     command.load(filePath, buttons);
   }
   catch (err) {
@@ -196,7 +193,6 @@ logger.debug(`Start loading Modal Commands... ("${ MODAL_INTERACTION_DIR }")`);
 for (const filePath of getFiles(MODAL_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
-
     command.load(filePath, modals);
   }
   catch (err) {
@@ -210,7 +206,6 @@ logger.debug(`Start loading Auto Complete Commands... ("${ AUTO_COMPLETE_INTERAC
 for (const filePath of getFiles(AUTO_COMPLETE_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
-
     command.load(filePath, autoCompletes);
   }
   catch (err) {
@@ -224,7 +219,6 @@ logger.debug(`Start loading Select Menu Commands... ("${ SELECT_MENU_INTERACTION
 for (const filePath of getFiles(SELECT_MENU_INTERACTION_DIR)) {
   try {
     const command = require(filePath);
-
     command.load(filePath, selectMenus);
   }
   catch (err) {

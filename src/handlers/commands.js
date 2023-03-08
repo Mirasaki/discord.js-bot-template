@@ -584,10 +584,10 @@ const getCommandSelectMenu = (member) => {
     .filter((cmd) => isAppropriateCommandFilter(member, cmd));
 
   // Getting our structured array of objects
-  let cmdOutput = workingCmdMap.map((cmd) => ({
+  let cmdOutput = workingCmdMap.map((cmd, identifier) => ({
     label: cmd.data.name,
     description: cmd.data.description,
-    value: cmd.data.name
+    value: identifier
   }));
 
   // If too long, slice chunk out and notify member

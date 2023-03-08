@@ -253,9 +253,10 @@ class CommandBase {
    *  command.load(filePath, client.container.commands);
    * }
    */
-  load = (filePath, collection = new Collection()) => {
+  load = (filePath, collection = new Collection(), prefix = null) => {
     this.filePath = filePath;
     this.setFilePathDetails();
+    const identifier = `${ prefix ?? '' }${ this.data.name }`;
 
     // Debug Logging - After we set our file path defaults/fallbacks
     if (DEBUG_ENABLED === 'true') {
@@ -263,7 +264,7 @@ class CommandBase {
     }
 
     // Set the command in our command collection
-    if (collection) collection.set(this.data.name, this);
+    if (collection) collection.set(identifier, this);
   };
 
   /**
