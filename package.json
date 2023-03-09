@@ -10,7 +10,7 @@
     "commit": "cz",
     "docker:build": "docker build --tag discord-bot-template .",
     "docker:shell": "docker run -it --rm discord-bot-template sh",
-    "docker:start": "docker run -p 3000:3000 --env-file ./.env -d --name discord-bot-template discord-bot-template",
+    "docker:start": "docker run -it -p 3000:3000 --env-file ./.env -d --name discord-bot-template discord-bot-template",
     "docker:restart": "docker restart discord-bot-template",
     "docker:stop": "docker stop discord-bot-template",
     "docker:kill": "docker rm -f discord-bot-template",
