@@ -253,9 +253,10 @@ class CommandBase {
    *  command.load(filePath, client.container.commands);
    * }
    */
-  load = (filePath, collection = new Collection()) => {
+  load = (filePath, collection = new Collection(), prefix = null) => {
     this.filePath = filePath;
     this.setFilePathDetails();
+    const identifier = `${ prefix ?? '' }${ this.data.name }`;
 
     // Debug Logging - After we set our file path defaults/fallbacks
     if (DEBUG_ENABLED === 'true') {
@@ -263,7 +264,7 @@ class CommandBase {
     }
 
     // Set the command in our command collection
-    if (collection) collection.set(this.data.name, this);
+    if (collection) collection.set(identifier, this);
   };
 
   /**
@@ -333,9 +334,6 @@ class ComponentCommand extends CommandBase {
 /**
  * @typedef {Object} APICommandConfig
  * @property {boolean} [global=true] Is the command enabled globally or only in our test-server
- * @property {Array<string>} [aliases=[]] Array of command aliases
- * @property {boolean} [isAlias=false] Indicates if the command is an active alias, you should never have to use this in the constructor, used internally
- * @property {string} [aliasFor='parent_command_name'] The command name this alias is for, you should never have to use this in the constructor, used internally
  */
 
 /**
@@ -356,55 +354,7 @@ class APICommand extends CommandBase {
      * @property {boolean} global Is the command enabled globally or only in our test-server
      */
     this.global = 'global' in config ? config.global : false;
-    /**
-     * @property {Array<string>} aliases Array of command aliases
-     */
-    this.aliases = 'aliases' in config ? config.aliases : [];
-    /**
-     * @property {boolean} isAlias Indicates if the command is an active alias
-     */
-    this.isAlias = 'isAlias' in config ? config.isAlias : false;
-    /**
-     * @property {string | undefined} aliasFor The command name this alias is for
-     */
-    this.aliasFor = 'aliasFor' in config ? config.aliasFor : undefined;
   }
-
-  /**
-   * Register new commands for aliases
-   * @method
-   * @returns {void} Nothing
-   */
-  loadAliases = () => {
-    // Check if we should manage command aliases
-    if (!this.isAlias && this.aliases.length >= 1) {
-      // Looping over all over aliases
-      this.aliases.forEach((alias) => {
-        // Creating the config object for the new command
-        const newCmdConfig = {
-          // spread all properties
-          ...this,
-          data: {
-            ...this.data,
-            name: alias
-            // Overwrite API name after spreading api data
-          },
-          // Transforming the permission level back
-          permLevel: getPermLevelName(this.permLevel),
-          // Setting alias values
-          isAlias: true,
-          aliases: [],
-          aliasFor: this.data.name
-        };
-
-        // Constructing our new command
-        const newCmd = new APICommand(newCmdConfig);
-
-        // Loading the new command
-        newCmd.load(this.filePath, commands);
-      });
-    }
-  };
 }
 
 
@@ -443,6 +393,13 @@ class UserContextCommand extends APICommand {
   }
 }
 
+/**
+ * @typedef {Object} ChatInputCommandConfig
+ * @property {Array<string>} [aliases=[]] Array of command aliases
+ * @property {boolean} [isAlias=false] Indicates if the command is an active alias, you should never have to use this in the constructor, used internally
+ * @property {string} [aliasFor='parent_command_name'] The command name this alias is for, you should never have to use this in the constructor, used internally
+ */
+
 
 /**
  * @extends {APICommand}
@@ -464,7 +421,7 @@ class UserContextCommand extends APICommand {
  */
 class ChatInputCommand extends APICommand {
   /**
-   * @param {BaseConfig | APICommandConfig} config The full command configuration
+   * @param {BaseConfig | APICommandConfig | ChatInputCommandConfig} config The full command configuration
    * @throws {Error} An Error if no `data.description` field is present, as this is required by Discord's API
    */
   constructor (config) {
@@ -476,7 +433,55 @@ class ChatInputCommand extends APICommand {
     if (!this.data.description) {
       throw new Error(`An InteractionCommand description is required by Discord's API\nCommand: ${ this.data.name }`);
     }
+    /**
+     * @property {Array<string>} aliases Array of command aliases
+     */
+    this.aliases = 'aliases' in config ? config.aliases : [];
+    /**
+       * @property {boolean} isAlias Indicates if the command is an active alias
+       */
+    this.isAlias = 'isAlias' in config ? config.isAlias : false;
+    /**
+       * @property {string | undefined} aliasFor The command name this alias is for
+       */
+    this.aliasFor = 'aliasFor' in config ? config.aliasFor : undefined;
   }
+
+  /**
+   * Register new commands for aliases
+   * @method
+   * @returns {void} Nothing
+   */
+  loadAliases = () => {
+    // Check if we should manage command aliases
+    if (!this.isAlias && this.aliases.length >= 1) {
+      // Looping over all over aliases
+      this.aliases.forEach((alias) => {
+        // Creating the config object for the new command
+        const newCmdConfig = {
+          // spread all properties
+          ...this,
+          data: {
+            ...this.data,
+            name: alias
+            // Overwrite API name after spreading api data
+          },
+          // Transforming the permission level back
+          permLevel: getPermLevelName(this.permLevel),
+          // Setting alias values
+          isAlias: true,
+          aliases: [],
+          aliasFor: this.data.name
+        };
+
+        // Constructing our new command
+        const newCmd = new APICommand(newCmdConfig);
+
+        // Loading the new command
+        newCmd.load(this.filePath, commands);
+      });
+    }
+  };
 }
 
 module.exports = {
