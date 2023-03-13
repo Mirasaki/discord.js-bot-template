@@ -1,13 +1,8 @@
 const { ChatInputCommand } = require('../../classes/Commands');
 const { stripIndents } = require('common-tags');
 const { version } = require('discord.js');
-const {
-  BYTES_IN_KIB, MS_IN_ONE_SECOND,
-  MS_IN_ONE_DAY, MS_IN_ONE_HOUR,
-  MS_IN_ONE_MINUTE, SECONDS_IN_ONE_MINUTE,
-  MINUTES_IN_ONE_HOUR, HOURS_IN_ONE_DAY
-} = require('../../constants');
-const { colorResolver } = require('../../util');
+const { BYTES_IN_KIB } = require('../../constants');
+const { colorResolver, msToHumanReadableTime } = require('../../util');
 
 const discordVersion = version.indexOf('dev') < 0 ? version : version.slice(0, version.indexOf('dev') + 3);
 const discordVersionDocLink = `https://discord.js.org/#/docs/discord.js/v${ discordVersion.split('.')[0] }/general/welcome`;
@@ -58,13 +53,6 @@ module.exports = new ChatInputCommand({
       / BYTES_IN_KIB / BYTES_IN_KIB;
     const objCacheSizeInMB = memoryUsage.external / BYTES_IN_KIB / BYTES_IN_KIB;
 
-    // Time variables
-    const daysOnline = Math.floor(client.uptime / MS_IN_ONE_DAY);
-    const hoursOnline = parseInt((client.uptime / MS_IN_ONE_HOUR) % HOURS_IN_ONE_DAY, 10);
-    const minutesOnline = parseInt((client.uptime / MS_IN_ONE_MINUTE) % MINUTES_IN_ONE_HOUR, 10);
-    const secondsOnline = parseInt((client.uptime / MS_IN_ONE_SECOND) % SECONDS_IN_ONE_MINUTE, 10);
-    const msOnline = parseInt((client.uptime % MS_IN_ONE_SECOND), 10);
-
     // Replying to the interaction with our embed data
     interaction.editReply({
       content: '\u200b',
@@ -94,7 +82,7 @@ module.exports = new ChatInputCommand({
             },
             {
               name: 'Uptime',
-              value: stripIndents`**📊 I've been online for ${ daysOnline } days, ${ hoursOnline } hours, ${ minutesOnline } minutes and ${ secondsOnline }.${ String(msOnline).charAt(1) } seconds!**`,
+              value: stripIndents`**📊 I've been online for ${ msToHumanReadableTime(Date.now() - client.readyTimestamp) }**`,
               inline: false
             },
             {
