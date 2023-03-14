@@ -107,7 +107,7 @@ class CommandBase {
     this.cooldown = 'cooldown' in config ? config.cooldown : {};
     this.cooldown.type = config.cooldown && 'type' in config.cooldown ? config.cooldown.type : 'member';
     this.cooldown.usages = config.cooldown && 'usages' in config.cooldown ? config.cooldown.usages : 1;
-    this.cooldown.duration = config.cooldown && 'duration' in config ? config.cooldown.duration : 2;
+    this.cooldown.duration = config.cooldown && 'duration' in config.cooldown ? config.cooldown.duration : 2;
 
     /**
      * @property {string} category This command's category
