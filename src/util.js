@@ -26,6 +26,7 @@ const {
   MS_IN_ONE_MINUTE,
   MS_IN_ONE_SECOND
 } = require('./constants');
+const { validPermValues } = require('./handlers/permissions');
 
 // Resolve client configuration
 const modeArg = process.argv.find((arg) => arg.startsWith('mode='));
@@ -143,10 +144,12 @@ const parseSnakeCaseArray = (arr) => {
 const getBotInviteLink = (client) => {
   const { commands } = client.container;
   const uniqueCombinedPermissions = [ ...new Set([].concat(...commands.map(((cmd) => cmd.clientPerms)))) ];
+  uniqueCombinedPermissions.push(...client.container.config.permissionsBase);
 
   return client.generateInvite({
     scopes: [ OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot ],
-    permissions: uniqueCombinedPermissions.map((rawPerm) => PermissionFlagsBits[rawPerm])
+    permissions: uniqueCombinedPermissions
+      .map((rawPerm) => PermissionFlagsBits[rawPerm] ?? validPermValues.find((e) => e === rawPerm))
   });
 };
 
