@@ -56,14 +56,20 @@ const getCommand = (client, activeId) => {
     || selectMenus.get(activeId);
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
   const {
     member, guild, channel
   } = interaction;
-  const clientCmd = getCommand(client, activeId);
+  let clientCmd = getCommand(client, activeId);
 
   // Early escape hatch for in-command components
-  if (activeId.startsWith('@')) return;
+  if (activeId.startsWith('@')) {
+    const secondAtSignIndex = activeId.indexOf('@', 1);
+    const sliceEndIndex = secondAtSignIndex >= 0 ? secondAtSignIndex : activeId.length;
+    const dynamicCmd = clientCmd = getCommand(client, activeId.slice(1, sliceEndIndex));
+    if (!dynamicCmd) return; // Should be ignored
+  }
 
   // Check for late API changes
   if (!clientCmd) {
