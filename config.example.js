@@ -1,3 +1,5 @@
+const { PermissionsBitField } = require('discord.js');
+
 const config = {
   // Array of Intents your bot needs
   // https://discord.com/developers/docs/topics/gateway#gateway-intents
@@ -15,6 +17,14 @@ const config = {
       }
     ]
   },
+
+  // Additional permissions that are considered required when generating
+  // the bot invite link with /invite
+  permissionsBase: [
+    PermissionsBitField.Flags.ViewChannel,
+    PermissionsBitField.Flags.SendMessages,
+    PermissionsBitField.Flags.SendMessagesInThreads
+  ],
 
   // Permission config
   permissions: {

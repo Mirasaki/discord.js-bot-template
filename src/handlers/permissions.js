@@ -5,9 +5,13 @@
  * @module Handler/Permissions
  */
 
+const { existsSync } = require('fs');
 const { PermissionsBitField } = require('discord.js');
-const { clientConfig } = require('../util');
-const config = clientConfig;
+
+// NOTE:
+// This can't use clientConfig from Util module because
+// it would create a circular dependency
+const config = require(existsSync('../../config.js') ? '../../config' : '../../config.example');
 
 /**
  * The `discord.js` GuildMember object
