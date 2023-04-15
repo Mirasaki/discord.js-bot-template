@@ -33,10 +33,10 @@
     "types": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
-    "@discordjs/rest": "^1.5.0",
+    "@discordjs/rest": "^1.7.0",
     "@mirasaki/logger": "^1.0.5",
     "common-tags": "^1.8.2",
-    "discord.js": "^14.7.1",
+    "discord.js": "^14.9.0",
     "dotenv": "^16.0.3"
   },
   "devDependencies": {
@@ -49,12 +49,12 @@
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "docdash": "^2.0.1",
-    "eslint": "^8.35.0",
-    "eslint-plugin-sonarjs": "^0.18.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-sonarjs": "^0.19.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "nodemon": "^2.0.21",
-    "semantic-release": "^20.1.1"
+    "nodemon": "^2.0.22",
+    "semantic-release": "^21.0.1"
   },
   "repository": {
     "type": "git",
