@@ -47,6 +47,7 @@ Come try the template yourself in our official [support server](https://discord.
 
 <h2 id="showcase">Showcase / Projects using this template</h2>
 
+- [Green Mountain Trader - over 300,000 users](https://mirasaki.dev/gmt)
 - [DayZ Leaderboard bot](https://github.com/Mirasaki/dayz-leaderboard-bot "DayZ Leaderboard bot on GitHub")
 - Create a new issues if you want to have your project showcased here
 
