@@ -36,7 +36,7 @@
     "@discordjs/rest": "^1.7.0",
     "@mirasaki/logger": "^1.0.5",
     "common-tags": "^1.8.2",
-    "discord.js": "^14.9.0",
+    "discord.js": "^14.10.0",
     "dotenv": "^16.0.3"
   },
   "devDependencies": {
