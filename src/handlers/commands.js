@@ -143,8 +143,12 @@ const cleanAPIData = (cmd) => {
 
   // Slice the description if it's too long
   // 100 is max supported by the Discord API
+  // Avoid overwriting original string for help embeds
   if (cmd.data.description.length > 100) {
-    cmd.data.description = `${ cmd.data.description.slice(0, 97) }...`;
+    return {
+      ...cmd.data,
+      description: `${ cmd.data.description.slice(0, 97) }...`
+    };
   }
 
   return cmd.data;
