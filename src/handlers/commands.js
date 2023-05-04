@@ -590,7 +590,7 @@ const getCommandSelectMenu = (member) => {
   // Getting our structured array of objects
   let cmdOutput = workingCmdMap.map((cmd, identifier) => ({
     label: cmd.data.name,
-    description: cmd.data.description,
+    description: cmd.data.description.length > 100 ? `${ cmd.data.description.slice(0, 97) }...` : cmd.data.description,
     value: identifier
   }));
 
