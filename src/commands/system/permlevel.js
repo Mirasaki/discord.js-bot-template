@@ -20,6 +20,6 @@ module.exports = new ChatInputCommand({
       .find(({ level }) => level === member.permLevel).name;
 
     // User feedback
-    interaction.reply({ content: `${ member } ${ emojis.success }, your permission level is **${ member.permLevel } | ${ memberPermLevelName }**` });
+    interaction.reply({ content: `${ emojis.success } ${ member }, your permission level is **${ member.permLevel } | ${ memberPermLevelName }**` });
   }
 });
