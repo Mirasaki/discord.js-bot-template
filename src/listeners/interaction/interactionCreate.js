@@ -20,7 +20,10 @@ const checkInteractionAvailability = (interaction) => {
   // Planning on adding support later down the road
   if (!interaction.inGuild()) {
     if (interaction.isRepliable()) {
-      interaction.reply({ content: `${ emojis.error } ${ member }, I don't currently support DM interactions. Please try again in a server.` });
+      interaction.reply({
+        content: `${ emojis.error } ${ member }, I don't currently support DM interactions. Please try again in a server.`,
+        ephemeral: true
+      });
     }
     return false;
   }
@@ -71,9 +74,12 @@ const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
     if (!dynamicCmd) return; // Should be ignored
   }
 
+  // Check if we can reply to this interaction
+  const clientCanReply = interaction.isRepliable();
+
   // Check for late API changes
   if (!clientCmd) {
-    interaction.reply({
+    if (clientCanReply) interaction.reply({
       content: `${ emojis.error } ${ member }, this command currently isn't available.`,
       ephemeral: true
     });
@@ -85,8 +91,6 @@ const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
   const { data } = clientCmd;
 
   // Return if we can't reply to the interaction
-  const clientCanReply = interaction.isRepliable();
-
   if (!clientCanReply) {
     logger.debug(`Interaction returned - Can't reply to interaction\nCommand: ${ data.name }\nServer: ${ guild.name }\nChannel: #${ channel.name }\nMember: ${ member }`);
     return;
@@ -106,7 +110,10 @@ const runCommand = (client, interaction, activeId, cmdRunTimeStart) => {
     const onCooldown = throttleCommand(clientCmd, interaction);
 
     if (onCooldown !== false) {
-      interaction.reply({ content: onCooldown.replace('{{user}}', `${ member }`) });
+      interaction.reply({
+        content: onCooldown.replace('{{user}}', `${ member }`),
+        ephemeral: true
+      });
       return;
     }
   }

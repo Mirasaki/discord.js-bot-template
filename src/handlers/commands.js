@@ -492,7 +492,10 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
   // Check if the command is currently disabled
   // Needed 'cuz it takes a while for CommandInteractions to sync across server
   if (enabled === false) {
-    interaction.reply({ content: `${ emojis } ${ member }, this command is currently disabled. Please try again later.` });
+    interaction.reply({
+      content: `${ emojis } ${ member }, this command is currently disabled. Please try again later.`,
+      ephemeral: true
+    });
     return false;
   }
 
@@ -517,7 +520,10 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
     const missingPerms = hasChannelPerms(client.user.id, channel, clientPerms);
 
     if (missingPerms !== true) {
-      interaction.reply({ content: `${ emojis.error } ${ member }, this command can't be executed because I lack the following permissions in ${ channel }\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }` });
+      interaction.reply({
+        content: `${ emojis.error } ${ member }, this command can't be executed because I lack the following permissions in ${ channel }\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }`,
+        ephemeral: true
+      });
       return false;
     }
   }
@@ -527,7 +533,10 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
     const missingPerms = hasChannelPerms(member.user.id, channel, userPerms);
 
     if (missingPerms !== true) {
-      interaction.reply({ content: `${ emojis.error } ${ member }, this command can't be executed because you lack the following permissions in ${ channel }:\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }` });
+      interaction.reply({
+        content: `${ emojis.error } ${ member }, this command can't be executed because you lack the following permissions in ${ channel }:\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }`,
+        ephemeral: true
+      });
       return false;
     }
   }
