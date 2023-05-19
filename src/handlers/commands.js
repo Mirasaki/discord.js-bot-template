@@ -143,8 +143,12 @@ const cleanAPIData = (cmd) => {
 
   // Slice the description if it's too long
   // 100 is max supported by the Discord API
+  // Avoid overwriting original string for help embeds
   if (cmd.data.description.length > 100) {
-    cmd.data.description = `${ cmd.data.description.slice(0, 97) }...`;
+    return {
+      ...cmd.data,
+      description: `${ cmd.data.description.slice(0, 97) }...`
+    };
   }
 
   return cmd.data;
@@ -488,7 +492,10 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
   // Check if the command is currently disabled
   // Needed 'cuz it takes a while for CommandInteractions to sync across server
   if (enabled === false) {
-    interaction.reply({ content: `${ emojis } ${ member }, this command is currently disabled. Please try again later.` });
+    interaction.reply({
+      content: `${ emojis } ${ member }, this command is currently disabled. Please try again later.`,
+      ephemeral: true
+    });
     return false;
   }
 
@@ -513,7 +520,10 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
     const missingPerms = hasChannelPerms(client.user.id, channel, clientPerms);
 
     if (missingPerms !== true) {
-      interaction.reply({ content: `${ emojis.error } ${ member }, this command can't be executed because I lack the following permissions in ${ channel }\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }` });
+      interaction.reply({
+        content: `${ emojis.error } ${ member }, this command can't be executed because I lack the following permissions in ${ channel }\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }`,
+        ephemeral: true
+      });
       return false;
     }
   }
@@ -523,7 +533,10 @@ const checkCommandCanExecute = (client, interaction, clientCmd) => {
     const missingPerms = hasChannelPerms(member.user.id, channel, userPerms);
 
     if (missingPerms !== true) {
-      interaction.reply({ content: `${ emojis.error } ${ member }, this command can't be executed because you lack the following permissions in ${ channel }:\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }` });
+      interaction.reply({
+        content: `${ emojis.error } ${ member }, this command can't be executed because you lack the following permissions in ${ channel }:\n${ emojis.separator } ${ resolvePermissionArray(missingPerms).join(', ') }`,
+        ephemeral: true
+      });
       return false;
     }
   }
@@ -586,7 +599,7 @@ const getCommandSelectMenu = (member) => {
   // Getting our structured array of objects
   let cmdOutput = workingCmdMap.map((cmd, identifier) => ({
     label: cmd.data.name,
-    description: cmd.data.description,
+    description: cmd.data.description.length > 100 ? `${ cmd.data.description.slice(0, 97) }...` : cmd.data.description,
     value: identifier
   }));
 

@@ -24,7 +24,7 @@ module.exports = async (client, interaction) => {
 
   // Check if a query handler is found
   if (!autoCompleteQueryHandler) {
-    logger.syserr(`Missing AutoComplete query handler for ${ commandName }`);
+    logger.syserr(`Missing AutoComplete query handler for the "${ activeOption }" option in the ${ commandName } command`);
     return;
   }
 
