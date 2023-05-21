@@ -3,7 +3,7 @@ const { PermissionsBitField } = require('discord.js');
 const config = {
   // Array of Intents your bot needs
   // https://discord.com/developers/docs/topics/gateway#gateway-intents
-  intents: [ 'Guilds', 'GuildMessages' ],
+  intents: [ 'Guilds' ],
 
   // Bot activity
   presence: {
