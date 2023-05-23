@@ -4,7 +4,9 @@ const { InteractionType } = require('discord.js');
 const { checkCommandCanExecute,
   throttleCommand } = require('../../handlers/commands');
 const { getPermissionLevel } = require('../../handlers/permissions');
-const { titleCase, getRuntime } = require('../../util');
+const {
+  titleCase, getRuntime, clientConfig
+} = require('../../util');
 
 // Destructure from origin file because it's
 // used in multiple functions
@@ -173,7 +175,7 @@ module.exports = (client, interaction) => {
   if (checkInteractionAvailability(interaction) === false) return;
 
   // Setting the permLevel on the member object before we do anything else
-  const permLevel = getPermissionLevel(member, channel);
+  const permLevel = getPermissionLevel(clientConfig, member, channel);
 
   interaction.member.permLevel = permLevel;
 

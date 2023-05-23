@@ -7,7 +7,7 @@
 
 ```javascript
 // Getting someone's internal permission level
-const targetPermLevel = getPermissionLevel(interaction.member, interaction.channel);
+const targetPermLevel = getPermissionLevel(clientConfig, interaction.member, interaction.channel);
 
 // Resolving the permLevel
 console.log(targetPermLevel, getPermLevelName(targetPermLevel));
