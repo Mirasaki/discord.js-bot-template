@@ -28,6 +28,7 @@ const { NODE_ENV, PORT = 3000 } = process.env;
 const app = express();
 
 // Routes Middleware
+app.get('/', (req, res) => res.sendStatus(200));
 app.use('/api/commands', commandRoutes);
 
 // Serving our generated client documentation as root

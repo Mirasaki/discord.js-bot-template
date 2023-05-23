@@ -5,13 +5,12 @@
  * @module Handler/Permissions
  */
 
-const { existsSync } = require('fs');
 const { PermissionsBitField } = require('discord.js');
 
 // NOTE:
 // This can't use clientConfig from Util module because
 // it would create a circular dependency
-const config = require(existsSync('../../config.js') ? '../../config' : '../../config.example');
+// Instead, provide it as a argument
 
 /**
  * The `discord.js` GuildMember object
@@ -107,7 +106,7 @@ const permConfig = [
   {
     name: 'Moderator',
     level: 1,
-    hasLevel: (member, channel) => hasChannelPerms(
+    hasLevel: (config, member, channel) => hasChannelPerms(
       member.id, channel, [ 'KickMembers', 'BanMembers' ]
     ) === true
   },
@@ -115,15 +114,15 @@ const permConfig = [
   {
     name: 'Administrator',
     level: 2,
-    hasLevel: (member, channel) => hasChannelPerms(member.id, channel, [ 'Administrator' ]) === true
+    hasLevel: (config, member, channel) => hasChannelPerms(member.id, channel, [ 'Administrator' ]) === true
   },
 
   {
     name: 'Server Owner',
     level: 3,
-    hasLevel: (member, channel) => {
+    hasLevel: (config, member, channel) => {
       // Shorthand
-      // hasLevel: (member, channel) => (channel.guild?.ownerId === member.user?.id)
+      // hasLevel: (config, member, channel) => (channel.guild?.ownerId === member.user?.id)
       // COULD result in (undefined === undefined)
       if (channel.guild && channel.guild.ownerId) {
         return (channel.guild.ownerId === member.id);
@@ -135,13 +134,13 @@ const permConfig = [
   {
     name: 'Developer',
     level: 4,
-    hasLevel: (member) => config.permissions.developers.includes(member.id)
+    hasLevel: (config, member) => config.permissions.developers.includes(member.id)
   },
 
   {
     name: 'Bot Owner',
     level: 5,
-    hasLevel: (member) => config.permissions.ownerId === member.id
+    hasLevel: (config, member) => config.permissions.ownerId === member.id
   }
 ];
 
@@ -171,13 +170,14 @@ const sortedPermConfig = permConfig.sort((a, b) => {
 /**
  * Resolves someone's permission level
  * @method getPermissionLevel
+ * @param {module:Client~ClientConfiguration} config Our client configuration object
  * @param {external:DiscordGuildMember} member The Discord API member object
  * @param {external:DiscordGuildChannel} channel The Discord API channel object
  * @returns {number} The member's permission level
  */
-const getPermissionLevel = (member, channel) => {
+const getPermissionLevel = (config, member, channel) => {
   for (const currLvl of sortedPermConfig) {
-    if (currLvl.hasLevel(member, channel)) {
+    if (currLvl.hasLevel(config, member, channel)) {
       return currLvl.level;
     }
   }
