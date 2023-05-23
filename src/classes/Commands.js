@@ -253,14 +253,14 @@ class CommandBase {
    *  command.load(filePath, client.container.commands);
    * }
    */
-  load = (filePath, collection = new Collection(), prefix = null) => {
+  load = (filePath, collection = new Collection()) => {
     this.filePath = filePath;
     this.setFilePathDetails();
-    const identifier = `${ prefix ?? '' }${ this.data.name }`;
+    const identifier = this.data.name;
 
     // Debug Logging - After we set our file path defaults/fallbacks
     if (DEBUG_ENABLED === 'true') {
-      logger.debug(`Loading <${ chalk.cyanBright(this.data.name) }>`);
+      logger.debug(`Loading <${ chalk.cyanBright(identifier) }>`);
     }
 
     // Set the command in our command collection

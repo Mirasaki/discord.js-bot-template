@@ -5,7 +5,8 @@ const { colorResolver } = require('../../util');
 
 module.exports = new MessageContextCommand({
   clientPerms: [ 'EmbedLinks' ],
-  global: true,
+  enabled: process.env.NODE_ENV !== 'production',
+  global: false,
   cooldown: {
     // Use guild type cooldown instead of default member
     type: 'guild',

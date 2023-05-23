@@ -9,7 +9,8 @@ const MAX_ROLE_DISPLAY_LENGTH = 25;
 
 module.exports = new UserContextCommand({
   clientPerms: [ 'EmbedLinks' ],
-  global: true,
+  enabled: process.env.NODE_ENV !== 'production',
+  global: false,
   cooldown: {
     usages: 1,
     duration: 5
