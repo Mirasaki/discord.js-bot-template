@@ -17,7 +17,7 @@ const {
 const moment = require('moment');
 const path = require('path');
 const logger = require('@mirasaki/logger');
-const colors = require('../config/colors.json');
+const colors = require('./config/colors.json');
 
 // Import our constants
 const {
@@ -33,7 +33,7 @@ const { validPermValues } = require('./handlers/permissions');
 
 // Resolve client configuration
 const modeArg = process.argv.find((arg) => arg.startsWith('mode='));
-const configFilePath = modeArg && modeArg.endsWith('test') ? '../config/config.example.js' : '../config/config.js';
+const configFilePath = modeArg && modeArg.endsWith('test') ? '../config.example.js' : '../config.js';
 if (!existsSync(configFilePath.replace(/\.\.\//g, ''))) {
   logger.syserr(`Configuration file at "${ configFilePath.replace(/\.\.\//g, '') }" doesn't exists, please refer to documentation, exiting...`);
   process.exit(0);
