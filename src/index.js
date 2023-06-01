@@ -152,7 +152,7 @@ logger.debug(`Start loading User Context Menu Commands... ("${ CONTEXT_MENU_COMM
 for (const filePath of getFiles(`${ CONTEXT_MENU_COMMAND_DIR }/user`)) {
   try {
     const command = require(filePath);
-    command.load(filePath, contextMenus, 'user-ctx-menu-');
+    command.load(filePath, contextMenus);
   }
   catch (err) {
     logger.syserr(`Error encountered while loading User Context Menu Command (${ CONTEXT_MENU_COMMAND_DIR }/user), are you sure you're exporting an instance of UserContextCommand?\nCommand: ${ filePath }`);
@@ -165,7 +165,7 @@ logger.debug(`Start loading Message Context Menu Commands... ("${ CONTEXT_MENU_C
 for (const filePath of getFiles(`${ CONTEXT_MENU_COMMAND_DIR }/message`)) {
   try {
     const command = require(filePath);
-    command.load(filePath, contextMenus, 'message-ctx-menu-');
+    command.load(filePath, contextMenus);
   }
   catch (err) {
     logger.syserr(`Error encountered while loading User Context Menu Command (${ CONTEXT_MENU_COMMAND_DIR }/message), are you sure you're exporting an instance of MessageContextCommand?\nCommand: ${ filePath }`);

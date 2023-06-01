@@ -640,6 +640,7 @@ const generateCommandInfoEmbed = (clientCmd, interaction) => {
 
   // Utility function for displaying our permission requirements
   const getPermOutput = (permArr) => {
+    permArr = resolvePermissionArray(permArr);
     return permArr.length >= 1
       ? permArr
         .map((perm) => `${ channel.permissionsFor(member.user.id).has(PermissionsBitField.Flags[perm])
