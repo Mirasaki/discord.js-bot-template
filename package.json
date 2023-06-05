@@ -37,7 +37,7 @@
     "@mirasaki/logger": "^1.0.5",
     "common-tags": "^1.8.2",
     "discord.js": "^14.11.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.1.4"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
