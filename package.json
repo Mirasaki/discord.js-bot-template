@@ -41,11 +41,11 @@
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^10.0.0",
+    "@semantic-release/commit-analyzer": "^10.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^9.0.2",
-    "@semantic-release/npm": "^10.0.3",
-    "@semantic-release/release-notes-generator": "^11.0.2",
+    "@semantic-release/github": "^9.0.3",
+    "@semantic-release/npm": "^10.0.4",
+    "@semantic-release/release-notes-generator": "^11.0.3",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "docdash": "^2.0.1",
@@ -54,7 +54,7 @@
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "nodemon": "^2.0.22",
-    "semantic-release": "^21.0.3"
+    "semantic-release": "^21.0.5"
   },
   "repository": {
     "type": "git",
