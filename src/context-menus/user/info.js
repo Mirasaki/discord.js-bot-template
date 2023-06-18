@@ -70,7 +70,7 @@ module.exports = new UserContextCommand({
     const userInfoEmbed = new EmbedBuilder({
       color: colorResolver(colors.main),
       author: {
-        name: targetMember.user.tag,
+        name: targetMember.user.username,
         icon_url: targetMember.user.avatarURL({ dynamic: true })
       },
       description: stripIndents`
