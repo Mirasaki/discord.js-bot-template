@@ -48,7 +48,7 @@
     "@semantic-release/release-notes-generator": "^11.0.6",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "docdash": "^2.0.1",
+    "docdash": "^2.0.2",
     "eslint": "^8.48.0",
     "eslint-plugin-sonarjs": "^0.21.0",
     "jsdoc": "^4.0.2",
