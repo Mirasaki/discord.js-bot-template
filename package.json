@@ -1,7 +1,7 @@
 {
   "name": "discord.js-bot-template",
   "description": "A discord bot template using discord.js",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
