@@ -29,7 +29,7 @@ const config = {
   // Permission config
   permissions: {
     // Bot Owner, highest permission level (5)
-    ownerId: '290182686365188096',
+    ownerId: '1148597817498140774',
 
     // Bot developers, second to highest permission level (4)
     developers: [ '625286565375246366' ]

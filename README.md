@@ -1,3 +1,26 @@
+<br />
+<br />
+
+<div align="center">
+  <a href="https://rhidium.xyz"><img src="https://github.com/rhidium/core/assets/57721238/e6d25fa1-07cb-4284-a02a-f73fe7ef3878" width="100" alt="logo" /></a>
+
+  ![Font_PNG](https://github.com/rhidium/core/assets/57721238/9ccc5763-8336-4d1e-8187-a738bafdc519)
+
+  <p>
+    <a href="https://discord.gg/mirasaki"><img src="https://img.shields.io/discord/793894728847720468?color=5865F2&logo=discord&logoColor=white" alt="Discord server" /></a>
+    <a href="https://www.npmjs.com/package/@rhidium/core"><img src="https://img.shields.io/npm/v/@rhidium/core.svg?maxAge=3600" alt="npm version" /></a>
+    <a href="https://www.npmjs.com/package/@rhidium/core"><img src="https://img.shields.io/npm/dt/@rhidium/core.svg?maxAge=3600" alt="npm downloads" /></a>
+  </p>
+
+  <p align="center">
+    <a href="https://github.com/rhidium/template">Rhidium</a> has been released! Even though this template will be maintained as a token of appreciation, you should definitely check our Rhidium. It's the upgraded, modern, version of this template - and all in TypeScript.
+  </p>
+</div>
+
+<br />
+<br />
+<br />
+
 # discord.js-bot-template
 
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
@@ -157,7 +180,7 @@ The quickest, and easiest, way to host/use this bot is by deploying it inside of
 3. Rename `.env.example` to `.env` and provide your environmental variables
 4. Rename `config.example.js` to `config.js` and provide your configuration
 
-    - Alternatively, you can now use the `docker-compose up` command to finish setting up the project if you have the [Docker Compose CLI](https://docs.docker.com/compose/) installed
+    - Alternatively, you can now use the `docker compose up` command to finish setting up the project if you have the [Docker Compose CLI](https://docs.docker.com/compose/) installed
 
 5. Build the project: `docker build --tag my-discord-bot .`
 6. Start the bot: `docker run -it --env-file .env --name my-discord-bot mirasaki/discord-bot-template:main`
