@@ -195,7 +195,6 @@ const getRuntime = (hrtime, decimalPrecision = DEFAULT_DECIMAL_PRECISION) => {
  * @param {number} ms Time in milliseconds
  * @returns
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity
 const msToHumanReadableTime = (ms) => {
   const days = Math.floor(ms / MS_IN_ONE_DAY);
   const hours = Math.floor((ms % MS_IN_ONE_DAY) / MS_IN_ONE_HOUR);
