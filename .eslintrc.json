@@ -5,10 +5,8 @@
     "node": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:sonarjs/recommended"
+    "eslint:recommended"
   ],
-  "plugins": [ "sonarjs" ],
   "root": true,
   "parserOptions": {
     "ecmaVersion": "latest",
