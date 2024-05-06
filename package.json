@@ -50,7 +50,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "docdash": "^2.0.2",
     "eslint": "^9.0.0",
-    "jsdoc": "^4.0.2",
+    "jsdoc": "^4.0.3",
     "jsdoc-to-markdown": "^8.0.0",
     "nodemon": "^3.1.0",
     "semantic-release": "^23.0.8"
