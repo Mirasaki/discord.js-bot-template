@@ -46,7 +46,6 @@ Uses [Semantic Release](https://github.com/semantic-release/semantic-release) so
 
 ## Table of Contents
 
-- [Live Demo](#live-demo)
 - [Showcase](#showcase)
 - [Documentation](#documentation)
 - [Features](#features)
@@ -64,15 +63,11 @@ Uses [Semantic Release](https://github.com/semantic-release/semantic-release) so
 
 ---
 
-<h2 id="live-demo">Live Demo</h2>
-
-Come try the template yourself in our official [support server](https://discord.mirasaki.dev "Mirasaki Development on Discord")
-
 <h2 id="showcase">Showcase / Projects using this template</h2>
 
 - [Green Mountain Trader - over 300,000 users](https://mirasaki.dev/gmt)
 - [DayZ Leaderboard bot](https://github.com/Mirasaki/dayz-leaderboard-bot "DayZ Leaderboard bot on GitHub")
-- Create a new issues if you want to have your project showcased here
+- Create an issue if you want to have your project showcased here
 
 <h2 id="documentation">Documentation</h2>
 
